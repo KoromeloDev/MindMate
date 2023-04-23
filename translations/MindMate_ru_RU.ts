@@ -85,7 +85,7 @@
         <location/>
         <location filename="../source/CodeWidget.cpp" line="+86"/>
         <source>Copy</source>
-        <translation>Скопировать</translation>
+        <translation>Копировать</translation>
     </message>
     <message>
         <location filename="../source/CodeWidget.cpp" line="-11"/>

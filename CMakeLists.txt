@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(MindMate VERSION 0.25 LANGUAGES CXX)
+project(MindMate VERSION 0.2.5 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
