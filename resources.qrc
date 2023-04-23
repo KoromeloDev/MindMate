@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/MindMateLogo.svg</file>
+        <file>icons/eclipse.gif</file>
+        <file>icons/dot_green.svg</file>
+        <file>icons/dot_red.svg</file>
+        <file>fonts/Roboto-Regular.ttf</file>
+        <file>icons/stop.svg</file>
+        <file>icons/settings.svg</file>
+        <file>icons/send.svg</file>
+        <file>icons/refresh.svg</file>
+        <file>icons/edit.svg</file>
+        <file>icons/delete.svg</file>
+        <file>icons/configuration.svg</file>
+        <file>icons/add.svg</file>
+        <file>icons/accept.svg</file>
+        <file>icons/copy.svg</file>
+        <file>icons/dot.svg</file>
+        <file>sound/message.wav</file>
+        <file>sound/error.wav</file>
+    </qresource>
+</RCC>
