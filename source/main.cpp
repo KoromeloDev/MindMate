@@ -59,21 +59,22 @@ int main(int argc, char *argv[])
 	createPath({"Chat"});
 	MainWindow windows;
 	QString mainStyle;
-	mainStyle = "QScrollBar:vertical {\
-									width: 8px;\
-									border-radius: 4px;}\
-							 QScrollBar:vertical:hover {\
-									border-radius: 0px;\
-									background-color: #313131;}\
-							 QScrollBar::handle:vertical {\
-									border-radius: 4px;\
-									border: 1px solid #020202;\
-									background-color: #a4a4a3;}\
-							 QScrollBar::handle:vertical:hover {\
-									background-color: #c9c9c7;}\
-							 QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical, \
-							 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\
-									background: none;}";
+	mainStyle =
+	"QScrollBar:vertical {\
+		width: 8px;\
+		border-radius: 4px;}\
+	QScrollBar:vertical:hover {\
+		border-radius: 0px;\
+		background-color: #313131;}\
+	QScrollBar::handle:vertical {\
+		border-radius: 4px;\
+		border: 1px solid #020202;\
+		background-color: #a4a4a3;}\
+	QScrollBar::handle:vertical:hover {\
+		background-color: #c9c9c7;}\
+	QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical, \
+	QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {\
+		background: none;}";
 	windows.setStyleSheet(mainStyle);
 	windows.show();
 	return application.exec();

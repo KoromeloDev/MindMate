@@ -111,8 +111,7 @@ HistoryParser::Message HistoryParser::getMessage(quint16 index)
 	return messageStruct;
 }
 
-HistoryParser::Message HistoryParser::getMessage(quint16 index,
-                                                             quint8 number)
+HistoryParser::Message HistoryParser::getMessage(quint16 index, quint8 number)
 {
 	Message messageStruct;
 	Message messageStruct2;
@@ -128,9 +127,9 @@ HistoryParser::Message HistoryParser::getMessage(quint16 index,
 		QJsonObject userObject = message[index].toObject();
 
 		messageStruct.role = static_cast<Role>(
-		                     QMetaEnum::fromType<Role>().keysToValue(
-		                     userObject["role"].toString().toUtf8().
-		                     constData(), nullptr));
+												 QMetaEnum::fromType<Role>().keysToValue(
+												 userObject["role"].toString().toUtf8().
+												 constData(), nullptr));
 		QJsonArray content = userObject["content"].toArray();
 		messageStruct.content = content[number].toString();
 	}

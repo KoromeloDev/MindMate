@@ -22,7 +22,7 @@ class ChatItem : public QWidget
 
 public:
 	explicit ChatItem(QWidget *parent = nullptr, QString name = 0,
-	                  quint8 index = 0);
+										quint8 index = 0);
 	~ChatItem();
 
 	quint8 getIndex() const;

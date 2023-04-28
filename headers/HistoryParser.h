@@ -24,7 +24,6 @@ public:
 		System
 	};
 	Q_ENUM(Role);
-
 	struct Message
 	{
 		Role role;

@@ -10,6 +10,7 @@
 class ThemeIcon : public QObject
 {
 	Q_OBJECT
+
 public:
 	explicit ThemeIcon(QObject *parent = nullptr);
 

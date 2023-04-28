@@ -35,7 +35,7 @@ MessageWidget::MessageWidget(QListWidgetItem *item,
 	}
 
 	setStyleSheet("background: qlineargradient("
-	              "x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #" + colorOne +", "
+								"x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #" + colorOne +", "
 								"stop: 1 #" + colorTwo +");");
 	m_menu = new QMenu(this);
 	m_menu->setStyleSheet("QMenu {color: white;border: 1px solid white;}"
@@ -118,7 +118,6 @@ QSize MessageWidget::getSizeTextBrowser(QTextBrowser *textBrowser, quint8 index)
 
 		if (isMaxWidth())
 		{
-			QString text = textBrowser->toPlainText();
 			sizeWidth = maxSizeWidth;
 		}
 		else
@@ -156,7 +155,7 @@ void MessageWidget::createText()
 
 	static QRegularExpression re("\n* *```([^```]+)``` *\n*");
 	QRegularExpressionMatchIterator matchIterator =
-								re.globalMatch(m_message.content);
+																	re.globalMatch(m_message.content);
 	QList<qint16> positions = {0};
 	QList<qint16> lenght =  {0};
 	QString text = m_message.content;
@@ -360,7 +359,7 @@ void MessageWidget::selection(QString pattern)
 
 			cursor.setPosition(match.capturedStart());
 			cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor,
-																					match.capturedLength());
+													match.capturedLength());
 			cursor.setCharFormat(format);
 			m_textWidth.last() += 0.3;
 		}

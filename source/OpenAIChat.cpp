@@ -1,13 +1,5 @@
 #include "OpenAIChat.h"
 
-OpenAIChat::OpenAIChat(QObject *parent) : QObject(parent)
-{
-}
-
-OpenAIChat::~OpenAIChat()
-{
-}
-
 void OpenAIChat::chat(QList<HistoryParser::Message> message,
 											ChatSettings chatSettings, quint8 index)
 {
@@ -22,7 +14,7 @@ void OpenAIChat::retryChat()
 	m_networkManager = new QNetworkAccessManager(this);
 
 	connect(m_networkManager, &QNetworkAccessManager::finished,
-	        this, &OpenAIChat::onFinished);
+					this, &OpenAIChat::onFinished);
 
 	QUrl url("https://api.openai.com/v1/chat/completions");
 	QNetworkRequest request(url);
@@ -40,7 +32,7 @@ void OpenAIChat::retryChat()
 	for (quint16 i = 0; i < m_message.size(); i++)
 	{
 		message.insert("role", QVariant::fromValue(m_message[i].role).
-		               toString().toLower());
+									 toString().toLower());
 		message.insert("content", m_message[i].content);
 		messages.append(message);
 	}
@@ -56,7 +48,7 @@ void OpenAIChat::stopChat()
 	if (m_networkManager != nullptr)
 	{
 		disconnect(m_networkManager, &QNetworkAccessManager::finished,
-					this, &OpenAIChat::onFinished);
+							 this, &OpenAIChat::onFinished);
 		m_networkManager->deleteLater();
 		m_networkManager = nullptr;
 	}

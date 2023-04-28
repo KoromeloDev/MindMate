@@ -7,7 +7,7 @@ EditDialog::EditDialog(QWidget *parent, QString question)
 	m_ui->setupUi(this);
 
 	connect(m_ui->buttonBox, &QDialogButtonBox::accepted,
-	        this, &EditDialog::buttonAccepted);
+					this, &EditDialog::buttonAccepted);
 	m_ui->questionText->setText(question);
 	m_ui->lineEdit->setText("");
 	m_ui->lineEdit->setFocus();

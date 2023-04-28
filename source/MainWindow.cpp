@@ -12,19 +12,19 @@ MainWindow::MainWindow(QWidget *parent)
 	m_ui->setupUi(this);
 
 	connect(m_ui->textInput, &NewTextEdit::sendText,
-	        this, &MainWindow::receivedText);
+					this, &MainWindow::receivedText);
 	connect(m_ui->sendButton, &QToolButton::clicked,
-	        this, &MainWindow::sendClicked);
+					this, &MainWindow::sendClicked);
 	connect(m_ui->newChatButton, &QToolButton::clicked,
-	        this, &MainWindow::newChatClicked);
+					this, &MainWindow::newChatClicked);
 	connect(m_ui->chatList, &QListWidget::currentItemChanged,
 					this, &MainWindow::chatItemChanged);
 	connect(m_ui->settingsButton, &QToolButton::clicked,
-	        this, &MainWindow::settingsClicked);
+					this, &MainWindow::settingsClicked);
 	connect(m_ui->retryButton, &QToolButton::clicked,
-	        this, &MainWindow::retryClicked);
+					this, &MainWindow::retryClicked);
 	connect(m_ui->stopButton, &QToolButton::clicked,
-	        this, &MainWindow::stopClicked);
+					this, &MainWindow::stopClicked);
 	connect(m_ui->chatSettingsButton, &QToolButton::clicked,
 					this, &MainWindow::chatSettingsClicked);
 
@@ -370,7 +370,7 @@ void MainWindow::sendMessage()
 	errorState(false);
 	setChatSettings(m_ui->chatList->currentRow());
 	chatGPT->chat(m_allMesages, m_chatSettings,
-								 m_ui->chatList->currentRow());
+								m_ui->chatList->currentRow());
 }
 
 void MainWindow::sendClicked()
@@ -429,7 +429,7 @@ void MainWindow::stopClicked()
 void MainWindow::chatSettingsClicked()
 {
 	ChatSettingsWidget *chatSettings = new ChatSettingsWidget(this,
-																		m_ui->chatList->currentRow());
+																		 m_ui->chatList->currentRow());
 	chatSettings->show();
 }
 

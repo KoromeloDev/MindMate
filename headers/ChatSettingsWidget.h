@@ -11,7 +11,7 @@
 
 namespace Ui
 {
-class ChatSettingsWidget;
+	class ChatSettingsWidget;
 }
 
 class ChatSettingsWidget : public QDialog

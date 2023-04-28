@@ -13,7 +13,7 @@ SettingsWidget::SettingsWidget(QWidget *parent)
 	m_ui->version->setAlignment(Qt::AlignCenter);
 
 	connect(m_ui->editKeyButton, &QToolButton::clicked,
-	        this, &SettingsWidget::editKeyClicked);
+					this, &SettingsWidget::editKeyClicked);
 
 	readSettings();
 	showSettings();
@@ -64,8 +64,8 @@ void SettingsWidget::showSettings()
 void SettingsWidget::editKeyClicked()
 {
 	QString question = tr("Enter your key from the "
-	                      "<a href=https://platform.openai.com/account/api-keys>"
-	                      "OpenAI site</a>:");
+												"<a href=https://platform.openai.com/account/api-keys>"
+												"OpenAI site</a>:");
 	EditDialog *dialog = new EditDialog(this, question, "");
 	dialog->setWindowTitle(tr("Set OpenAI API key"));
 
@@ -84,7 +84,7 @@ void SettingsWidget::editKeyClicked()
 		else
 		{
 			QMessageBox::information(this, tr("Wrong key"),
-			                         tr("You entered the wrong key"));
+															 tr("You entered the wrong key"));
 		}
 	});
 

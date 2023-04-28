@@ -12,7 +12,7 @@ ChatItem::ChatItem(QWidget *parent, QString name, quint8 index)
 	m_index = index;
 
 	connect(m_ui->editButton, &QToolButton::clicked,
-	        this, &ChatItem::editClicked);
+					this, &ChatItem::editClicked);
 	connect(m_ui->deleteButton, &QToolButton::clicked,
 					this, &ChatItem::deleteCliked);
 
@@ -116,7 +116,7 @@ void ChatItem::deleteCliked()
 void ChatItem::editClicked()
 {
 	EditDialog *dialog = new EditDialog(this, tr("Change chat name to") + ":",
-	                                    m_ui->nameChat->text());
+																			m_ui->nameChat->text());
 	connect(dialog, &EditDialog::textChanged, this, &ChatItem::editName);
 	connect(dialog, &EditDialog::finished, this, [=]()
 	{

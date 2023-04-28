@@ -20,7 +20,10 @@
 #include "MessageWidget.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui
+{
+	class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -34,7 +37,7 @@ public:
 protected:
 	void resizeEvent(QResizeEvent *event) override;
 	void paintEvent(QPaintEvent *event) override;
-        
+
 private:
 	Ui::MainWindow *m_ui;
 	QList<OpenAIChat *> m_chatGPT;
