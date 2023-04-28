@@ -1,5 +1,15 @@
 #include "OpenAIChat.h"
 
+OpenAIChat::OpenAIChat(QObject *parent) : QObject(parent)
+{
+
+}
+
+OpenAIChat::~OpenAIChat()
+{
+
+}
+
 void OpenAIChat::chat(QList<HistoryParser::Message> message,
 											ChatSettings chatSettings, quint8 index)
 {

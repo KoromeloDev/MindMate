@@ -13,6 +13,7 @@ class ThemeIcon : public QObject
 
 public:
 	explicit ThemeIcon(QObject *parent = nullptr);
+	~ThemeIcon();
 
 	static void setIcon(QToolButton &button, QString path);
 	static void setIcon(QLabel &label, QString path);

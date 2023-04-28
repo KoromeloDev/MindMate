@@ -1,5 +1,15 @@
 #include "ThemeIcon.h"
 
+ThemeIcon::ThemeIcon(QObject *parent) : QObject(parent)
+{
+
+}
+
+ThemeIcon::~ThemeIcon()
+{
+
+}
+
 void ThemeIcon::setIcon(QToolButton &button, QString path)
 {
 	button.setIcon(getIcon(path));
