@@ -153,7 +153,7 @@ void MessageWidget::createText()
 	m_layout->setContentsMargins(10, 0, 10, 0);
 	setLayout(m_layout);
 
-	static QRegularExpression re("\n* *(`{3}([a-z]*\n[\\s\\S]*?)\n`{3}) *\n*");
+	static QRegularExpression re("\n* *(`{3}([\\w\\+\\#]*\n[\\s\\S]*?)\n`{3}) *\n*");
 	QRegularExpressionMatchIterator matchIterator =
 																	re.globalMatch(m_message.content);
 	QList<qint16> positions = {0};
