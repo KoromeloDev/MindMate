@@ -14,6 +14,8 @@ SettingsWidget::SettingsWidget(QWidget *parent)
 
 	connect(m_ui->editKeyButton, &QToolButton::clicked,
 					this, &SettingsWidget::editKeyClicked);
+	connect(m_ui->checkUpdates, &QCheckBox::stateChanged,
+					this, &SettingsWidget::checkUpdatesStateChanged);
 
 	readSettings();
 	showSettings();
@@ -25,10 +27,16 @@ SettingsWidget::~SettingsWidget()
 	delete m_ui;
 }
 
-QString SettingsWidget::getOpenAIKey()
+const QString SettingsWidget::getOpenAIKey()
 {
 	readSettings();
 	return m_openAIKey;
+}
+
+const bool SettingsWidget::getCheckUpdates()
+{
+	readSettings();
+	return m_checkUpdates;
 }
 
 void SettingsWidget::writeSettings()
@@ -36,6 +44,7 @@ void SettingsWidget::writeSettings()
 	QSettings settings("settings.ini", QSettings::IniFormat);
 	settings.beginGroup("Settings");
 	settings.setValue("OpenAI_Key", m_openAIKey);
+	settings.setValue("Check_Updates", m_checkUpdates);
 	settings.endGroup();
 }
 
@@ -44,6 +53,7 @@ void SettingsWidget::readSettings()
 	QSettings settings("settings.ini", QSettings::IniFormat);
 	settings.beginGroup("Settings");
 	m_openAIKey = settings.value("OpenAI_Key").toString();
+	m_checkUpdates = settings.value("Check_Updates").toBool();
 	settings.endGroup();
 }
 
@@ -59,6 +69,8 @@ void SettingsWidget::showSettings()
 	{
 		m_ui->statusLabel->setPixmap(QPixmap(":/icons/dot_red.svg"));
 	}
+
+	m_ui->checkUpdates->setChecked(m_checkUpdates);
 }
 
 void SettingsWidget::editKeyClicked()
@@ -89,4 +101,11 @@ void SettingsWidget::editKeyClicked()
 	});
 
 	dialog->show();
+}
+
+void SettingsWidget::checkUpdatesStateChanged(quint8 state)
+{
+	m_checkUpdates = state;
+	writeSettings();
+	showSettings();
 }

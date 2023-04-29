@@ -19,11 +19,13 @@ public:
 	explicit SettingsWidget(QWidget *parent = nullptr);
 	~SettingsWidget();
 
-	QString getOpenAIKey();
+	const QString getOpenAIKey();
+	const bool getCheckUpdates();
 
 private:
 	Ui::SettingsWidget *m_ui;
 	QString m_openAIKey;
+	bool m_checkUpdates;
 
 	void writeSettings();
 	void readSettings();
@@ -31,6 +33,7 @@ private:
 
 private slots:
 	void editKeyClicked();
+	void checkUpdatesStateChanged(quint8 state);
 };
 
 #endif // SETTINGSWIDGET_H

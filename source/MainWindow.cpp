@@ -5,6 +5,7 @@
 #include "SettingsWidget.h"
 #include "ThemeIcon.h"
 #include "ChatSettingsWidget.h"
+#include "UpdateChecker.h"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent), m_ui(new Ui::MainWindow)
@@ -27,6 +28,39 @@ MainWindow::MainWindow(QWidget *parent)
 					this, &MainWindow::stopClicked);
 	connect(m_ui->chatSettingsButton, &QToolButton::clicked,
 					this, &MainWindow::chatSettingsClicked);
+
+	SettingsWidget settings;
+
+	if(settings.getCheckUpdates())
+	{
+		UpdateChecker *updateChecker = new UpdateChecker(
+																	 this, "Koromel0", "MindMate");
+		connect(updateChecker, &UpdateChecker::needUpdates,
+						this, [=](bool haveUpdates, QString version)
+		{
+			updateChecker->deleteLater();
+
+			if (haveUpdates)
+			{
+				QString link;
+
+				#if defined(Q_OS_WIN)
+					link = QString("https://github.com/Koromel0/MindMate/releases/download/"
+													"%1/MindMate-Windows.zip").arg(version);
+				#endif
+				#if defined(Q_OS_LINUX)
+					link = QString("https://github.com/Koromel0/MindMate/releases/download/"
+													"%1/MindMate-Linux.tar.gz").arg(version);
+				#endif
+				QMessageBox::information(this, tr("Update available"),
+																 "<a href='" + link + "'>" +
+																 tr("Link to download the application") +
+																 "</a>");
+			}
+		});
+
+		updateChecker->checkUpdates();
+	}
 
 	m_movie.setFileName(":/icons/eclipse.gif");
 	m_movie.setScaledSize(QSize(32, 32));

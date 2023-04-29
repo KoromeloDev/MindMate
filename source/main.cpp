@@ -24,7 +24,7 @@ void createPath(QStringList pathList)
 int main(int argc, char *argv[])
 {
 	QApplication application(argc, argv);
-	application.setApplicationVersion("0.3.1-beta");
+	application.setApplicationVersion(APP_VERSION "-beta");
 
 	#if defined(Q_OS_WIN)
 			QApplication::setStyle(QStyleFactory::create("Fusion"));
