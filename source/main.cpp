@@ -7,7 +7,6 @@
 #include <QFile>
 #include <QFontDatabase>
 #include <QStyleFactory>
-#include <QtGlobal>
 
 void createPath(QStringList pathList)
 {

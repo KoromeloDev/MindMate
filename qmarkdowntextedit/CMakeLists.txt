@@ -17,11 +17,6 @@ option(QMARKDOWNTEXTEDIT_EXE "Build test executable" ON)
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-# needed for windows
-if(WIN32)
-    set(INTL_LDFLAGS -lintl)
-endif(WIN32)
-
 # QMarkdownTextEdit library
 set(RC_FILES
     media.qrc
