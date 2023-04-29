@@ -17,17 +17,17 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
 			break;
 		}
 
-		m_language.append(code[i]);
 		i++;
 	}
 
+	m_language.append(code.mid(3, i - 3));
 	quint8 j = 0;
 
-	while (true)
+	while (code.length() != 0)
 	{
 		QChar symbol = code[code.length() -1 - j];
 
-		if (symbol == '\n' || symbol == ' ' || symbol == '\t' || symbol.isNull())
+		if (symbol == '`')
 		{
 			j++;
 		}
@@ -37,11 +37,11 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
 		}
 	}
 
-	code.chop(j);
+	code.chop(j + 1);
 	m_code = code;
 	m_code.remove(0, i + 1);
 	m_ui->languageLabel->setText(m_language);
-	m_ui->codeBrowser->setText(m_code);
+	m_ui->codeBrowser->setPlainText(code);
 	m_clipboard = QApplication::clipboard();
 	m_ui->codeBrowser->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -54,19 +54,25 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
 	});
 
 	ThemeIcon::setIcon(*m_ui->copyButton, ":/icons/copy.svg");
+	QTextDocument *document = m_ui->codeBrowser->document();
+	m_highlighter = new MarkdownHighlighter(document);
 }
 
 CodeWidget::~CodeWidget()
 {
 	delete m_ui;
+	m_highlighter->deleteLater();
 }
 
 void CodeWidget::resizeWidget()
 {
-	quint16 sizeWidth = parentWidget()->size().width();
+	quint16 sizeWidth = parentWidget()->size().width()-40;
 	quint16 sizeHeight = m_ui->codeBrowser->document()->size().toSize().height();
-	setMaximumWidth(sizeWidth);
-	setMaximumHeight(sizeHeight + 70);
+	m_ui->infoWidget->setFixedWidth(sizeWidth);
+	m_ui->codeBrowser->setFixedWidth(sizeWidth);
+	m_ui->codeBrowser->setFixedHeight(sizeHeight + 42);
+	setMaximumWidth(sizeWidth + 40);
+	setMaximumHeight(sizeHeight + 42);
 }
 
 void CodeWidget::copyClicked()

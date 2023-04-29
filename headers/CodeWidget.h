@@ -7,6 +7,8 @@
 #include <QTimer>
 #include <QMenu>
 
+#include "markdownhighlighter.h"
+
 namespace Ui
 {
 class CodeWidget;
@@ -28,6 +30,7 @@ private:
 	QString m_language;
 	QString m_code;
 	QClipboard *m_clipboard;
+	MarkdownHighlighter *m_highlighter;
 
 private slots:
 	void copyClicked();

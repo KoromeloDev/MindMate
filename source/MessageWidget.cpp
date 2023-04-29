@@ -120,7 +120,7 @@ QSize MessageWidget::getSizeTextBrowser(QTextBrowser *textBrowser, quint8 index)
 		{
 			sizeWidth = maxSizeWidth;
 		}
-		else
+		else if (m_textWidth.length() != 0)
 		{
 			sizeWidth += m_textWidth[index];
 		}
@@ -153,7 +153,7 @@ void MessageWidget::createText()
 	m_layout->setContentsMargins(10, 0, 10, 0);
 	setLayout(m_layout);
 
-	static QRegularExpression re("\n* *```([^```]+)``` *\n*");
+	static QRegularExpression re("\n* *(`{3}([a-z]*\n[\\s\\S]*?)\n`{3}) *\n*");
 	QRegularExpressionMatchIterator matchIterator =
 																	re.globalMatch(m_message.content);
 	QList<qint16> positions = {0};
@@ -211,6 +211,9 @@ void MessageWidget::createText()
 		m_textBrowsers.append(textBrowser);
 		textBrowser->setText(subText);
 		textBrowser->setContextMenuPolicy(Qt::CustomContextMenu);
+		QFontMetrics fontSize(textBrowser->font());
+		m_textWidth.append(fontSize.boundingRect(QRect(), Qt::TextDontClip, text).
+											 width());
 
 		connect(textBrowser, &QTextBrowser::customContextMenuRequested, this, [=]()
 		{
@@ -344,25 +347,25 @@ void MessageWidget::selection(QString pattern)
 	QRegularExpressionMatchIterator matchIterator;
 	QTextCharFormat format;
 	format.setFontWeight(QFont::Bold);
+	quint8 i = 0;
 
 	for (QTextBrowser *textBrowser : qAsConst(m_textBrowsers))
 	{
 		QTextCursor cursor(textBrowser->document());
 		QString text = textBrowser->toPlainText();
 		matchIterator = re.globalMatch(text);
-		QFontMetrics fontSize(textBrowser->font());
-		m_textWidth.append(fontSize.boundingRect(QRect(), Qt::TextDontClip, text).
-											 width());
+
 		while (matchIterator.hasNext())
 		{
 			QRegularExpressionMatch match = matchIterator.next();
-
 			cursor.setPosition(match.capturedStart());
 			cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor,
 													match.capturedLength());
 			cursor.setCharFormat(format);
-			m_textWidth.last() += 0.3;
+			m_textWidth[i] += 0.3;
 		}
+
+		i++;
 	}
 }
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(MindMate VERSION 0.2.5 LANGUAGES CXX)
+project(MindMate VERSION 0.3.0 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -17,7 +17,8 @@ find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets LinguistTools Network Svg
 find_package(Qt6 REQUIRED COMPONENTS Widgets LinguistTools Network Svg
 						 Multimedia)
 
-include_directories("headers/" "source/" "ui/" "translations/")
+include_directories("headers" "source" "ui" "translations" "qmarkdowntextedit")
+add_subdirectory("qmarkdowntextedit")
 
 file(GLOB TS "translations/*.ts")
 file(GLOB QM "translations/*.qm")
@@ -38,7 +39,7 @@ qt_add_translations(MindMate TS_FILES ${TS})
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 
 target_link_libraries(MindMate PRIVATE Qt6::Widgets Qt6::Network Qt6::Svg
-											Qt6::Multimedia)
+											Qt6::Multimedia qmarkdowntextedit)
 
 set_target_properties(MindMate PROPERTIES
 	MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
