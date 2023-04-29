@@ -30,7 +30,7 @@ void UpdateChecker::checkUpdates()
 			const QJsonDocument jsonDocument = QJsonDocument::fromJson(response);
 			const QString tagName = jsonDocument.object()["tag_name"].toString();
 
-			if (tagName != QApplication::applicationVersion())
+            if (tagName != "v" + QApplication::applicationVersion())
 			{
 				emit needUpdates(true, tagName);
 				return;
