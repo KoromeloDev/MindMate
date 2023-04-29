@@ -81,9 +81,9 @@
 <context>
     <name>CodeWidget</name>
     <message>
-        <location filename="../ui/CodeWidget.ui" line="+94"/>
+        <location filename="../ui/CodeWidget.ui" line="+159"/>
         <location/>
-        <location filename="../source/CodeWidget.cpp" line="+86"/>
+        <location filename="../source/CodeWidget.cpp" line="+92"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -147,7 +147,17 @@
         <translation>Помощник</translation>
     </message>
     <message>
-        <location filename="../source/MainWindow.cpp" line="+195"/>
+        <location filename="../source/MainWindow.cpp" line="+55"/>
+        <source>Update available</source>
+        <translation>Доступно обновление</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Link to download the application</source>
+        <translation>Ссылка на скачивание приложения</translation>
+    </message>
+    <message>
+        <location line="+172"/>
         <location line="+188"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
@@ -175,10 +185,15 @@
         <translation>Настройки</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+48"/>
         <location/>
         <source>API key:</source>
         <translation>API ключ:</translation>
+    </message>
+    <message>
+        <location line="+59"/>
+        <source>Check updates</source>
+        <translation>Проверять обновления</translation>
     </message>
     <message>
         <location filename="../source/SettingsWidget.cpp" line="+12"/>
@@ -186,12 +201,12 @@
         <translation>Версия</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+53"/>
         <source>API key</source>
         <translation>API ключ</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+13"/>
         <source>Enter your key from the &lt;a href=https://platform.openai.com/account/api-keys&gt;OpenAI site&lt;/a&gt;:</source>
         <translation>Введите свой ключ с &lt;a href=https://platform.openai.com/account/api-keys&gt;сайта OpenAI&lt;/a&gt;:</translation>
     </message>

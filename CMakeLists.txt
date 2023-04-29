@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(MindMate VERSION 0.4.0 LANGUAGES CXX)
+project(MindMate VERSION 0.4.1 LANGUAGES CXX)
 add_definitions(-DAPP_VERSION="${PROJECT_VERSION}")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -33,11 +33,6 @@ set(PROJECT_SOURCES ${TS} ${SOURCE} ${HEADERS} ${UI} resources.qrc)
 qt_add_executable(MindMate MANUAL_FINALIZATION ${PROJECT_SOURCES})
 
 qt_add_translations(MindMate TS_FILES ${TS})
-
-# Define target properties for Android with Qt 6 as:
-#set_property(TARGET MindMate APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#							${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 
 target_link_libraries(MindMate PRIVATE Qt6::Widgets Qt6::Network Qt6::Svg
 											Qt6::Multimedia qmarkdowntextedit)
