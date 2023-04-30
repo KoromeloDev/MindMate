@@ -83,10 +83,6 @@ install(TARGETS qmarkdowntextedit
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
-# Add PkgConfig config file
-configure_file(qmarkdowntextedit.pc.in qmarkdowntextedit.pc @ONLY)
-install(FILES ${CMAKE_BINARY_DIR}/qmarkdowntextedit.pc DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
-
 # Install exe
 if(QMARKDOWNTEXTEDIT_EXE)
     install(TARGETS qmarkdowntextedit-exe DESTINATION bin)

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(MindMate VERSION 0.4.3 LANGUAGES CXX)
+project(MindMate VERSION 0.4.4 LANGUAGES CXX)
 add_definitions(-DAPP_VERSION="${PROJECT_VERSION}")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

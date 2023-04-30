@@ -192,6 +192,7 @@
     </message>
     <message>
         <location line="+59"/>
+        <location/>
         <source>Check updates</source>
         <translation>Проверять обновления</translation>
     </message>
