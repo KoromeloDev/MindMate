@@ -1,0 +1,24 @@
+---
+app-id: org.koromelodev.mindmate
+runtime: org.kde.Platform
+runtime-version: '6.4'
+sdk: org.kde.Sdk
+command: MindMate
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --socket=pulseaudio
+  - --filesystem=host
+  - --device=dri
+  - --share=network
+modules:
+- name: MindMate
+  buildsystem: cmake
+  config-opts:
+      - -DCMAKE_BUILD_TYPE=MinSizeRel
+  sources:
+  - type: archive
+    url: https://github.com/Koromel0/MindMate/archive/refs/heads/main.zip
+    sha256: 533210765c6e40e6808d0d6ae0e6c21955cfb2f4fb4e22b2f3de72cb5524a76f
+
