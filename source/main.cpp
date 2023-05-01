@@ -25,9 +25,13 @@ int main(int argc, char *argv[])
 	QApplication application(argc, argv);
 	application.setApplicationVersion(APP_VERSION "-beta");
 
-	#if defined(Q_OS_WIN)
-			QApplication::setStyle(QStyleFactory::create("Fusion"));
-	#endif
+	for (const QString &key : QStyleFactory::keys())
+	{
+		if (key == "Fusion")
+		{
+			QApplication::setStyle(QStyleFactory::create(key));
+		}
+	}
 
 	QTranslator translator;
 	const QStringList uiLanguages = QLocale::system().uiLanguages();
