@@ -23,7 +23,7 @@ public:
 											QMenu *menu = nullptr);
 	~CodeWidget();
 
-	void resizeWidget();
+	void resizeWidget(quint16 margin = 0);
 
 private:
 	Ui::CodeWidget *m_ui;

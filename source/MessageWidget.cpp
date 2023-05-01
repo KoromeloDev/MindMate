@@ -47,6 +47,17 @@ MessageWidget::MessageWidget(QListWidgetItem *item,
 	selection("`([^`]*)`");
 	selection("'([^']*)'");
 	selection("\"([^\"]*)\"");
+
+	QTimer *timer = new QTimer(this);
+	timer->setSingleShot(true);
+	timer->setInterval(50);
+	timer->start();
+
+	connect(timer, &QTimer::timeout, this, [=]()
+	{
+		timer->deleteLater();
+		resize();
+	});
 }
 
 MessageWidget::~MessageWidget()
@@ -72,22 +83,37 @@ void MessageWidget::resize()
 	m_width = 0;
 	quint8 i = 0;
 
-	for (QTextBrowser *textBrowser : qAsConst(m_textBrowsers))
+	if (m_textBrowsers.length() != 0)
 	{
-		QSize textParameter = getSizeTextBrowser(textBrowser, i);
-		m_height += textParameter.height();
-
-		if (textParameter.width() > m_width)
+		for (QTextBrowser *textBrowser : qAsConst(m_textBrowsers))
 		{
-			m_width = textParameter.width();
+			QSize textParameter = getSizeTextBrowser(textBrowser, i);
+			m_height += textParameter.height();
+
+			if (textParameter.width() > m_width)
+			{
+				m_width = textParameter.width();
+			}
+
+			i++;
 		}
-
-		i++;
 	}
-
-	if (m_textBrowsers.count() == 0)
+	else
 	{
 		m_width = parentWidget()->size().width() * 0.7;
+
+		if (m_message.role == HistoryParser::Role::User)
+		{
+			quint16 parentSize = parentWidget()->size().width();
+			m_leftMargin = parentSize - m_width;
+			parentSize += m_leftMargin;
+			m_width += m_leftMargin;
+			setContentsMargins(m_leftMargin, 0, 10, 0);
+		}
+		else if (m_message.role == HistoryParser::Role::System)
+		{
+			m_width = parentWidget()->size().width();
+		}
 	}
 
 	for (CodeWidget *code : qAsConst(m_codeWidgets))
@@ -101,7 +127,7 @@ void MessageWidget::resize()
 
 	for (CodeWidget *code : qAsConst(m_codeWidgets))
 	{
-		code->resizeWidget();
+		code->resizeWidget(m_leftMargin);
 	}
 
 	emit resizeFinished();
@@ -134,6 +160,7 @@ QSize MessageWidget::getSizeTextBrowser(QTextBrowser *textBrowser, quint8 index)
 	if (m_message.role == HistoryParser::Role::User)
 	{
 		quint16 margin = parentWidget()->size().width() - sizeWidth - 31;
+		m_leftMargin = margin;
 		sizeWidth += margin;
 		setContentsMargins(margin, 0, 10, 0);
 	}
@@ -254,7 +281,7 @@ void MessageWidget::createText()
 
 	if (textList.count() == 0 && codeText.count() != 0)
 	{
-		CodeWidget *code = new CodeWidget(this, codeText[indexCode]);
+		CodeWidget *code = new CodeWidget(this, codeText[indexCode], m_menu);
 		m_codeWidgets.append(code);
 		m_layout->addWidget(code);
 

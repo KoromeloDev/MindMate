@@ -8,6 +8,7 @@
 #include <QTextBrowser>
 #include <QVBoxLayout>
 #include <QMenu>
+#include <QTimer>
 
 #include "HistoryParser.h"
 #include "CodeWidget.h"
@@ -48,6 +49,7 @@ private:
 	qint16 m_height;
 	QList<QTextBrowser *> m_textBrowsers;
 	QVBoxLayout* m_layout;
+	quint16 m_leftMargin = 10;
 	struct Border
 	{
 		quint8 topLeft = 0;

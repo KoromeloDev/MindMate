@@ -64,15 +64,16 @@ CodeWidget::~CodeWidget()
 	m_highlighter->deleteLater();
 }
 
-void CodeWidget::resizeWidget()
+void CodeWidget::resizeWidget(quint16 margin)
 {
-	quint16 sizeWidth = parentWidget()->size().width()-40;
-	quint16 sizeHeight = m_ui->codeBrowser->document()->size().toSize().height();
+	quint16 sizeWidth = parentWidget()->size().width() - 30 - margin;
+	quint16 sizeHeight = m_ui->codeBrowser->document()->size().toSize().height() +
+											 42;
 	m_ui->infoWidget->setFixedWidth(sizeWidth);
 	m_ui->codeBrowser->setFixedWidth(sizeWidth);
-	m_ui->codeBrowser->setFixedHeight(sizeHeight + 42);
+	m_ui->codeBrowser->setFixedHeight(sizeHeight);
 	setMaximumWidth(sizeWidth + 40);
-	setMaximumHeight(sizeHeight + 42);
+	setMaximumHeight(sizeHeight);
 }
 
 void CodeWidget::copyClicked()
