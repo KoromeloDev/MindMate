@@ -1,8 +1,8 @@
 #include "OpenAIChat.h"
 
-OpenAIChat::OpenAIChat(QObject *parent) : QObject(parent)
+OpenAIChat::OpenAIChat(QObject *parent, QString key) : QObject(parent)
 {
-
+	m_key = key;
 }
 
 OpenAIChat::~OpenAIChat()
@@ -16,20 +16,7 @@ void OpenAIChat::chat(QList<HistoryParser::Message> message,
 	m_index = index;
 	m_message = message;
 	m_chatSettings = chatSettings;
-	retryChat();
-}
 
-void OpenAIChat::retryChat()
-{
-	m_networkManager = new QNetworkAccessManager(this);
-
-	connect(m_networkManager, &QNetworkAccessManager::finished,
-					this, &OpenAIChat::onFinished);
-
-	QUrl url("https://api.openai.com/v1/chat/completions");
-	QNetworkRequest request(url);
-	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-	request.setRawHeader("Authorization", "Bearer " + m_key.toUtf8());
 	QJsonObject json;
 	json.insert("model", m_chatSettings.model);
 	json.insert("temperature", m_chatSettings.temperature);
@@ -37,20 +24,40 @@ void OpenAIChat::retryChat()
 	json.insert("presence_penalty", m_chatSettings.presencePenalty);
 	json.insert("frequency_penalty", m_chatSettings.frequencyPenalty);
 	QJsonArray messages;
-	QJsonObject message;
+	QJsonObject messageObject;
 
 	for (quint16 i = 0; i < m_message.size(); i++)
 	{
-		message.insert("role", QVariant::fromValue(m_message[i].role).
+		messageObject.insert("role", QVariant::fromValue(m_message[i].role).
 									 toString().toLower());
-		message.insert("content", m_message[i].content);
-		messages.append(message);
+		messageObject.insert("content", m_message[i].content);
+		messages.append(messageObject);
 	}
 
 	json.insert("messages", messages);
-	QJsonDocument document(json);
-	QByteArray postData = document.toJson(QJsonDocument::Compact);
-	m_networkManager->post(request, postData);
+
+	send(json);
+}
+
+void OpenAIChat::chat(QString message)
+{
+	HistoryParser::Message messageStruct;
+	messageStruct.content = message;
+	messageStruct.role = HistoryParser::Role::User;
+	m_message.append(messageStruct);
+	m_chatSettings.model = "gpt-3.5-turbo";
+
+	QJsonObject json;
+	QJsonArray messages;
+	QJsonObject messageObject;
+	json.insert("model", m_chatSettings.model);
+	messageObject.insert("role", QVariant::fromValue(m_message[0].role).
+								 toString().toLower());
+	messageObject.insert("content", m_message[0].content);
+	messages.append(messageObject);
+	json.insert("messages", messages);
+
+	send(json);
 }
 
 void OpenAIChat::stopChat()
@@ -99,6 +106,22 @@ void OpenAIChat::onFinished(QNetworkReply *reply)
 	reply->deleteLater();
 }
 
+void OpenAIChat::send(QJsonObject json)
+{
+	m_networkManager = new QNetworkAccessManager(this);
+
+	connect(m_networkManager, &QNetworkAccessManager::finished,
+					this, &OpenAIChat::onFinished);
+
+	QUrl url("https://api.openai.com/v1/chat/completions");
+	QNetworkRequest request(url);
+	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+	request.setRawHeader("Authorization", "Bearer " + m_key.toUtf8());
+	QJsonDocument document(json);
+	QByteArray postData = document.toJson(QJsonDocument::Compact);
+	m_networkManager->post(request, postData);
+}
+
 quint8 OpenAIChat::getIndex() const
 {
 	return m_index;
@@ -117,9 +140,4 @@ quint32 OpenAIChat::getUsedToken()
 HistoryParser::Message OpenAIChat::getAnswerMessage()
 {
 	return m_answerMessage;
-}
-
-void OpenAIChat::setKey(const QString &setM_key)
-{
-	m_key = setM_key;
 }

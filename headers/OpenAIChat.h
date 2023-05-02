@@ -19,14 +19,13 @@ class OpenAIChat : public QObject
 	Q_OBJECT
 
 public:
-	OpenAIChat(QObject *parent = nullptr);
+	OpenAIChat(QObject *parent = nullptr, QString key = 0);
 	~OpenAIChat();
 
 	void chat(QList<HistoryParser::Message> message,
 						ChatSettings chatSettings, quint8 index);
-	void retryChat();
+	void chat(QString message);
 	void stopChat();
-	void setKey(const QString &setM_key);
 	HistoryParser::Message getAnswerMessage();
 	quint32 getUsedToken();
 	quint8 getIndex() const;
@@ -48,6 +47,8 @@ private:
 	quint32 m_usedToken;
 	quint8 m_index;
 	bool m_error;
+
+	void send(QJsonObject json);
 };
 
 #endif // OPENAICHAT_H

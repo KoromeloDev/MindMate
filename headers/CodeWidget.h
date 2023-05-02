@@ -7,7 +7,7 @@
 #include <QTimer>
 #include <QMenu>
 
-#include "markdownhighlighter.h"
+#include "qsourcehighliter.h"
 
 namespace Ui
 {
@@ -30,7 +30,9 @@ private:
 	QString m_language;
 	QString m_code;
 	QClipboard *m_clipboard;
-	MarkdownHighlighter *m_highlighter;
+	QSourceHighlite::QSourceHighliter *m_highlighter;
+
+	void setCodeAutoHighlighter();
 
 private slots:
 	void copyClicked();

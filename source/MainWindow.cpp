@@ -391,8 +391,7 @@ void MainWindow::setFileChatSettings(quint8 index)
 void MainWindow::sendMessage()
 {
 	SettingsWidget settings;
-	OpenAIChat *chatGPT = new OpenAIChat(this);
-	chatGPT->setKey(settings.getOpenAIKey());
+	OpenAIChat *chatGPT = new OpenAIChat(this, settings.getOpenAIKey());
 
 	connect(chatGPT, &OpenAIChat::responseReceived,
 					this, &MainWindow::responseReceived);
