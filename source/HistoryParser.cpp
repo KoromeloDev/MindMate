@@ -53,7 +53,33 @@ void HistoryParser::addNewMessage(Message message)
 
 void HistoryParser::editMessage(quint16 index, QString content)
 {
+	if (m_history.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
+		QByteArray jsonData = m_history.readAll();
+		m_history.close();
 
+		if (m_history.open(QIODevice::WriteOnly | QIODevice::Text))
+		{
+			QJsonDocument document = QJsonDocument::fromJson(jsonData);
+			QJsonObject object = document.object();
+			QJsonArray messageArray = object["message"].toArray();
+			QJsonObject messageObject = messageArray[index].toObject();
+			QJsonArray contentArray = messageObject["content"].toArray();
+
+			if (contentArray.count() != 0)
+			{
+				contentArray[0]= content;
+			}
+
+			messageObject["content"] = contentArray;
+			messageArray.removeAt(index);
+			messageArray.insert(index, messageObject);
+			object["message"] = messageArray;
+			document.setObject(object);
+			m_history.write(document.toJson());
+			m_history.close();
+		}
+	}
 }
 
 void HistoryParser::editMessage(quint16 index, quint8 number, QString content)

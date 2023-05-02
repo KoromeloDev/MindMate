@@ -43,6 +43,6 @@ private slots:
 	void deleteCliked();
 
 signals:
-	void removed(ChatItem *self);
+	void removed();
 };
 #endif // CHATITEM_H

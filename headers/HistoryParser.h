@@ -23,7 +23,7 @@ public:
 		Assistant,
 		System
 	};
-	Q_ENUM(Role);
+	Q_ENUM(Role)
 	struct Message
 	{
 		Role role;

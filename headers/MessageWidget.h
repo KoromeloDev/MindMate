@@ -66,12 +66,17 @@ private:
 	void createText();
 	bool isMaxWidth();
 	void setBorder(QWidget *widget, Border border);
-	void contextMenuEvent(QContextMenuEvent *event) override;
-	void actionDeleteClicked();
+	void addCodeWidget(QString codeText, Border border);
 
 signals:
-	void selfDelete(MessageWidget *self);
+	void selfDelete();
 	void resizeFinished();
+
+private slots:
+	void contextMenuEvent(QContextMenuEvent *event) override;
+	void actionDeleteClicked();
+	void changeLanguage(QString language);
+
 };
 
 #endif // MESSAGEWIDGET_H

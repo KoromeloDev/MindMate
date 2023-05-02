@@ -76,6 +76,11 @@ void CodeWidget::resizeWidget(quint16 margin)
 	setMaximumHeight(sizeHeight);
 }
 
+QString CodeWidget::getCode()
+{
+	return m_code;
+}
+
 void CodeWidget::setCodeAutoHighlighter()
 {
 	using QSH = QSourceHighlite::QSourceHighliter;
@@ -83,7 +88,7 @@ void CodeWidget::setCodeAutoHighlighter()
 	QSH::Language languageEnum;
 	QString language = m_language.toLower();
 
-	if (language.isEmpty())
+	if (language.isEmpty() && false)
 	{
 		SettingsWidget settings;
 		OpenAIChat *chatGPT = new OpenAIChat(this, settings.getOpenAIKey());
@@ -92,110 +97,112 @@ void CodeWidget::setCodeAutoHighlighter()
 						this, [=]()
 		{
 			m_language = chatGPT->getAnswerMessage().content;
+			m_language = m_language.left(m_language.indexOf(" "));
+			m_language = m_language.left(m_language.indexOf("."));
+			m_language = m_language.toLower();
 			m_ui->languageLabel->setText(m_language);
+			emit changeLanguage(m_language);
 			setCodeAutoHighlighter();
 		});
 
 		chatGPT->chat("Write in one word what kind of programming language:\n"
 									+ m_code);
 	}
-	else if (language == "assembly")
+	else if (language.contains("assembly"))
 	{
 		languageEnum = QSHL::CodeAsm;
 	}
-	else if (language == "bash")
+	else if (language.contains("bash"))
 	{
 		languageEnum = QSHL::CodeBash;
 	}
-	else if (language == "c")
+	else if (language.contains("c"))
 	{
-		languageEnum = QSHL::CodeC;
+		if (language.contains("cmake"))
+		{
+			languageEnum = QSHL::CodeCMake;
+		}
+		else if (language.contains("css"))
+		{
+			languageEnum = QSHL::CodeCSS;
+		}
+		else if (language.contains("c#"))
+		{
+			languageEnum = QSHL::CodeCSharp;
+		}
+		else if (language.contains("cpp") || language.contains("c++"))
+		{
+			languageEnum = QSHL::CodeCpp;
+		}
+		else
+		{
+			languageEnum = QSHL::CodeC;
+		}
 	}
-	else if (language == "cmake")
-	{
-		languageEnum = QSHL::CodeCMake;
-	}
-	else if (language == "css")
-	{
-		languageEnum = QSHL::CodeCSS;
-	}
-	else if (language == "c#")
-	{
-		languageEnum = QSHL::CodeCSharp;
-	}
-	else if (language == "cpp")
-	{
-		languageEnum = QSHL::CodeCpp;
-	}
-	else if (language == "c++")
-	{
-		languageEnum = QSHL::CodeCpp;
-	}
-	else if (language == "go")
+	else if (language.contains("go"))
 	{
 		languageEnum = QSHL::CodeGo;
 	}
-	else if (language == "ini")
+	else if (language.contains("ini"))
 	{
 		languageEnum = QSHL::CodeINI;
 	}
-	else if (language == "json")
+	else if (language.contains("json"))
 	{
 		languageEnum = QSHL::CodeJSON;
 	}
-	else if (language == "java")
+	else if (language.contains("javascript") || language.contains("js"))
+	{
+		languageEnum = QSHL::CodeJs;
+	}
+	else if (language.contains("java"))
 	{
 		languageEnum = QSHL::CodeJava;
 	}
-	else if (language == "js")
-	{
-		languageEnum = QSHL::CodeJs;
-	}
-	else if (language == "javascript")
-	{
-		languageEnum = QSHL::CodeJs;
-	}
-	else if (language == "lua")
+	else if (language.contains("lua"))
 	{
 		languageEnum = QSHL::CodeLua;
 	}
-	else if (language == "php")
+	else if (language.contains("php"))
 	{
 		languageEnum = QSHL::CodePHP;
 	}
-	else if (language == "python")
+	else if (language.contains("python"))
 	{
 		languageEnum = QSHL::CodePython;
 	}
-	else if (language == "qml")
+	else if (language.contains("qml"))
 	{
 		languageEnum = QSHL::CodeQML;
 	}
-	else if (language == "rust")
+	else if (language.contains("rust"))
 	{
 		languageEnum = QSHL::CodeRust;
 	}
-	else if (language == "sql")
+	else if (language.contains("sql"))
 	{
 		languageEnum = QSHL::CodeSQL;
 	}
-	else if (language == "typescript")
+	else if (language.contains("typescript"))
 	{
 		languageEnum = QSHL::CodeTypeScript;
 	}
-	else if (language == "v")
+	else if (language.contains("v"))
 	{
-		languageEnum = QSHL::CodeV;
+		if (language.contains("vex"))
+		{
+			languageEnum = QSHL::CodeVex;
+		}
+		else
+		{
+			languageEnum = QSHL::CodeV;
+		}
 	}
-	else if (language == "vex")
-	{
-		languageEnum = QSHL::CodeVex;
-	}
-	else if (language == "xml")
+	else if (language.contains("xml"))
 	{
 		languageEnum = QSHL::CodeXML;
 	}
-	else if (language == "yaml")
+	else if (language.contains("yaml"))
 	{
 		languageEnum = QSHL::CodeYAML;
 	}

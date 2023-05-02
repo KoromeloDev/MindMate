@@ -70,9 +70,9 @@ private slots:
 	void retryClicked();
 	void stopClicked();
 	void chatSettingsClicked();
-	void responseReceived(OpenAIChat *chatGPT, QString response);
-	void replyError(OpenAIChat *chatGPT, QString error);
-	void chatItemDeleteClicked(ChatItem *item);
-	void messageDeleteCliked(MessageWidget *messageWidget);
+	void responseReceived(QString response);
+	void replyError(QString error);
+	void chatItemDeleteClicked();
+	void messageDeleteCliked();
 };
 #endif // MAINWINDOW_H

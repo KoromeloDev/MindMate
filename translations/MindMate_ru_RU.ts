@@ -71,7 +71,7 @@
     <name>CodeWidget</name>
     <message>
         <location filename="../ui/CodeWidget.ui" line="+100"/>
-        <location filename="../source/CodeWidget.cpp" line="+226"/>
+        <location filename="../source/CodeWidget.cpp" line="+233"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>

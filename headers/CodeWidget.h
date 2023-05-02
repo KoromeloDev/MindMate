@@ -24,6 +24,7 @@ public:
 	~CodeWidget();
 
 	void resizeWidget(quint16 margin = 0);
+	QString getCode();
 
 private:
 	Ui::CodeWidget *m_ui;
@@ -39,6 +40,7 @@ private slots:
 
 signals:
 	void contextMenuRequested(QPoint pos);
+	void changeLanguage(QString language);
 
 };
 

@@ -48,16 +48,19 @@ MessageWidget::MessageWidget(QListWidgetItem *item,
 	selection("'([^']*)'");
 	selection("\"([^\"]*)\"");
 
-	QTimer *timer = new QTimer(this);
-	timer->setSingleShot(true);
-	timer->setInterval(50);
-	timer->start();
-
-	connect(timer, &QTimer::timeout, this, [=]()
+	if (index == 0)
 	{
-		timer->deleteLater();
-		resize();
-	});
+		QTimer *timer = new QTimer(this);
+		timer->setSingleShot(true);
+		timer->setInterval(50);
+		timer->start();
+
+		connect(timer, &QTimer::timeout, this, [=]()
+		{
+			timer->deleteLater();
+			resize();
+		});
+	}
 }
 
 MessageWidget::~MessageWidget()
@@ -263,34 +266,27 @@ void MessageWidget::createText()
 
 		if (indexCode < codeText.count())
 		{
-			CodeWidget *code = new CodeWidget(this, codeText[indexCode], m_menu);
-			m_codeWidgets.append(code);
-			m_layout->addWidget(code);
 			Border border;
 
 			if (subText == textList.last())
 			{
 				border.bottomLeft = 15;
 				border.bottomRight = 15;
-				setBorder(code, border);
 			}
 
+			addCodeWidget(codeText[indexCode], border);
 			indexCode++;
 		}
 	}
 
 	if (textList.count() == 0 && codeText.count() != 0)
 	{
-		CodeWidget *code = new CodeWidget(this, codeText[indexCode], m_menu);
-		m_codeWidgets.append(code);
-		m_layout->addWidget(code);
-
 		Border border;
 		border.topLeft = 15;
 		border.topRight = 15;
 		border.bottomLeft = 15;
 		border.bottomRight = 15;
-		setBorder(code, border);
+		addCodeWidget(codeText[indexCode], border);
 	}
 
 	if (m_message.role != HistoryParser::Role::User)
@@ -328,6 +324,18 @@ void MessageWidget::setBorder(QWidget *widget, Border border)
 												QString::number(border.bottomRight)  + ";");
 }
 
+void MessageWidget::addCodeWidget(QString codeText, Border border)
+{
+	CodeWidget *code = new CodeWidget(this, codeText, m_menu);
+
+	connect(code, &CodeWidget::changeLanguage,
+					this, &MessageWidget::changeLanguage);
+
+	m_codeWidgets.append(code);
+	m_layout->addWidget(code);
+	setBorder(code, border);
+}
+
 void MessageWidget::contextMenuEvent(QContextMenuEvent *event)
 {
 	m_menu->exec(event->globalPos());
@@ -339,7 +347,17 @@ void MessageWidget::actionDeleteClicked()
 															ChatSettings::getSettings(m_chatIndex).fileName);
 	historyParser.deleteMessage(m_index);
 	deleteLater();
-	emit selfDelete(this);
+	emit selfDelete();
+}
+
+void MessageWidget::changeLanguage(QString language)
+{
+	CodeWidget *sender = qobject_cast<CodeWidget*>(QObject::sender());
+	quint16 i = m_message.content.indexOf("```\n" + sender->getCode() + "\n```");
+	m_message.content.insert(i + 3, language);
+	HistoryParser historyParser(this,
+															ChatSettings::getSettings(m_chatIndex).fileName);
+	historyParser.editMessage(m_index, m_message.content);
 }
 
 void MessageWidget::resizeEvent(QResizeEvent *event)

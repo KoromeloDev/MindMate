@@ -96,13 +96,13 @@ void OpenAIChat::onFinished(QNetworkReply *reply)
 														 QMetaEnum::fromType<HistoryParser::Role>().
 														 keysToValue(role.toUtf8().constData(), nullptr));
 			m_error = false;
-			emit responseReceived(this, data);
+			emit responseReceived(data);
 			return;
 		}
 	}
 
 	m_error = true;
-	emit replyError(this, data);
+	emit replyError(data);
 	reply->deleteLater();
 }
 

@@ -32,8 +32,8 @@ public:
 	bool isError();
 
 signals:
-	void responseReceived(OpenAIChat *self, QString response);
-	void replyError(OpenAIChat *self, QString error);
+	void responseReceived(QString response);
+	void replyError(QString error);
 
 private slots:
 	void onFinished(QNetworkReply *reply);

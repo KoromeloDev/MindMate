@@ -108,7 +108,7 @@ void ChatItem::deleteCliked()
 			}
 
 			deleteLater();
-			emit removed(this);
+			emit removed();
 		}
 	}
 }
