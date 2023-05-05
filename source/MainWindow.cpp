@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
 	if(settings.getCheckUpdates())
 	{
 		UpdateChecker *updateChecker = new UpdateChecker(
-																	 this, "Koromel0", "MindMate");
+																	 this, "KoromeloDev", "MindMate");
 		connect(updateChecker, &UpdateChecker::needUpdates,
 						this, [=](bool haveUpdates, QString version)
 		{
@@ -47,12 +47,14 @@ MainWindow::MainWindow(QWidget *parent)
 				QString link;
 
 				#if defined(Q_OS_WIN)
-					link = QString("https://github.com/Koromel0/MindMate/releases/download/"
-													"%1/MindMate-Windows.zip").arg(version);
+					link = QString(
+					"https://github.com/KoromeloDev/MindMate/releases/download/"
+					"%1/MindMate-Windows.zip").arg(version);
 				#endif
 				#if defined(Q_OS_LINUX)
-					link = QString("https://github.com/Koromel0/MindMate/releases/download/"
-													"%1/MindMate-Linux.tar.gz").arg(version);
+					link = QString(
+					"https://github.com/KoromeloDev/MindMate/releases/download/"
+					"%1/MindMate-Linux.tar.gz").arg(version);
 				#endif
 				QMessageBox::information(this, tr("Update available"),
 																 "<a href='" + link + "'>" +

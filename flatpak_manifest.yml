@@ -19,6 +19,6 @@ modules:
       - -DCMAKE_BUILD_TYPE=MinSizeRel
   sources:
   - type: archive
-    url: https://github.com/Koromel0/MindMate/archive/refs/heads/main.zip
+    url: https://github.com/Koromel0/MindMate/archive/refs/tags/v1.1.1-beta.tar.gz
     sha256: 533210765c6e40e6808d0d6ae0e6c21955cfb2f4fb4e22b2f3de72cb5524a76f
 
