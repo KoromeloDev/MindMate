@@ -4,8 +4,10 @@
 #include "NewTextEdit.h"
 #include "SettingsWidget.h"
 #include "ThemeIcon.h"
-#include "ChatSettingsWidget.h"
+#include "ChatSettingsDialog.h"
 #include "UpdateChecker.h"
+#include "MessageWidget.h"
+#include "ChatItem.h"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent), m_ui(new Ui::MainWindow)
@@ -231,21 +233,29 @@ bool MainWindow::checkExistChats()
 
 bool MainWindow::createChat(QString name)
 {
+	SettingsWidget settingsWidget;
+	ChatSettings chatSettings = settingsWidget.getChatSettings();
 	QFile chatJson(QDir::currentPath() + "/chats.json");
 	QJsonObject object;
 	object.insert("name", name);
 	QString uniqueFileName = QUuid::createUuid().
 													 toString(QUuid::WithoutBraces).left(4);
 	object.insert("file_name", uniqueFileName);
-	object.insert("model", "gpt-3.5-turbo");
+	object.insert("model", chatSettings.model);
 	object.insert("used_tokens", 0);
 	object.insert("max_tokens", 4096);
-	object.insert("temperature", 1);
-	object.insert("n", 1);
+	object.insert("temperature", chatSettings.temperature);
+	object.insert("n", chatSettings.n);
 	QJsonArray stop;
+
+	for (const QString &stopWord : chatSettings.stop)
+	{
+		stop.append(stopWord);
+	}
+
 	object.insert("stop", stop);
-	object.insert("presence_penalty", 0);
-	object.insert("frequency_penalty", 0);
+	object.insert("presence_penalty", chatSettings.presencePenalty);
+	object.insert("frequency_penalty", chatSettings.frequencyPenalty);
 
 	if (chatJson.open(QIODevice::ReadOnly | QIODevice::Text)
 			|| !chatJson.exists())
@@ -461,7 +471,7 @@ void MainWindow::stopClicked()
 
 void MainWindow::chatSettingsClicked()
 {
-	ChatSettingsWidget *chatSettings = new ChatSettingsWidget(this,
+	ChatSettingsDialog *chatSettings = new ChatSettingsDialog(this,
 																		 m_ui->chatList->currentRow());
 	chatSettings->show();
 }

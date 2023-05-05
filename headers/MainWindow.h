@@ -15,9 +15,8 @@
 
 #include "HistoryParser.h"
 #include "OpenAIChat.h"
-#include "ChatItem.h"
 #include "ChatSettings.h"
-#include "MessageWidget.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui

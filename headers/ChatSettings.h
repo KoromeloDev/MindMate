@@ -12,14 +12,14 @@ struct ChatSettings
 {
 	QString name;
 	QString fileName;
-	QString model;
+	QString model = "gpt-3.5-turbo";
 	quint32 usedTokens;
 	quint32 maxTokens;
-	float temperature;
-	quint8 n;
+	float temperature = 1;
+	quint8 n = 1;
 	QStringList stop;
-	float presencePenalty;
-	float frequencyPenalty;
+	float presencePenalty = 0;
+	float frequencyPenalty = 0;
 
 	static ChatSettings getSettings(quint8 index);
 

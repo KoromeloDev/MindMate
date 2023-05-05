@@ -3,12 +3,10 @@
 
 #include "ThemeIcon.h"
 
-ChatSettingsWidget::ChatSettingsWidget(QWidget *parent, quint8 index)
-: QDialog(parent), m_ui(new Ui::ChatSettingsWidget)
+ChatSettingsWidget::ChatSettingsWidget(QWidget *parent, ChatSettings settings)
+: QWidget(parent), m_ui(new Ui::ChatSettingsWidget)
 {
 	m_ui->setupUi(this);
-	m_index = index;
-
 	connect(m_ui->modelSelector, &QComboBox::currentTextChanged,
 					this, &ChatSettingsWidget::modelChanged);
 	connect(m_ui->temperatureSlider, &QSlider::sliderMoved,
@@ -19,16 +17,11 @@ ChatSettingsWidget::ChatSettingsWidget(QWidget *parent, quint8 index)
 					this, &ChatSettingsWidget::pPSliderMoved);
 	connect(m_ui->fPSlider, &QSlider::sliderMoved,
 					this, &ChatSettingsWidget::fPSliderMoved);
-	connect(m_ui->buttonBox, &QDialogButtonBox::accepted,
-					this, &QDialog::accept);
-	connect(m_ui->buttonBox, &QDialogButtonBox::rejected,
-					this, &QDialog::reject);
 
 	ThemeIcon::setIcon(*m_ui->addStopButton, ":/icons/add.svg");
 	ThemeIcon::setIcon(*m_ui->deleteStopButton, ":/icons/delete.svg");
 
-	m_chatSettings = ChatSettings::getSettings(m_index);
-	setParameters();
+	setSettings(settings);
 }
 
 ChatSettingsWidget::~ChatSettingsWidget()
@@ -36,82 +29,73 @@ ChatSettingsWidget::~ChatSettingsWidget()
 	delete m_ui;
 }
 
-void ChatSettingsWidget::setParameters()
+ChatSettings ChatSettingsWidget::getSettings()
 {
-	m_ui->modelSelector->setCurrentText(m_chatSettings.model);
-
-	m_ui->temperatureSlider->setValue(m_chatSettings.temperature*10);
-	m_ui->temperatureValue->setText(QString::number(m_chatSettings.temperature));
-
-	m_ui->nSlider->setValue(m_chatSettings.n);
-	m_ui->nValue->setText(QString::number(m_chatSettings.n));
-
-	m_ui->pPSlider->setValue(m_chatSettings.presencePenalty*10);
-	m_ui->pPValue->setText(QString::number(m_chatSettings.presencePenalty));
-
-	m_ui->fPSlider->setValue(m_chatSettings.frequencyPenalty*10);
-	m_ui->fPValue->setText(QString::number(m_chatSettings.frequencyPenalty));
+	return m_settings;
 }
 
-void ChatSettingsWidget::accept()
+void ChatSettingsWidget::setSettings(ChatSettings settings)
 {
-	QFile chatJson(QDir::currentPath() + "/chats.json");
+	m_settings = settings;
+	setParameters();
+}
 
-	if (chatJson.open(QIODevice::ReadOnly | QIODevice::Text))
+void ChatSettingsWidget::changeEvent(QEvent *event)
+{
+	QWidget::changeEvent(event);
+
+	switch (event->type())
 	{
-		QByteArray jsonData = chatJson.readAll();
-		chatJson.close();
-		QJsonDocument document = QJsonDocument::fromJson(jsonData);
-		QJsonArray chats = document.array();
-
-		if (chats.isEmpty())
-		{
-			return;
-		}
-
-		if (chatJson.open(QIODevice::WriteOnly | QIODevice::Text))
-		{
-			QJsonObject object = chats[m_index].toObject();
-			object["model"] = m_chatSettings.model;
-			object["temperature"] = m_chatSettings.temperature;
-			object["n"] = m_chatSettings.n;
-			object["presence_penalty"] = m_chatSettings.presencePenalty;
-			object["frequency_penalty"] = m_chatSettings.frequencyPenalty;
-			chats[m_index] = object;
-			document.setArray(chats);
-			chatJson.write(document.toJson());
-			chatJson.close();
-		}
+		case QEvent::LanguageChange:
+			m_ui->retranslateUi(this);
+			break;
+		default:
+			break;
 	}
+}
 
-	QDialog::accept();
+void ChatSettingsWidget::setParameters()
+{
+	m_ui->modelSelector->setCurrentText(m_settings.model);
+
+	m_ui->temperatureSlider->setValue(m_settings.temperature*10);
+	m_ui->temperatureValue->setText(QString::number(m_settings.temperature));
+
+	m_ui->nSlider->setValue(m_settings.n);
+	m_ui->nValue->setText(QString::number(m_settings.n));
+
+	m_ui->pPSlider->setValue(m_settings.presencePenalty*10);
+	m_ui->pPValue->setText(QString::number(m_settings.presencePenalty));
+
+	m_ui->fPSlider->setValue(m_settings.frequencyPenalty*10);
+	m_ui->fPValue->setText(QString::number(m_settings.frequencyPenalty));
 }
 
 void ChatSettingsWidget::modelChanged(QString text)
 {
-	m_chatSettings.model = text;
+	m_settings.model = text;
 }
 
 void ChatSettingsWidget::temperatureSliderMoved(quint8 position)
 {
-	m_chatSettings.temperature = (float)position / 10;
-	m_ui->temperatureValue->setText(QString::number(m_chatSettings.temperature));
+	m_settings.temperature = (float)position / 10;
+	m_ui->temperatureValue->setText(QString::number(m_settings.temperature));
 }
 
 void ChatSettingsWidget::nSliderMoved(quint8 position)
 {
-	m_chatSettings.n = position;
+	m_settings.n = position;
 	m_ui->nValue->setText(QString::number(position));
 }
 
 void ChatSettingsWidget::pPSliderMoved(qint8 position)
 {
-	m_chatSettings.presencePenalty = (float)position / 10;
+	m_settings.presencePenalty = (float)position / 10;
 	m_ui->pPValue->setText(QString::number((float)position/10));
 }
 
 void ChatSettingsWidget::fPSliderMoved(qint8 position)
 {
-	m_chatSettings.frequencyPenalty = (float)position / 10;
+	m_settings.frequencyPenalty = (float)position / 10;
 	m_ui->fPValue->setText(QString::number((float)position/10));
 }

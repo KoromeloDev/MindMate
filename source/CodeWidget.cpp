@@ -97,12 +97,16 @@ void CodeWidget::setCodeAutoHighlighter()
 						this, [=]()
 		{
 			m_language = chatGPT->getAnswerMessage().content;
-			m_language = m_language.left(m_language.indexOf(" "));
-			m_language = m_language.left(m_language.indexOf("."));
-			m_language = m_language.toLower();
-			m_ui->languageLabel->setText(m_language);
-			emit changeLanguage(m_language);
-			setCodeAutoHighlighter();
+
+			if (!m_language.isEmpty())
+			{
+				m_language = m_language.left(m_language.indexOf(" "));
+				m_language = m_language.left(m_language.indexOf("."));
+				m_language = m_language.toLower();
+				m_ui->languageLabel->setText(m_language);
+				emit changeLanguage(m_language);
+				setCodeAutoHighlighter();
+			}
 		});
 
 		chatGPT->chat("Write in one word what kind of programming language:\n"

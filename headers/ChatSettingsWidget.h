@@ -2,7 +2,7 @@
 #define CHATSETTINGSWIDGET_H
 #pragma once
 
-#include <QDialog>
+#include <QWidget>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -14,23 +14,26 @@ namespace Ui
 	class ChatSettingsWidget;
 }
 
-class ChatSettingsWidget : public QDialog
+class ChatSettingsWidget : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit ChatSettingsWidget(QWidget *parent = nullptr, quint8 index = 0);
+	explicit ChatSettingsWidget(QWidget *parent = nullptr,
+															ChatSettings settings = {});
 	~ChatSettingsWidget();
+
+	ChatSettings getSettings();
+	void setSettings(ChatSettings settings);
+
+protected:
+	void changeEvent(QEvent *event);
 
 private:
 	Ui::ChatSettingsWidget *m_ui;
-	ChatSettings m_chatSettings;
-	quint8 m_index;
+	ChatSettings m_settings;
 
 	void setParameters();
-
-public slots:
-	void accept() override;
 
 private slots:
 	void modelChanged(QString text);

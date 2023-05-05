@@ -10,14 +10,21 @@
     </message>
 </context>
 <context>
-    <name>ChatSettingsWidget</name>
+    <name>ChatSettingsDialog</name>
     <message>
-        <location filename="../ui/ChatSettingsWidget.ui" line="+17"/>
+        <location filename="../ui/ChatSettingsDialog.ui" line="+17"/>
         <source>Chat Settings</source>
         <translation>Настройки Чата</translation>
     </message>
+</context>
+<context>
+    <name>ChatSettingsWidget</name>
     <message>
-        <location line="+79"/>
+        <source>Chat Settings</source>
+        <translation type="vanished">Настройки Чата</translation>
+    </message>
+    <message>
+        <location filename="../ui/ChatSettingsWidget.ui" line="+236"/>
         <source>Temperature</source>
         <translation>Температура</translation>
     </message>
@@ -32,37 +39,37 @@
         <translation>Количество ответов</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+63"/>
         <source>Stop words</source>
         <translation>Стоп слова</translation>
     </message>
     <message>
-        <location line="+104"/>
+        <location line="-312"/>
         <source>Presence penalty</source>
         <translation>Штраф за присутствие</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+124"/>
         <source>Frequency penalty</source>
         <translation>Штраф за частоту</translation>
     </message>
     <message>
-        <location line="-210"/>
+        <location line="+156"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;How many chat completion choices to generate for each input message.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Сколько вариантов завершения чата необходимо сгенерировать для каждого входного сообщения.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+29"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Up to 4 sequences where the API will stop generating further tokens.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;До 4 последовательностей, в которых API перестанет генерировать дальнейшие токены.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+132"/>
+        <location line="-284"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Positive values penalize new tokens based on whether they appear in the text so far, increasing the model&apos;s likelihood to talk about new topics.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Положительные значения наказывают за новые токены в зависимости от того, появляются ли они в тексте на данный момент, увеличивая вероятность того, что модель заговорит на новые темы.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+61"/>
+        <location line="+124"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model&apos;s likelihood to repeat the same line verbatim.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Положительные значения наказывают за новые токены на основе их существующей частоты в тексте на данный момент, уменьшая вероятность дословного повторения одной и той же строки моделью.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -71,7 +78,7 @@
     <name>CodeWidget</name>
     <message>
         <location filename="../ui/CodeWidget.ui" line="+100"/>
-        <location filename="../source/CodeWidget.cpp" line="+233"/>
+        <location filename="../source/CodeWidget.cpp" line="+237"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -127,7 +134,7 @@
         <translation>Помощник</translation>
     </message>
     <message>
-        <location filename="../source/MainWindow.cpp" line="+55"/>
+        <location filename="../source/MainWindow.cpp" line="+57"/>
         <source>Update available</source>
         <translation>Доступно обновление</translation>
     </message>
@@ -138,7 +145,7 @@
     </message>
     <message>
         <location line="+172"/>
-        <location line="+187"/>
+        <location line="+195"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
@@ -164,27 +171,75 @@
         <translation>Настройки</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+13"/>
+        <source>General</source>
+        <translation>Общие</translation>
+    </message>
+    <message>
+        <location line="+44"/>
+        <source>Auto language recognize</source>
+        <translation>Автоматическое распознание языка</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the widget with the code does not have a programming language, then it tries to turn to chatGPT to determine the language (This may take some time).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Если у виджета с кодом нет языка программирования, то он пытается обратиться к ChatGPT для определения языка (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>Auto naming chat</source>
+        <translation>Автоматически называть чаты</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically names the chat by sending a request to chatGPT (This may take some time).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Автоматически присваивает название чату, отправляя запрос в ChatGPT (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location line="-26"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the widget with the code does not have a programming language, then it tries to turn to ChatGPT to determine the language (This may take some time).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Если у виджета с кодом нет языка программирования, то он пытается обратиться к ChatGPT для определения языка (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically names the chat by sending a request to ChatGPT (This may take some time).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Автоматически присваивает название чату, отправляя запрос в ChatGPT (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location line="+25"/>
+        <source>Chat</source>
+        <translation>Чат</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;These settings will initially be applied for each new chat&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Данные настройки будут изначально применяться для каждого нового чата&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Default settings for all chats</source>
+        <translation>Настройки по умолчанию для всех чатов</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>API key:</source>
         <translation>API ключ:</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="-185"/>
         <source>Check updates</source>
         <translation>Проверять обновления</translation>
     </message>
     <message>
-        <location filename="../source/SettingsWidget.cpp" line="+12"/>
+        <location filename="../source/SettingsWidget.cpp" line="+13"/>
         <source>Version</source>
         <translation>Версия</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+155"/>
         <source>API key</source>
         <translation>API ключ</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+8"/>
         <source>Enter your key from the &lt;a href=https://platform.openai.com/account/api-keys&gt;OpenAI site&lt;/a&gt;:</source>
         <translation>Введите свой ключ с &lt;a href=https://platform.openai.com/account/api-keys&gt;сайта OpenAI&lt;/a&gt;:</translation>
     </message>
@@ -194,7 +249,7 @@
         <translation>Установить OpenAI API ключ</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+15"/>
         <source>Wrong key</source>
         <translation>Неверный ключ</translation>
     </message>
