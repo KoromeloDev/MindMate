@@ -14,7 +14,6 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 file(GLOB SOURCE *.cpp)
 file(GLOB HEADERS *.h)
-file(GLOB UI *.ui)
 
 set(PROJECT_SOURCES ${SOURCE} ${HEADERS} ${UI})
 

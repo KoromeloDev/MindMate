@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(MindMate VERSION 1.1.1 LANGUAGES CXX)
+project(MindMate VERSION 1.1.2 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -31,7 +31,7 @@ target_compile_definitions(MindMate PRIVATE -DAPP_VERSION="${PROJECT_VERSION}")
 target_include_directories(MindMate PRIVATE headers source ui translations
 													 lib/QSourceHighliter lib/qmarkdowntextedit)
 target_link_libraries(MindMate PRIVATE Qt6::Widgets Qt6::Network Qt6::Svg
-											Qt6::Multimedia qmarkdowntextedit QSourceHighliter)
+                                                                                        Qt6::Multimedia QSourceHighliter)
 
 set_target_properties(MindMate PROPERTIES
 	MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

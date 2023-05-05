@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
 	for (const QString &key : QStyleFactory::keys())
 	{
-		if (key == "Fusion")
+        if (key.toLower() == "fusion")
 		{
 			QApplication::setStyle(QStyleFactory::create(key));
 		}
