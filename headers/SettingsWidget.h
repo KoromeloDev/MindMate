@@ -24,6 +24,7 @@ public:
 	const QString getOpenAIKey();
 	const bool getCheckUpdates();
 	const bool getLanguageRecognize();
+	const bool getAutoNaming();
 	const ChatSettings getChatSettings();
 
 protected:

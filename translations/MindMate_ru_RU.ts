@@ -144,7 +144,12 @@
         <translation>Ссылка на скачивание приложения</translation>
     </message>
     <message>
-        <location line="+172"/>
+        <location line="+131"/>
+        <source>Name very briefly the chat in which the first message is</source>
+        <translation>Назовите очень кратко чат, в котором первое сообщение</translation>
+    </message>
+    <message>
+        <location line="+70"/>
         <location line="+195"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
@@ -234,7 +239,7 @@
         <translation>Версия</translation>
     </message>
     <message>
-        <location line="+155"/>
+        <location line="+161"/>
         <source>API key</source>
         <translation>API ключ</translation>
     </message>

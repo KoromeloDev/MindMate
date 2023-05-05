@@ -46,6 +46,12 @@ const bool SettingsWidget::getLanguageRecognize()
 	return m_languageRecognize;
 }
 
+const bool SettingsWidget::getAutoNaming()
+{
+	readSettings();
+	return m_autoNaming;
+}
+
 const ChatSettings SettingsWidget::getChatSettings()
 {
 	readSettings();

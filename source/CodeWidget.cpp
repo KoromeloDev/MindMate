@@ -87,10 +87,10 @@ void CodeWidget::setCodeAutoHighlighter()
 	using QSHL = QSourceHighlite::QSourceHighliter::Language;
 	QSH::Language languageEnum;
 	QString language = m_language.toLower();
+	SettingsWidget settings;
 
-	if (language.isEmpty() && false)
+	if (language.isEmpty() && settings.getLanguageRecognize())
 	{
-		SettingsWidget settings;
 		OpenAIChat *chatGPT = new OpenAIChat(this, settings.getOpenAIKey());
 
 		connect(chatGPT, &OpenAIChat::responseReceived,

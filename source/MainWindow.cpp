@@ -164,7 +164,36 @@ void MainWindow::receivedText(QString text)
 
 		if (message.role ==  HistoryParser::User)
 		{
-			sendMessage();
+			SettingsWidget settings;
+
+			if (m_ui->historyList->count() == 1 && settings.getAutoNaming())
+			{
+				OpenAIChat *chatGPT = new OpenAIChat(this, settings.getOpenAIKey());
+
+				connect(chatGPT, &OpenAIChat::responseReceived,
+								this, [=]()
+				{
+					QString name = chatGPT->getAnswerMessage().content;
+
+					if (name.length() < 50)
+					{
+						QListWidgetItem *item = m_ui->chatList->currentItem();
+						QWidget *itemWidget = m_ui->chatList->itemWidget(item);
+						ChatItem *chatItem = dynamic_cast<ChatItem *>(itemWidget);
+						chatItem->editName(name);
+					}
+
+					sendMessage();
+				});
+
+				chatGPT->chat(
+				tr("Name very briefly the chat in which the first message is") +
+				":\n" + message.content);
+			}
+			else
+			{
+				sendMessage();
+			}
 		}
 		else
 		{

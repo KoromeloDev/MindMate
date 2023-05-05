@@ -30,13 +30,12 @@ public:
 	void setNewMessage(bool message);
 
 	bool thereIsNew() const;
+	void editName(QString name);
 
 private:
 	Ui::ChatItem *m_ui;
 	quint8 m_index;
 	bool m_message;
-
-	void editName(QString name);
 
 private slots:
 	void editClicked();
