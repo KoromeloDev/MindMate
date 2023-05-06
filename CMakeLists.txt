@@ -29,9 +29,9 @@ qt_add_translations(MindMate TS_FILES ${TS})
 
 target_compile_definitions(MindMate PRIVATE -DAPP_VERSION="${PROJECT_VERSION}")
 target_include_directories(MindMate PRIVATE headers source ui translations
-													 lib/QSourceHighliter lib/qmarkdowntextedit)
+													 lib/QSourceHighliter)
 target_link_libraries(MindMate PRIVATE Qt6::Widgets Qt6::Network Qt6::Svg
-                                                                                        Qt6::Multimedia QSourceHighliter)
+											Qt6::Multimedia QSourceHighliter)
 
 set_target_properties(MindMate PROPERTIES
 	MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

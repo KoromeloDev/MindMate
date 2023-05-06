@@ -134,7 +134,7 @@
         <translation>Помощник</translation>
     </message>
     <message>
-        <location filename="../source/MainWindow.cpp" line="+57"/>
+        <location filename="../source/MainWindow.cpp" line="+59"/>
         <source>Update available</source>
         <translation>Доступно обновление</translation>
     </message>
