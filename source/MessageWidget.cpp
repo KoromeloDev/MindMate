@@ -183,7 +183,8 @@ void MessageWidget::createText()
 	m_layout->setContentsMargins(10, 0, 10, 0);
 	setLayout(m_layout);
 
-	static QRegularExpression re("\n* *(`{3}([\\w\\+\\#]*\n[\\s\\S]*?)\n`{3}) *\n*");
+	static QRegularExpression re(
+	"\n* *\t*(`{3}([\\w\\+\\#]*\n[\\s\\S]*?)\t* *\n*`{3})\t* *\n*");
 	QRegularExpressionMatchIterator matchIterator =
 																	re.globalMatch(m_message.content);
 	QList<qint16> positions = {0};
@@ -354,7 +355,17 @@ void MessageWidget::changeLanguage(QString language)
 {
 	CodeWidget *sender = qobject_cast<CodeWidget*>(QObject::sender());
 	quint16 i = m_message.content.indexOf("```\n" + sender->getCode() + "\n```");
-	m_message.content.insert(i + 3, language);
+	quint16 j = i;
+
+	for (;j < m_message.content.length(); j++)
+	{
+		if (m_message.content[j] == '\n')
+		{
+			break;
+		}
+	}
+
+	m_message.content.insert(j, language);
 	HistoryParser historyParser(this,
 															ChatSettings::getSettings(m_chatIndex).fileName);
 	historyParser.editMessage(m_index, m_message.content);
