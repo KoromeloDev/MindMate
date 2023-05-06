@@ -1,0 +1,10 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Categories=System;
+Exec=/usr/bin/MindMate
+GenericName[ru_RU]=Неофициальное приложение для чата с ChatGPT
+GenericName=Unofficial chat app with ChatGPT
+Icon=/home/koromelo/Qt Project/MindMate/icons/MindMateLogo.svg
+Name=MindMate
+Type=Application
+Version=1.0.0
