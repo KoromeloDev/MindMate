@@ -13,6 +13,7 @@ To use the program, you will need an [OpenAI account](https://platform.openai.co
   <img src="https://img.shields.io/badge/qt--base-6.5.0-blue" alt="qt-base 6.5.0"/>
   <img src="https://img.shields.io/badge/qt--svg-6.5.0-blue" alt="qt-svg 6.5.0"/>
   <img src="https://img.shields.io/badge/qt--multimedia-6.5.0-blue" alt="qt-multimedia 6.5.0"/>
+  <img src="https://img.shields.io/badge/qt--translations-6.5.0-blue" alt="qt-translations 6.5.0"/>
 </p>
 
 ```bash
