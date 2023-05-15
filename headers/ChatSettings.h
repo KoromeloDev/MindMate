@@ -10,18 +10,18 @@
 
 struct ChatSettings
 {
-	QString name;
-	QString fileName;
-	QString model = "gpt-3.5-turbo";
-	quint32 usedTokens;
-	quint32 maxTokens;
-	float temperature = 1;
-	quint8 n = 1;
-	QStringList stop;
-	float presencePenalty = 0;
-	float frequencyPenalty = 0;
+  QString name;
+  QString fileName;
+  QString model = "gpt-3.5-turbo";
+  quint32 usedTokens;
+  quint32 maxTokens;
+  float temperature = 1;
+  quint8 n = 1;
+  QStringList stop;
+  float presencePenalty = 0;
+  float frequencyPenalty = 0;
 
-	static ChatSettings getSettings(quint8 index);
+  static ChatSettings getSettings(quint8 index);
 
 };
 

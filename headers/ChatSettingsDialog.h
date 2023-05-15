@@ -11,24 +11,24 @@
 
 namespace Ui
 {
-	class ChatSettingsDialog;
+  class ChatSettingsDialog;
 }
 
 class ChatSettingsDialog : public QDialog
 {
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	explicit ChatSettingsDialog(QWidget *parent = nullptr, quint8 index = 0);
-	~ChatSettingsDialog();
+  explicit ChatSettingsDialog(QWidget *parent = nullptr, quint8 index = 0);
+  ~ChatSettingsDialog();
 
 private:
-	Ui::ChatSettingsDialog *m_ui;
-	quint8 m_index;
-	ChatSettingsWidget m_settingsWidget;
+  Ui::ChatSettingsDialog *m_ui;
+  quint8 m_index;
+  ChatSettingsWidget *m_settingsWidget;
 
 public slots:
-	void accept() override;
+  void accept() override;
 
 };
 

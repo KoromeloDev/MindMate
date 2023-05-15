@@ -9,14 +9,13 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 file(GLOB SOURCE *.cpp)
 file(GLOB HEADERS *.h)
 
-set(PROJECT_SOURCES ${SOURCE} ${HEADERS} ${UI})
+set(PROJECT_SOURCES ${SOURCE} ${HEADERS})
 
 add_library(QSourceHighliter ${PROJECT_SOURCES})
 
-target_link_libraries(QSourceHighliter PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(QSourceHighliter PRIVATE Qt6::Widgets)

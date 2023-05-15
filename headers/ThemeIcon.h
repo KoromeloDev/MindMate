@@ -9,15 +9,12 @@
 
 class ThemeIcon : public QObject
 {
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	explicit ThemeIcon(QObject *parent = nullptr);
-	~ThemeIcon();
-
-	static void setIcon(QToolButton &button, QString path);
-	static void setIcon(QLabel &label, QString path);
-	static QIcon getIcon(QString path);
+  static void setIcon(QToolButton &button, QString path);
+  static void setIcon(QLabel &label, QString path);
+  static QIcon getIcon(QString path);
 };
 
 #endif // THEMEICON_H

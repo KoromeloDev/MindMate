@@ -7,32 +7,31 @@
 #include <QKeyEvent>
 #include <QPainter>
 #include <QScrollBar>
-#include <QStyleFactory>
 
 namespace Ui
 {
-	class NewTextEdit;
+  class NewTextEdit;
 }
 
 class NewTextEdit : public QTextEdit
 {
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	explicit NewTextEdit(QWidget *parent = nullptr);
-	~NewTextEdit();
+  explicit NewTextEdit(QWidget *parent = nullptr);
+  ~NewTextEdit();
 
 protected:
-	void keyPressEvent(QKeyEvent *event) override;
-	void resizeEvent(QResizeEvent *event) override;
+  void keyPressEvent(QKeyEvent *event) override;
+  void resizeEvent(QResizeEvent *event) override;
 
 private:
-	Ui::NewTextEdit *m_ui;
+  Ui::NewTextEdit *m_ui;
 
-	void resizeTextInput();
+  void resizeTextInput();
 
 signals:
-	void sendText(QString text);
+  void sendText(QString text);
 
 };
 

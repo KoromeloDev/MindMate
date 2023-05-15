@@ -11,37 +11,43 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 
+#include "EditDialog.h"
+
 namespace Ui
 {
-	class ChatItem;
+  class ChatItem;
 }
 
 class ChatItem : public QWidget
 {
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	explicit ChatItem(QWidget *parent = nullptr, QString name = 0,
-										quint8 index = 0);
-	~ChatItem();
+  explicit ChatItem(QWidget *parent = nullptr, QString name = 0,
+                    quint8 index = 0);
+  ~ChatItem();
 
-	quint8 getIndex() const;
-	void setIndex(quint8 index);
-	void setNewMessage(bool message);
+  quint8 getIndex() const;
+  void setIndex(quint8 index);
+  void setNewMessage(bool message);
 
-	bool thereIsNew() const;
-	void editName(QString name);
+  bool thereIsNew() const;
+  void editName(QString name);
 
 private:
-	Ui::ChatItem *m_ui;
-	quint8 m_index;
-	bool m_message;
+  Ui::ChatItem *m_ui;
+  QString m_name;
+  quint8 m_index;
+  bool m_message;
+  EditDialog *m_editDialog = nullptr;
+
+  void checkWidth();
 
 private slots:
-	void editClicked();
-	void deleteCliked();
+  void editClicked();
+  void deleteCliked();
 
 signals:
-	void removed();
+  void removed();
 };
 #endif // CHATITEM_H

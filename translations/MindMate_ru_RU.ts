@@ -4,7 +4,7 @@
 <context>
     <name>ChatItem</name>
     <message>
-        <location filename="../source/ChatItem.cpp" line="+118"/>
+        <location filename="../sources/ChatItem.cpp" line="+151"/>
         <source>Change chat name to</source>
         <translation>Изменить название чата на</translation>
     </message>
@@ -78,12 +78,12 @@
     <name>CodeWidget</name>
     <message>
         <location filename="../ui/CodeWidget.ui" line="+100"/>
-        <location filename="../source/CodeWidget.cpp" line="+237"/>
+        <location filename="../sources/CodeWidget.cpp" line="+265"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../source/CodeWidget.cpp" line="-11"/>
+        <location filename="../sources/CodeWidget.cpp" line="-18"/>
         <source>Copied</source>
         <translation>Скопировано</translation>
     </message>
@@ -134,7 +134,7 @@
         <translation>Помощник</translation>
     </message>
     <message>
-        <location filename="../source/MainWindow.cpp" line="+59"/>
+        <location filename="../sources/MainWindow.cpp" line="+95"/>
         <source>Update available</source>
         <translation>Доступно обновление</translation>
     </message>
@@ -144,18 +144,18 @@
         <translation>Ссылка на скачивание приложения</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+105"/>
         <source>Name very briefly the chat in which the first message is</source>
         <translation>Назовите очень кратко чат, в котором первое сообщение</translation>
     </message>
     <message>
-        <location line="+70"/>
-        <location line="+195"/>
+        <location line="+69"/>
+        <location line="+196"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location line="-68"/>
+        <location line="-69"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>
@@ -163,7 +163,7 @@
 <context>
     <name>MessageWidget</name>
     <message>
-        <location filename="../source/MessageWidget.cpp" line="+44"/>
+        <location filename="../sources/MessageWidget.cpp" line="+44"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
@@ -209,7 +209,7 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Автоматически присваивает название чату, отправляя запрос в ChatGPT (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+38"/>
         <source>Chat</source>
         <translation>Чат</translation>
     </message>
@@ -229,22 +229,23 @@
         <translation>API ключ:</translation>
     </message>
     <message>
-        <location line="-185"/>
+        <location line="-198"/>
         <source>Check updates</source>
         <translation>Проверять обновления</translation>
     </message>
     <message>
-        <location filename="../source/SettingsWidget.cpp" line="+13"/>
+        <location filename="../sources/SettingsWidget.cpp" line="+13"/>
         <source>Version</source>
         <translation>Версия</translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="+20"/>
+        <location line="+51"/>
         <source>API key</source>
         <translation>API ключ</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="-18"/>
         <source>Enter your key from the &lt;a href=https://platform.openai.com/account/api-keys&gt;OpenAI site&lt;/a&gt;:</source>
         <translation>Введите свой ключ с &lt;a href=https://platform.openai.com/account/api-keys&gt;сайта OpenAI&lt;/a&gt;:</translation>
     </message>
@@ -254,7 +255,7 @@
         <translation>Установить OpenAI API ключ</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+18"/>
         <source>Wrong key</source>
         <translation>Неверный ключ</translation>
     </message>

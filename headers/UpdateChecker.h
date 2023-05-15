@@ -6,26 +6,29 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QApplication>
 
 class UpdateChecker : public QObject
 {
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	explicit UpdateChecker(QObject *parent = nullptr, QString user = 0,
-												 QString repo = 0);
-	~UpdateChecker();
+  explicit UpdateChecker(QObject *parent = nullptr, QString user = 0,
+                         QString repo = 0);
+  ~UpdateChecker();
 
-	void checkUpdates();
+  void checkUpdates();
 
 private:
-	QNetworkAccessManager *m_networkAccessManager;
-	QString m_user;
-	QString m_repo;
+  QNetworkAccessManager *m_networkAccessManager = nullptr;
+  QString m_user;
+  QString m_repo;
+
+  void onFinished(QNetworkReply* reply);
 
 signals:
-	void needUpdates(bool haveUpdates, QString version = 0);
+  void needUpdates(bool haveUpdates, QUrl downloadUrl = {});
 };
 
 #endif // UPDATECHECKER_H

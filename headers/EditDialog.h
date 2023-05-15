@@ -7,25 +7,26 @@
 
 namespace Ui
 {
-	class EditDialog;
+  class EditDialog;
 }
 
 class EditDialog : public QDialog
 {
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	explicit EditDialog(QWidget *parent = nullptr, QString question = 0);
-	explicit EditDialog(QWidget *parent, QString question, QString textEditLine);
-	~EditDialog();
+  explicit EditDialog(QWidget *parent = nullptr, QString question = 0);
+  explicit EditDialog(QWidget *parent, QString question, QString textEdit);
+  ~EditDialog();
 
 private:
-	Ui::EditDialog *m_ui;
+  Ui::EditDialog *m_ui;
 
-	void buttonAccepted();
+  void buttonAccepted();
 
 signals:
-	void textChanged(QString text);
+  void textChanged(QString text);
+
 };
 
 #endif // EDITDIALOG_H

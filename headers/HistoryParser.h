@@ -12,37 +12,37 @@
 
 class HistoryParser : public QObject
 {
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	explicit HistoryParser(QObject *parent = nullptr, QString fileName = 0);
+  explicit HistoryParser(QObject *parent = nullptr, QString fileName = 0);
 
-	enum Role
-	{
-		User,
-		Assistant,
-		System
-	};
-	Q_ENUM(Role)
-	struct Message
-	{
-		Role role;
-		QString content;
-	};
+  enum Role
+  {
+    User,
+    Assistant,
+    System
+  };
+  Q_ENUM(Role)
+  struct Message
+  {
+    Role role;
+    QString content;
+  };
 
-	void addMessage(quint16 index, QString content);
-	void addNewMessage(Message message);
-	void editMessage(quint16 index, QString content);
-	void editMessage(quint16 index, quint8 number, QString content);
-	void deleteMessage(quint16 index);
-	void deleteMessage(quint16 index, quint8 number);
-	Message getMessage(quint16 index);
-	Message getMessage(quint16 index, quint8 number);
-	quint16 getCountMessage();
+  void addMessage(quint16 index, QString content);
+  void addNewMessage(Message message);
+  void editMessage(quint16 index, QString content);
+  void editMessage(quint16 index, quint8 number, QString content);
+  void deleteMessage(quint16 index);
+  void deleteMessage(quint16 index, quint8 number);
+  Message getMessage(quint16 index);
+  Message getMessage(quint16 index, quint8 number);
+  quint16 getCountMessage();
 
 private:
-	QFile m_history;
-	quint16 m_countMessage = 0;
+  QFile m_history;
+  quint16 m_countMessage = 0;
 
 };
 

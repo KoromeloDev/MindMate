@@ -13,12 +13,11 @@ finish-args:
   - --device=dri
   - --share=network
 modules:
-- name: MindMate
-  buildsystem: cmake
-  config-opts:
+  - name: MindMate
+  - buildsystem: cmake
+  - config-opts:
       - -DCMAKE_BUILD_TYPE=MinSizeRel
   sources:
   - type: archive
-    url: https://github.com/Koromel0/MindMate/archive/refs/tags/v1.1.2-beta.tar.gz
-    sha256: 9b631073f6e2e576661b69e15b721ff062968bce71fc63b5f4cd1417d99e65cb
-
+  - url: https://github.com/Koromel0/MindMate/archive/refs/tags/v1.1.2-beta.tar.gz
+  - sha256: 9b631073f6e2e576661b69e15b721ff062968bce71fc63b5f4cd1417d99e65cb
