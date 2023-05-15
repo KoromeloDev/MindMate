@@ -198,9 +198,13 @@ void MainWindow::receivedText(QString text)
           sendMessage();
         });
 
-        chatGPT->send(
-        tr("Name very briefly the chat in which the first message is") +
-        ":\n" + message.content);
+        chatGPT->send("\"" + message.content + "\"" +
+        tr(" - this is the first sentence in the chat, you should understand "
+           "what it's about and name the chat according to its topic. "
+           "Name it as briefly as possible, but keep the meaning, and try to "
+           "use signs only where it is really necessary. Also, you should "
+           "not name the chat like \"chat name:\", you should just write the "
+           "name without unnecessary words."));
       }
       else
       {

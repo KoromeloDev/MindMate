@@ -78,7 +78,7 @@
     <name>CodeWidget</name>
     <message>
         <location filename="../ui/CodeWidget.ui" line="+100"/>
-        <location filename="../sources/CodeWidget.cpp" line="+265"/>
+        <location filename="../sources/CodeWidget.cpp" line="+268"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -145,11 +145,11 @@
     </message>
     <message>
         <location line="+105"/>
-        <source>Name very briefly the chat in which the first message is</source>
-        <translation>Назовите очень кратко чат, в котором первое сообщение</translation>
+        <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
+        <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
-        <location line="+69"/>
+        <location line="+73"/>
         <location line="+196"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
@@ -186,17 +186,9 @@
         <translation>Автоматическое распознание языка</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the widget with the code does not have a programming language, then it tries to turn to chatGPT to determine the language (This may take some time).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Если у виджета с кодом нет языка программирования, то он пытается обратиться к ChatGPT для определения языка (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <location line="+42"/>
         <source>Auto naming chat</source>
         <translation>Автоматически называть чаты</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically names the chat by sending a request to chatGPT (This may take some time).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Автоматически присваивает название чату, отправляя запрос в ChatGPT (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location line="-26"/>

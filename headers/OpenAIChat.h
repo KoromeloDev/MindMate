@@ -24,7 +24,7 @@ public:
 
   void send(QList<HistoryParser::Message> message,
             ChatSettings chatSettings, quint8 index);
-  void send(QString message, QString model = "gpt-3.5-turbo");
+  void send(QString message, ChatSettings chatSettings = {});
   void stopChat();
   HistoryParser::Message getAnswerMessage();
   quint32 getUsedToken();

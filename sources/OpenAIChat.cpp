@@ -48,7 +48,7 @@ void OpenAIChat::send(QList<HistoryParser::Message> message,
   sendJson(json);
 }
 
-void OpenAIChat::send(QString message, QString model)
+void OpenAIChat::send(QString message, ChatSettings chatSettings)
 {
   if (message.isEmpty())
   {
@@ -61,7 +61,7 @@ void OpenAIChat::send(QString message, QString model)
   messageStruct.content = message;
   messageStruct.role = HistoryParser::Role::User;
   m_message.append(messageStruct);
-  m_chatSettings.model = model;
+  m_chatSettings.model = chatSettings.model;
 
   QJsonObject json;
   QJsonArray messages;

@@ -103,12 +103,17 @@ void CodeWidget::setCodeAutoHighlighter()
   if (language.isEmpty() && settings.languageRecognize)
   {
     m_chatGPT = new OpenAIChat(this, settings.openAIKey);
+    ChatSettings chatSettings;
+    chatSettings.stop = {" " "."};
 
     connect(m_chatGPT, &OpenAIChat::responseReceived,
             this, &CodeWidget::languageRecognize);
 
-    m_chatGPT->send("Write in one word what kind of programming language:\n" +
-                    m_code);
+    m_chatGPT->send(m_code +
+                    " - is the code, you have to use it to understand "
+                    "what kind of programming language it is. "
+                    "You must use only the name of the language in your answer "
+                    "and nothing else.", chatSettings);
   }
   else if (language.contains("assembly"))
   {
@@ -229,8 +234,6 @@ void CodeWidget::languageRecognize()
 
   if (!m_language.isEmpty())
   {
-    m_language = m_language.left(m_language.indexOf(" "));
-    m_language = m_language.left(m_language.indexOf("."));
     m_language = m_language.toLower();
     m_ui->languageLabel->setText(m_language);
     emit changeLanguage(m_language);
