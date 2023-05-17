@@ -34,7 +34,6 @@ public:
 	qint8 getIndex() const;
 	qint8 getChatIndex() const;
 	void setIndex(qint8 index);
-	void setChatIndex(qint8 chatIndex);
 
 protected:
 	void resizeEvent(QResizeEvent *event) override;
@@ -42,6 +41,7 @@ protected:
 private:
 	Ui::MessageWidget *m_ui;
 	QListWidgetItem *m_item;
+	QTimer *m_timer = nullptr;
 	HistoryParser::Message m_message;
 	QList<CodeWidget *> m_codeWidgets;
 	QList<float> m_textWidth;

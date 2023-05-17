@@ -333,6 +333,20 @@ bool MainWindow::createChat(QString name)
 
 void MainWindow::showChat()
 {
+	for (quint8 i = 0; i < m_ui->historyList->count(); i++)
+	{
+		QListWidgetItem *listItem = m_ui->historyList->item(i);
+		QWidget *itemWidget = m_ui->historyList->itemWidget(listItem);
+		MessageWidget *indexItem = dynamic_cast<MessageWidget *>(itemWidget);
+
+		if (indexItem != nullptr)
+		{
+			delete indexItem;
+		}
+
+		delete listItem;
+	}
+
   m_ui->historyList->clear();
   m_allMesages.clear();
   setChatSettings(m_ui->chatList->currentRow());
@@ -596,7 +610,7 @@ void MainWindow::chatItemDeleteClicked()
   quint8 index = sender->getIndex();
   bool currentItem = m_ui->chatList->currentItem() ==
                      m_ui->chatList->item(index);
-  delete m_ui->chatList->item(index);
+	delete m_ui->chatList->item(index);
 
   while (index < m_ui->chatList->count())
   {
@@ -614,14 +628,6 @@ void MainWindow::chatItemDeleteClicked()
       m_ui->chatList->setCurrentRow(0);
       chatItemChanged(m_ui->chatList->item(0));
     }
-  }
-
-  for (quint8 i = 0; i < m_ui->historyList->count(); i++)
-  {
-    QListWidgetItem *listItem = m_ui->historyList->item(i);
-    QWidget *itemWidget = m_ui->historyList->itemWidget(listItem);
-    MessageWidget *indexItem = dynamic_cast<MessageWidget *>(itemWidget);
-    indexItem->setChatIndex(m_ui->chatList->currentRow());
   }
 
   for (OpenAIChat *chatGPT : m_chatGPTList)

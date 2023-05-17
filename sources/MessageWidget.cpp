@@ -50,16 +50,18 @@ MessageWidget::MessageWidget(QListWidgetItem *item,
 
 	if (index == 0)
 	{
-		QTimer *timer = new QTimer(this);
-		timer->setSingleShot(true);
-		timer->setInterval(50);
-		timer->start();
+		m_timer = new QTimer(this);
+		m_timer->setSingleShot(true);
+		m_timer->setInterval(50);
 
-		connect(timer, &QTimer::timeout, this, [=]()
+		connect(m_timer, &QTimer::timeout, this, [=]()
 		{
-			timer->deleteLater();
+			m_timer->deleteLater();
+			m_timer = nullptr;
 			resize();
 		});
+
+		m_timer->start();
 	}
 }
 
@@ -68,6 +70,11 @@ MessageWidget::~MessageWidget()
 	delete m_ui;
 	m_layout->deleteLater();
 	delete m_menu;
+
+	if (m_timer != nullptr)
+	{
+		m_timer->deleteLater();
+	}
 
 	for (quint8 i = 0; i < m_codeWidgets.count(); i++)
 	{
@@ -126,7 +133,11 @@ void MessageWidget::resize()
 
 	setFixedWidth(m_width);
 	setMinimumHeight(m_height);
-	m_item->setSizeHint(QSize(width(), m_height+12));
+
+	if (m_item != nullptr)
+	{
+		m_item->setSizeHint(QSize(width(), m_height+12));
+	}
 
 	for (CodeWidget *code : qAsConst(m_codeWidgets))
 	{
@@ -390,11 +401,6 @@ qint8 MessageWidget::getChatIndex() const
 void MessageWidget::setIndex(qint8 index)
 {
 	m_index = index;
-}
-
-void MessageWidget::setChatIndex(qint8 chatIndex)
-{
-	m_chatIndex = chatIndex;
 }
 
 void MessageWidget::selection(QString pattern)
