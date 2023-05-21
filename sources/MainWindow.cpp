@@ -176,18 +176,44 @@ void MainWindow::receivedText(QString text)
       if (m_ui->historyList->count() == 1 && settings.autoNaming)
       {
         OpenAIChat *chatGPT = new OpenAIChat(this, settings.openAIKey);
+        ChatSettings chatSettings;
+        chatSettings.stop = {"\n"};
 
         connect(chatGPT, &OpenAIChat::responseReceived, this, [=]()
         {
-          chatGPT->deleteLater();
           QString name = chatGPT->getAnswerMessage().content;
+          chatGPT->deleteLater();
 
-          if (name.length() < 50)
+          if (!name.isEmpty())
           {
-            QListWidgetItem *item = m_ui->chatList->currentItem();
-            QWidget *itemWidget = m_ui->chatList->itemWidget(item);
-            ChatItem *chatItem = dynamic_cast<ChatItem *>(itemWidget);
-            chatItem->editName(name);
+            static QRegularExpression re("\"([\\w\\W]*)\"");
+            QRegularExpressionMatchIterator matchIterator = re.globalMatch(name);
+
+            if (matchIterator.hasNext())
+            {
+              name = matchIterator.next().captured(1);
+            }
+
+            while (!name.isEmpty())
+            {
+              if (name.last(1) == ' ' || name.last(1) == '.'
+                  || name.last(1) == '\n')
+              {
+                name.removeLast();
+              }
+              else
+              {
+                break;
+              }
+            }
+
+            if (name.length() < 30 && !name.isEmpty())
+            {
+              QListWidgetItem *item = m_ui->chatList->currentItem();
+              QWidget *itemWidget = m_ui->chatList->itemWidget(item);
+              ChatItem *chatItem = dynamic_cast<ChatItem *>(itemWidget);
+              chatItem->editName(name);
+            }
           }
 
           sendMessage();
@@ -204,7 +230,7 @@ void MainWindow::receivedText(QString text)
            "Name it as briefly as possible, but keep the meaning, and try to "
            "use signs only where it is really necessary. Also, you should "
            "not name the chat like \"chat name:\", you should just write the "
-           "name without unnecessary words."));
+           "name without unnecessary words."), chatSettings);
       }
       else
       {
@@ -333,19 +359,19 @@ bool MainWindow::createChat(QString name)
 
 void MainWindow::showChat()
 {
-	for (quint8 i = 0; i < m_ui->historyList->count(); i++)
-	{
-		QListWidgetItem *listItem = m_ui->historyList->item(i);
-		QWidget *itemWidget = m_ui->historyList->itemWidget(listItem);
-		MessageWidget *indexItem = dynamic_cast<MessageWidget *>(itemWidget);
+  for (quint8 i = 0; i < m_ui->historyList->count(); i++)
+  {
+    QListWidgetItem *listItem = m_ui->historyList->item(i);
+    QWidget *itemWidget = m_ui->historyList->itemWidget(listItem);
+    MessageWidget *indexItem = dynamic_cast<MessageWidget *>(itemWidget);
 
-		if (indexItem != nullptr)
-		{
-			delete indexItem;
-		}
+    if (indexItem != nullptr)
+    {
+      delete indexItem;
+    }
 
-		delete listItem;
-	}
+    delete listItem;
+  }
 
   m_ui->historyList->clear();
   m_allMesages.clear();
@@ -610,7 +636,7 @@ void MainWindow::chatItemDeleteClicked()
   quint8 index = sender->getIndex();
   bool currentItem = m_ui->chatList->currentItem() ==
                      m_ui->chatList->item(index);
-	delete m_ui->chatList->item(index);
+  delete m_ui->chatList->item(index);
 
   while (index < m_ui->chatList->count())
   {

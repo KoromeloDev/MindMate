@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
   QApplication application(argc, argv);
   application.setApplicationVersion(APP_VERSION "-beta");
 
+  #if defined(Q_OS_WIN)
   for (const QString &key : QStyleFactory::keys())
   {
     if (key.toLower() == "fusion")
@@ -33,6 +34,18 @@ int main(int argc, char *argv[])
       QApplication::setStyle(QStyleFactory::create(key));
     }
   }
+  #endif
+
+  #if defined(Q_OS_LINUX)
+  const QString path = QDir::homePath() + "/.config/" + PROJECT_NAME;
+
+  if (!QDir(path).exists())
+  {
+    QDir(path).mkdir(path);
+  }
+
+  QDir::setCurrent(path);
+  #endif
 
   QTranslator translator;
   const QStringList uiLanguages = QLocale::system().uiLanguages();

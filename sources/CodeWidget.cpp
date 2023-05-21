@@ -104,7 +104,7 @@ void CodeWidget::setCodeAutoHighlighter()
   {
     m_chatGPT = new OpenAIChat(this, settings.openAIKey);
     ChatSettings chatSettings;
-    chatSettings.stop = {" " "."};
+    chatSettings.stop = {" ", ".", "\n"};
 
     connect(m_chatGPT, &OpenAIChat::responseReceived,
             this, &CodeWidget::languageRecognize);
@@ -234,6 +234,19 @@ void CodeWidget::languageRecognize()
 
   if (!m_language.isEmpty())
   {
+    while (!m_language.isEmpty())
+    {
+      if (m_language.last(1) == ' ' || m_language.last(1) == '.'
+          || m_language.last(1) == '\n')
+      {
+        m_language.removeLast();
+      }
+      else
+      {
+        break;
+      }
+    }
+
     m_language = m_language.toLower();
     m_ui->languageLabel->setText(m_language);
     emit changeLanguage(m_language);

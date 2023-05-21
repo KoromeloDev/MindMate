@@ -78,7 +78,7 @@
     <name>CodeWidget</name>
     <message>
         <location filename="../ui/CodeWidget.ui" line="+100"/>
-        <location filename="../sources/CodeWidget.cpp" line="+268"/>
+        <location filename="../sources/CodeWidget.cpp" line="+281"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -99,17 +99,17 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/MainWindow.ui" line="+92"/>
+        <location filename="../ui/MainWindow.ui" line="+108"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location line="-45"/>
+        <location line="-61"/>
         <source>Create chat</source>
         <translation>Создать чат</translation>
     </message>
     <message>
-        <location line="+118"/>
+        <location line="+134"/>
         <source>Retry</source>
         <translation>Повторить</translation>
     </message>
@@ -144,13 +144,13 @@
         <translation>Ссылка на скачивание приложения</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+131"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
         <location line="+73"/>
-        <location line="+196"/>
+        <location line="+210"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
@@ -163,7 +163,7 @@
 <context>
     <name>MessageWidget</name>
     <message>
-        <location filename="../sources/MessageWidget.cpp" line="+44"/>
+        <location filename="../sources/MessageWidget.cpp" line="+43"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>

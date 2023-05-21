@@ -26,10 +26,10 @@ public:
             ChatSettings chatSettings, quint8 index);
   void send(QString message, ChatSettings chatSettings = {});
   void stopChat();
-  HistoryParser::Message getAnswerMessage();
-  quint32 getUsedToken();
+  HistoryParser::Message getAnswerMessage() const;
+  quint32 getUsedToken() const;
   quint8 getIndex() const;
-  bool isError();
+  bool isError() const;
 
 private:
   QNetworkAccessManager *m_networkManager = nullptr;

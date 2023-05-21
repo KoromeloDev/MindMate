@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(MindMate VERSION 1.1.6 LANGUAGES CXX)
+project(MindMate VERSION 1.1.7 LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -44,7 +44,8 @@ qt_add_translations(${PROJECT_NAME} TS_FILES ${TS})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
                            -DAPP_VERSION="${PROJECT_VERSION}"
-                           -DCHECKUPDATES=true)
+                           -DCHECKUPDATES=true
+                           -DPROJECT_NAME="${PROJECT_NAME}")
 target_include_directories(${PROJECT_NAME} PRIVATE headers source ui
                            translations lib/QSourceHighliter)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets Qt6::Network Qt6::Svg

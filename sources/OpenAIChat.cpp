@@ -153,17 +153,17 @@ quint8 OpenAIChat::getIndex() const
   return m_index;
 }
 
-bool OpenAIChat::isError()
+bool OpenAIChat::isError() const
 {
   return m_error;
 }
 
-quint32 OpenAIChat::getUsedToken()
+quint32 OpenAIChat::getUsedToken() const
 {
   return m_usedToken - 1;
 }
 
-HistoryParser::Message OpenAIChat::getAnswerMessage()
+HistoryParser::Message OpenAIChat::getAnswerMessage() const
 {
   return m_answerMessage;
 }
