@@ -31,6 +31,8 @@ void UpdateChecker::checkUpdates()
 
   connect(m_networkAccessManager, &QNetworkAccessManager::finished,
           this, &UpdateChecker::onFinished);
+
+	m_networkAccessManager->get(request);
 }
 
 void UpdateChecker::onFinished(QNetworkReply *reply)
