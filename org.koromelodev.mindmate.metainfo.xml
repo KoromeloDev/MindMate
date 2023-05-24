@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.koromelodev.mindmate</id>
+
+  <name>MindMate</name>
+  <summary>Unofficial chat app with ChatGPT</summary>
+
+  <metadata_license>CC-BY-SA-4.0</metadata_license>
+  <project_license>CC-BY-SA-4.0</project_license>
+
+  <content_rating type="oars-1.0">
+    <content_attribute id="social-chat">intense</content_attribute>
+  </content_rating>
+
+  <description>
+    <p>
+      Unofficial chat app with Chat GPT. With support for various chat settings, the ability to write system messages, delete messages and much more.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">MindMate.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/MainWindow.png?raw=true</image>
+    </screenshot>
+  </screenshots>
+</component>

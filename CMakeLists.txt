@@ -14,9 +14,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(LINUX)
   set(DESKTOP_INSTALL_DIR $ENV{HOME}/.local/share/applications)
-  set(DESKTOP_FILE_TEMPLATE ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}.desktop)
+  set(DESKTOP_FILE_TEMPLATE ${PROJECT_NAME}.desktop)
+
   set(APP_ICON icons/MindMateLogo.svg)
   set(PATH_ICON /usr/share/icons/hicolor/scalable/apps)
+
+  set(METAINFO org.koromelodev.mindmate.metainfo.xml)
+  set(METAINFO_PATH /usr/share/metainfo)
 else(WIN32)
   set(CMAKE_RC_COMPILER_INIT windres)
   enable_language(RC)
@@ -69,6 +73,8 @@ if(LINUX)
           RENAME org.koromelodev.mindmate.svg)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.desktop
           DESTINATION ${DESKTOP_INSTALL_DIR})
+  install(FILES ${METAINFO}
+          DESTINATION ${METAINFO_PATH} )
 else()
   install(TARGETS ${PROJECT_NAME}
           BUNDLE DESTINATION .
