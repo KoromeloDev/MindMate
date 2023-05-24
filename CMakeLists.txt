@@ -54,7 +54,7 @@ qt_add_translations(${PROJECT_NAME} TS_FILES ${TS})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
                            -DAPP_VERSION="${PROJECT_VERSION}"
-                           -DCHECKUPDATES=FLATPAK
+                           -DCHECKUPDATES=!FLATPAK
                            -DPROJECT_NAME="${PROJECT_NAME}")
 target_include_directories(${PROJECT_NAME} PRIVATE headers source ui
                            translations lib/QSourceHighliter)

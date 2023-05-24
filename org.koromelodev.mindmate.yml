@@ -17,7 +17,7 @@ modules:
     buildsystem: cmake
     config-opts:
       - -DCMAKE_BUILD_TYPE=MinSizeRel
-        -DFLATPAK=true
+      - -DFLATPAK=true
     sources:
       - type: archive
         url: https://github.com/KoromeloDev/MindMate/archive/refs/tags/v1.1.8-beta.tar.gz
