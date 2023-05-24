@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
   QString path;
 
   #if FLATPAK
-  path = QDir::homePath() + "/.var/app/org.koromelodev.mindmate/config";
+  path = QDir::homePath() + "/.var/app/io.github.koromelodev.mindmate/config";
   #else
   path = QDir::homePath() + "/.config/" + PROJECT_NAME;
   #endif
