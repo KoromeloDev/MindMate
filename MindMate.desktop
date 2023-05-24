@@ -1,4 +1,3 @@
-#!/usr/bin/env xdg-open
 [Desktop Entry]
 Categories=Network;
 Exec=/usr/bin/MindMate
@@ -6,5 +5,4 @@ GenericName[ru_RU]=Неофициальное приложение для чат
 GenericName=Unofficial chat app with ChatGPT
 Name=MindMate
 Type=Application
-Version=1.1.1
-Icon=/usr/share/icons/hicolor/scalable/apps/MindMate
+Icon=org.koromelodev.mindmate
