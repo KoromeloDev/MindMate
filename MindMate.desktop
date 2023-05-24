@@ -5,4 +5,4 @@ GenericName[ru_RU]=Неофициальное приложение для чат
 GenericName=Unofficial chat app with ChatGPT
 Name=MindMate
 Type=Application
-Icon=org.koromelodev.mindmate
+Icon=io.github.koromelodev.mindmate
