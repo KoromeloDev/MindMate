@@ -37,15 +37,13 @@ int main(int argc, char *argv[])
   #endif
 
   #if defined(Q_OS_LINUX)
-
   QString path;
+
   #if FLATPAK
   path = QDir::homePath() + "/.var/app/org.koromelodev.mindmate/config";
   #else
   path = QDir::homePath() + "/.config/" + PROJECT_NAME;
   #endif
-
-
 
   if (!QDir(path).exists())
   {

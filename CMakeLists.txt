@@ -54,8 +54,14 @@ qt_add_translations(${PROJECT_NAME} TS_FILES ${TS})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
                            -DAPP_VERSION="${PROJECT_VERSION}"
-                           -DCHECKUPDATES=!FLATPAK
                            -DPROJECT_NAME="${PROJECT_NAME}")
+if(FLATPAK)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=false
+                             -DFLATPAK=${FLATPAK})
+else()
+  target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=true)
+endif()
+
 target_include_directories(${PROJECT_NAME} PRIVATE headers source ui
                            translations lib/QSourceHighliter)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets Qt6::Network Qt6::Svg
