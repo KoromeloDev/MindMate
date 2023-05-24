@@ -89,7 +89,7 @@ endif()
 if(LINUX)
   install(FILES ${APP_ICON}
           DESTINATION ${PATH_ICON}
-          RENAME org.koromelodev.mindmate.svg)
+          RENAME io.github.koromelodev.mindmate.svg)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.desktop
           DESTINATION ${DESKTOP_INSTALL_DIR})
   install(FILES ${METAINFO}
