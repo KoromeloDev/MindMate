@@ -20,6 +20,6 @@ To use the program, you will need an [OpenAI account](https://platform.openai.co
 git clone https://github.com/KoromeloDev/MindMate.git ;\
 cd MindMate ;\
 cmake . -DCMAKE_BUILD_TYPE=MinSizeRel;\
-cmake --build . --target MindMate ;\
+cmake --build . ;\
 sudo cmake --install .
 ```
