@@ -6,3 +6,4 @@ GenericName=Unofficial chat app with ChatGPT
 Name=MindMate
 Type=Application
 Icon=org.koromelodev.mindmate
+Terminal=true
