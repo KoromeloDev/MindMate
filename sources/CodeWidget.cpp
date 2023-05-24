@@ -239,7 +239,7 @@ void CodeWidget::languageRecognize()
       if (m_language.last(1) == ' ' || m_language.last(1) == '.'
           || m_language.last(1) == '\n')
       {
-        m_language.removeLast();
+        m_language.remove(m_language.length() - 1, 1);
       }
       else
       {

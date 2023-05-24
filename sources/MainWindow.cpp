@@ -199,7 +199,7 @@ void MainWindow::receivedText(QString text)
               if (name.last(1) == ' ' || name.last(1) == '.'
                   || name.last(1) == '\n')
               {
-                name.removeLast();
+                name.remove(name.length() - 1, 1);
               }
               else
               {
