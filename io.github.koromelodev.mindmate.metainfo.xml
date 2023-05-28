@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>org.koromelodev.mindmate</id>
+  <id>io.github.koromelodev.mindmate</id>
 
   <name>MindMate</name>
   <summary>Unofficial chat app with ChatGPT</summary>
