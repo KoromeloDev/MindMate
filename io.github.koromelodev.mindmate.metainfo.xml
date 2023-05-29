@@ -18,6 +18,16 @@
     </p>
   </description>
 
+  <url type="homepage">https://github.com/KoromeloDev/MindMate</url>
+
+  <releases>
+    <release version="1.1.9-beta" date="2023-05-29">
+      <description>
+        <p>Fixes issues</p>
+      </description>
+    </release>
+  </releases>
+
   <launchable type="desktop-id">MindMate.desktop</launchable>
   <screenshots>
     <screenshot type="default">
