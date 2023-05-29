@@ -36,26 +36,26 @@ int main(int argc, char *argv[])
   }
   #endif
 
-	QString path = QDir::homePath();
+  QString path = QDir::homePath();
 
   #if defined(Q_OS_LINUX)
   #if FLATPAK
-	path.append("/.var/app/io.github.koromelodev.mindmate/config");
+  path.append("/.var/app/io.github.koromelodev.mindmate/config");
   #else
-	path.append("/.config/")
-	path.append(PROJECT_NAME);
+  path.append("/.config/");
+  path.append(PROJECT_NAME);
   #endif
-	#elif defined(Q_OS_WIN)
-	path.append("/AppData/Local/");
-	path.append(PROJECT_NAME);
+  #elif defined(Q_OS_WIN)
+  path.append("/AppData/Local/");
+  path.append(PROJECT_NAME);
   #endif
 
-	if (!QDir(path).exists())
-	{
-		QDir(path).mkdir(path);
-	}
+  if (!QDir(path).exists())
+  {
+    QDir(path).mkdir(path);
+  }
 
-	QDir::setCurrent(path);
+  QDir::setCurrent(path);
   QTranslator translator;
   const QStringList uiLanguages = QLocale::system().uiLanguages();
 
