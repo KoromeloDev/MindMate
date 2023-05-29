@@ -14,15 +14,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(LINUX)
   set(APP_ICON icons/MindMateLogo.svg)
+  set(APP_ICON_PNG icons/io.github.koromelodev.mindmate.png)
   set(METAINFO io.github.koromelodev.mindmate.metainfo.xml)
 
   if (FLATPAK)
     set(PATH_ICON /app/share/icons/hicolor/scalable/apps)
+    set(PATH_ICON_PNG /app/share/icons/hicolor/128x128/apps)
     set(DESKTOP_INSTALL_DIR /app/share/applications)
     set(METAINFO_PATH /app/share/metainfo)
     set(DESKTOP_FILE_TEMPLATE io.github.koromelodev.mindmate.desktop)
   else()
     set(PATH_ICON /usr/share/icons/hicolor/scalable/apps)
+    set(PATH_ICON_PNG /usr/share/icons/hicolor/128x128/apps)
     set(DESKTOP_INSTALL_DIR $ENV{HOME}/.local/share/applications)
     set(METAINFO_PATH /usr/share/metainfo)
     set(DESKTOP_FILE_TEMPLATE ${PROJECT_NAME}.desktop)
@@ -90,8 +93,10 @@ if(LINUX)
   install(FILES ${APP_ICON}
           DESTINATION ${PATH_ICON}
           RENAME io.github.koromelodev.mindmate.svg)
+  install(FILES ${APP_ICON_PNG}
+          DESTINATION ${PATH_ICON_PNG})
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.desktop
           DESTINATION ${DESKTOP_INSTALL_DIR})
   install(FILES ${METAINFO}
-          DESTINATION ${METAINFO_PATH} )
+          DESTINATION ${METAINFO_PATH})
 endif()
