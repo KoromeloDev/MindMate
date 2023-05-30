@@ -28,7 +28,7 @@
     </release>
   </releases>
 
-  <launchable type="desktop-id">MindMate.desktop</launchable>
+  <launchable type="desktop-id">io.github.koromelodev.mindmate.desktop</launchable>
   <screenshots>
     <screenshot type="default">
       <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/MainWindow.png?raw=true</image>
