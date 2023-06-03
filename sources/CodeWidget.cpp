@@ -13,8 +13,7 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
 
   while (i < code.length())
   {
-    if (code[i] == '\n' || code[i] == ' ' ||
-        code[i] == '\t' || code[i].isNull())
+    if (code[i] == '\n')
     {
       break;
     }
