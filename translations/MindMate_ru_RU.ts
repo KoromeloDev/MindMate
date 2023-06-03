@@ -163,7 +163,7 @@
 <context>
     <name>MessageWidget</name>
     <message>
-        <location filename="../sources/MessageWidget.cpp" line="+64"/>
+        <location filename="../sources/MessageWidget.cpp" line="+67"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>

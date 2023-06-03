@@ -37,31 +37,34 @@ MessageWidget::MessageWidget(QListWidgetItem *item,
   setStyleSheet("background: qlineargradient("
                 "x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #" + colorOne +", "
                 "stop: 1 #" + colorTwo +");");
-	QString color1;
-	QString color2;
-	QString color3;
+  QString color1;
+  QString color2;
+  QString color3;
 
-	if (QPalette().color(QPalette::Window).value() < 128)
-	{
-		color1 = "white";
-		color2 = "black";
-		color3 = "#201E1C";
-	}
-	else
-	{
-		color1 = "black";
-		color2 = "white";
-		color3 = "#e6e6e6";
-	}
+  if (QPalette().color(QPalette::Window).value() < 128)
+  {
+    color1 = "white";
+    color2 = "black";
+    color3 = "#201E1C";
+  }
+  else
+  {
+    color1 = "black";
+    color2 = "white";
+    color3 = "#e6e6e6";
+  }
 
   m_menu = new QMenu(this);
-	m_menu->setStyleSheet("QMenu {"
-													"color: " + color1 + ";"
-													"border: 1px solid" + color1 + ";}"
-												"QMenu::item {background-color: "+ color2 + ";}"
-												"QMenu::item:selected {"
-													"background-color: " + color3 + ";}");
-	m_menu->addAction(ThemeIcon::getIcon(":/icons/delete.svg"), tr("Delete"),
+  m_menu->setStyleSheet("QMenu {"
+                          "color: " + color1 + ";"
+                          "border: 1px solid" + color1 + ";"
+                          "icon-size: 26px;"
+                          "font-size: 16px;}"
+                        "QMenu::item {"
+                          "background-color:" + color2 + ";}"
+                        "QMenu::item:selected {"
+                          "background-color: " + color3 + ";}");
+  m_menu->addAction(ThemeIcon::getIcon(":/icons/delete.svg"), tr("Delete"),
                     this, &MessageWidget::actionDeleteClicked);
   createText();
   selection("`([^`]*)`");
