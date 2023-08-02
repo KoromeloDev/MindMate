@@ -48,7 +48,7 @@ void NewTextEdit::keyPressEvent(QKeyEvent *event)
     {
       if (symbol == '\n' || symbol == ' ' || symbol == '\t' || symbol.isNull())
       {
-        i++;
+        ++i;
       }
       else
       {
@@ -72,7 +72,7 @@ void NewTextEdit::keyPressEvent(QKeyEvent *event)
 
       if (symbol == '\n' || symbol == ' ' || symbol == '\t' || symbol.isNull())
       {
-        i++;
+        ++i;
       }
       else
       {

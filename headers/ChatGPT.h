@@ -1,11 +1,10 @@
-#ifndef OPENAICHAT_H
-#define OPENAICHAT_H
+#ifndef CHATGPT_H
+#define CHATGPT_H
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QUrl>
-#include <QUrlQuery>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -13,27 +12,26 @@
 #include "HistoryParser.h"
 #include "ChatSettings.h"
 
-class OpenAIChat : public QObject
+class ChatGPT : public QObject
 {
   Q_OBJECT
 
 public:
-  OpenAIChat(QObject *parent = nullptr, QString key = 0);
-  ~OpenAIChat();
-
-  void send(QList<HistoryParser::Message> message,
+  explicit ChatGPT(QObject *parent = nullptr, QString key = 0);
+  ~ChatGPT();
+  void send(QVector<HistoryParser::Message> message,
             ChatSettings chatSettings, quint8 index);
-  void send(QString message, ChatSettings chatSettings = {});
-  void stopChat();
+  void send(QString message, ChatSettings chatSettings);
   HistoryParser::Message getAnswerMessage() const;
   quint32 getUsedToken() const;
   quint8 getIndex() const;
   bool isError() const;
 
+
 private:
-  QNetworkAccessManager *m_networkManager = nullptr;
+  QSharedPointer<QNetworkAccessManager> m_networkManager;
   QString m_key;
-  QList<HistoryParser::Message> m_message;
+  QVector<HistoryParser::Message> m_message;
   ChatSettings m_chatSettings;
   HistoryParser::Message m_answerMessage;
   quint32 m_usedToken;
@@ -51,4 +49,4 @@ private slots:
 
 };
 
-#endif // OPENAICHAT_H
+#endif // CHATGPT_H

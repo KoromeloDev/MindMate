@@ -5,23 +5,17 @@ ChatSettingsDialog::ChatSettingsDialog(QWidget *parent, quint8 index)
 : QDialog(parent), m_ui(new Ui::ChatSettingsDialog)
 {
   m_ui->setupUi(this);
-  setAttribute(Qt::WA_DeleteOnClose);
   m_index = index;
-  m_settingsWidget = new ChatSettingsWidget(this,
-                                            ChatSettings::getSettings(m_index));
+  ChatSettings сhatSettings;
+  m_settingsWidget = m_settingsWidget.create(this,
+                                             сhatSettings.getSettings(m_index));
 
-  connect(m_ui->buttonBox, &QDialogButtonBox::accepted,
-          this, &QDialog::accept);
-  connect(m_ui->buttonBox, &QDialogButtonBox::rejected,
-          this, &QDialog::reject);
-
-  m_ui->verticalLayout->insertWidget(0, m_settingsWidget);
+  m_ui->verticalLayout->insertWidget(0, m_settingsWidget.get());
 }
 
 ChatSettingsDialog::~ChatSettingsDialog()
 {
   delete m_ui;
-  m_settingsWidget->deleteLater();
 }
 
 void ChatSettingsDialog::accept()

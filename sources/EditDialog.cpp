@@ -5,7 +5,6 @@ EditDialog::EditDialog(QWidget *parent, QString question)
 : QDialog(parent), m_ui(new Ui::EditDialog)
 {
   m_ui->setupUi(this);
-  setAttribute(Qt::WA_DeleteOnClose);
 
   connect(m_ui->buttonBox, &QDialogButtonBox::accepted,
           this, &EditDialog::buttonAccepted);

@@ -2,9 +2,17 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU" sourcelanguage="en_US">
 <context>
+    <name>ChatGPT</name>
+    <message>
+        <location filename="../sources/ChatGPT.cpp" line="+84"/>
+        <source>Connection failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ChatItem</name>
     <message>
-        <location filename="../sources/ChatItem.cpp" line="+151"/>
+        <location filename="../sources/ChatItem.cpp" line="+143"/>
         <source>Change chat name to</source>
         <translation>Изменить название чата на</translation>
     </message>
@@ -77,10 +85,19 @@
 <context>
     <name>CodeWidget</name>
     <message>
-        <location filename="../ui/CodeWidget.ui" line="+100"/>
-        <location filename="../sources/CodeWidget.cpp" line="+280"/>
+        <location filename="../ui/CodeWidget.ui" line="+74"/>
+        <source>language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <location filename="../sources/CodeWidget.cpp" line="+288"/>
         <source>Copy</source>
         <translation>Копировать</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="obsolete">Удалить</translation>
     </message>
     <message>
         <location filename="../sources/CodeWidget.cpp" line="-18"/>
@@ -94,6 +111,14 @@
         <location filename="../ui/EditDialog.ui" line="+17"/>
         <source>Editing</source>
         <translation>Редактирование</translation>
+    </message>
+</context>
+<context>
+    <name>EditMessageDialog</name>
+    <message>
+        <location filename="../ui/EditMessageDialog.ui" line="+32"/>
+        <source>Edit message</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -134,7 +159,7 @@
         <translation>Помощник</translation>
     </message>
     <message>
-        <location filename="../sources/MainWindow.cpp" line="+95"/>
+        <location filename="../sources/MainWindow.cpp" line="+82"/>
         <source>Update available</source>
         <translation>Доступно обновление</translation>
     </message>
@@ -144,18 +169,18 @@
         <translation>Ссылка на скачивание приложения</translation>
     </message>
     <message>
-        <location line="+131"/>
+        <location line="+124"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
-        <location line="+73"/>
-        <location line="+210"/>
+        <location line="+75"/>
+        <location line="+214"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-80"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>
@@ -163,9 +188,14 @@
 <context>
     <name>MessageWidget</name>
     <message>
-        <location filename="../sources/MessageWidget.cpp" line="+67"/>
+        <location filename="../sources/MessageWidget.cpp" line="+391"/>
         <source>Delete</source>
         <translation>Удалить</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -226,12 +256,12 @@
         <translation>Проверять обновления</translation>
     </message>
     <message>
-        <location filename="../sources/SettingsWidget.cpp" line="+13"/>
+        <location filename="../sources/SettingsWidget.cpp" line="+12"/>
         <source>Version</source>
         <translation>Версия</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
         <location line="+51"/>
         <source>API key</source>
         <translation>API ключ</translation>

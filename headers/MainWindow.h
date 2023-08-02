@@ -1,6 +1,5 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#pragma once
 
 #include <QMainWindow>
 #include <QMessageBox>
@@ -14,8 +13,9 @@
 #include <QSoundEffect>
 
 #include "HistoryParser.h"
-#include "OpenAIChat.h"
+#include "ChatGPT.h"
 #include "ChatSettings.h"
+#include "MessageWidget.h"
 
 #if CHECKUPDATES
 #include "UpdateChecker.h"
@@ -33,7 +33,7 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  MainWindow(QWidget *parent = nullptr);
+  explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
 protected:
@@ -42,23 +42,23 @@ protected:
 
 private:
   Ui::MainWindow *m_ui;
-  QList<OpenAIChat *> m_chatGPTList;
-  bool m_waitAnswer = false;
-  bool m_errorAnswer = false;
+  QVector<ChatGPT*> m_chatGPTList;
+  bool m_isWaitAnswer;
+  bool m_isErrorAnswer;
   QMovie m_movie;
-  QList<HistoryParser::Message> m_allMesages;
+  QVector<HistoryParser::Message> m_allMesages;
   ChatSettings m_chatSettings;
   QSoundEffect m_answerEffect;
   QSoundEffect m_errorEffect;
-  bool m_scroll = false;
+  bool m_canScroll;
 
   #if CHECKUPDATES
-  UpdateChecker *m_updateChecker = nullptr;
+  QSharedPointer<UpdateChecker> m_updateChecker;
 
   void needUpdates(bool haveUpdates, QUrl downloadUrl);
   #endif
 
-  void setChatSettings(quint8 index);
+  void setChatSettings(const quint8 &index);
   void receivedText(QString text);
   void fillChatList();
   bool checkExistChats();
@@ -67,8 +67,9 @@ private:
   void answerState(bool waitAnswer);
   void errorState(bool error);
   void tokensLeft();
-  void setFileChatSettings(quint8 index);
+  void setFileChatSettings(const quint8 &index);
   void sendMessage();
+  void addMessage(MessageWidget *messageWidget);
 
 private slots:
   void sendClicked();

@@ -21,7 +21,7 @@ public:
   void checkUpdates();
 
 private:
-  QNetworkAccessManager *m_networkAccessManager = nullptr;
+  QSharedPointer<QNetworkAccessManager> m_networkManager;
   QString m_user;
   QString m_repo;
 

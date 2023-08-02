@@ -5,15 +5,17 @@
 #include "SettingsWidget.h"
 #include "ThemeIcon.h"
 #include "ChatSettingsDialog.h"
-#include "MessageWidget.h"
 #include "ChatItem.h"
 #include "Settings.h"
+#include "NewListWidgetItem.h"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
   m_ui->setupUi(this);
-  Settings settings;
+  m_isWaitAnswer = false;
+  m_isErrorAnswer = false;
+  m_canScroll = false;
 
   connect(m_ui->textInput, &NewTextEdit::sendText,
           this, &MainWindow::receivedText);
@@ -33,11 +35,13 @@ MainWindow::MainWindow(QWidget *parent)
           this, &MainWindow::chatSettingsClicked);
 
   #if CHECKUPDATES
+  Settings settings;
+
   if(settings.checkUpdates)
   {
-    m_updateChecker = new UpdateChecker(this, "KoromeloDev", "MindMate");
+    m_updateChecker = m_updateChecker.create(this, "KoromeloDev", "MindMate");
 
-    connect(m_updateChecker, &UpdateChecker::needUpdates,
+    connect(m_updateChecker.get(), &UpdateChecker::needUpdates,
             this, &MainWindow::needUpdates);
 
     m_updateChecker->checkUpdates();
@@ -68,27 +72,16 @@ MainWindow::~MainWindow()
 {
   delete m_ui;
 
-  for (OpenAIChat *chatGPT : m_chatGPTList)
+  for (ChatGPT *chatGPT : m_chatGPTList)
   {
-    if (chatGPT != nullptr)
-    {
-      chatGPT->deleteLater();
-    }
+    chatGPT->deleteLater();
   }
-
-  #if CHECKUPDATES
-  if (m_updateChecker != nullptr)
-  {
-    m_updateChecker->deleteLater();
-  }
-  #endif
 }
 
 #if CHECKUPDATES
 void MainWindow::needUpdates(bool haveUpdates, QUrl downloadUrl)
 {
-  m_updateChecker->deleteLater();
-  m_updateChecker = nullptr;
+  m_updateChecker.clear();
 
   if (haveUpdates)
   {
@@ -104,7 +97,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 {
   QMainWindow::resizeEvent(event);
 
-  for (quint16 i = 0; i < m_ui->historyList->count(); i++)
+  for (quint16 i = 0; i < m_ui->historyList->count(); ++i)
   {
     QListWidgetItem *item = m_ui->historyList->item(i);
     QWidget *itemWidget = m_ui->historyList->itemWidget(item);
@@ -117,23 +110,22 @@ void MainWindow::paintEvent(QPaintEvent *event)
 {
   QMainWindow::paintEvent(event);
 
-  if (!m_scroll)
+  if (!m_canScroll)
   {
     m_ui->historyList->scrollToBottom();
-    m_scroll = true;
+    m_canScroll = true;
   }
 }
 
-void MainWindow::setChatSettings(quint8 index)
+void MainWindow::setChatSettings(const quint8 &index)
 {
-  m_chatSettings = ChatSettings::getSettings(index);
+  m_chatSettings = m_chatSettings.getSettings(index);
 }
 
 void MainWindow::receivedText(QString text)
 {
-  if (!text.isEmpty() && ((!m_waitAnswer && !m_errorAnswer) ||
-      (m_allMesages.count() != 0 &&
-      m_ui->roleBox->currentIndex() != 0)))
+  if (!text.isEmpty() && ((!m_isWaitAnswer && !m_isErrorAnswer) ||
+     (m_allMesages.count() != 0 && m_ui->roleBox->currentIndex() != 0)))
   {
     m_ui->textInput->clear();
     HistoryParser history(this, m_chatSettings.fileName);
@@ -158,16 +150,9 @@ void MainWindow::receivedText(QString text)
 
     history.addNewMessage(message);
     m_allMesages.append(message);
-    QListWidgetItem *item = new QListWidgetItem(m_ui->historyList);
-    MessageWidget *messageWidget = new MessageWidget(item, message,
-                                   m_ui->chatList->currentRow(),
-                                   m_ui->historyList->count()-1);
-
-    connect(messageWidget, &MessageWidget::selfDelete,
-            this, &MainWindow::messageDeleteCliked);
-
-    m_ui->historyList->setItemWidget(item, messageWidget);
-    m_ui->historyList->setCurrentItem(item);
+    MessageWidget *messageWidget = new MessageWidget(nullptr, message,
+                                   m_ui->chatList->currentRow());
+    addMessage(messageWidget);
 
     if (message.role ==  HistoryParser::User)
     {
@@ -175,11 +160,11 @@ void MainWindow::receivedText(QString text)
 
       if (m_ui->historyList->count() == 1 && settings.autoNaming)
       {
-        OpenAIChat *chatGPT = new OpenAIChat(this, settings.openAIKey);
+        ChatGPT *chatGPT = new ChatGPT(this, settings.openAIKey);
         ChatSettings chatSettings;
         chatSettings.stop = {"\n"};
 
-        connect(chatGPT, &OpenAIChat::responseReceived, this, [=]()
+        connect(chatGPT, &ChatGPT::responseReceived, this, [=]()
         {
           QString name = chatGPT->getAnswerMessage().content;
           chatGPT->deleteLater();
@@ -212,13 +197,13 @@ void MainWindow::receivedText(QString text)
               QListWidgetItem *item = m_ui->chatList->currentItem();
               QWidget *itemWidget = m_ui->chatList->itemWidget(item);
               ChatItem *chatItem = dynamic_cast<ChatItem *>(itemWidget);
-              chatItem->editName(name);
+              chatItem->setName(name);
             }
           }
 
           sendMessage();
         });
-        connect(chatGPT, &OpenAIChat::replyError, this, [=]()
+        connect(chatGPT, &ChatGPT::replyError, this, [=]()
         {
           chatGPT->deleteLater();
           sendMessage();
@@ -231,6 +216,8 @@ void MainWindow::receivedText(QString text)
            "use signs only where it is really necessary. Also, you should "
            "not name the chat like \"chat name:\", you should just write the "
            "name without unnecessary words."), chatSettings);
+        errorState(false);
+        answerState(true);
       }
       else
       {
@@ -259,12 +246,12 @@ void MainWindow::fillChatList()
       QJsonDocument document = QJsonDocument::fromJson(jsonData);
       QJsonArray chats = document.array();
 
-      for (quint8 i = 0; i < chats.count(); i++)
+      for (quint8 i = 0; i < chats.count(); ++i)
       {
         QJsonObject object = chats[i].toObject();
         QString name = object["name"].toString();
-        ChatItem *chatItem = new ChatItem(m_ui->chatList, name, i);
-        QListWidgetItem *item = new QListWidgetItem(m_ui->chatList);
+        NewListWidgetItem *item = new NewListWidgetItem(m_ui->chatList);
+        ChatItem *chatItem = new ChatItem(m_ui->chatList, name, item);
 
         connect(chatItem, &ChatItem::removed,
                 this, &MainWindow::chatItemDeleteClicked);
@@ -341,9 +328,8 @@ bool MainWindow::createChat(QString name)
       document.setArray(chats);
       chatJson.write(document.toJson());
       chatJson.close();
-      ChatItem *chatItem = new ChatItem(m_ui->chatList, name,
-                                        m_ui->chatList->count());
-      QListWidgetItem *item = new QListWidgetItem(m_ui->chatList);
+      NewListWidgetItem *item = new NewListWidgetItem(m_ui->chatList);
+      ChatItem *chatItem = new ChatItem(m_ui->chatList, name, item);
       item->setSizeHint(QSize(0, 50));
 
       connect(chatItem, &ChatItem::removed,
@@ -359,20 +345,6 @@ bool MainWindow::createChat(QString name)
 
 void MainWindow::showChat()
 {
-  for (quint8 i = 0; i < m_ui->historyList->count(); i++)
-  {
-    QListWidgetItem *listItem = m_ui->historyList->item(i);
-    QWidget *itemWidget = m_ui->historyList->itemWidget(listItem);
-    MessageWidget *indexItem = dynamic_cast<MessageWidget *>(itemWidget);
-
-    if (indexItem != nullptr)
-    {
-      delete indexItem;
-    }
-
-    delete listItem;
-  }
-
   m_ui->historyList->clear();
   m_allMesages.clear();
   setChatSettings(m_ui->chatList->currentRow());
@@ -383,35 +355,28 @@ void MainWindow::showChat()
     quint16 count = history.getCountMessage();
     tokensLeft();
 
-    for (quint16 i = 0; i < count; i++)
+    for (quint16 i = 0; i < count; ++i)
     {
       m_allMesages.append(history.getMessage(i));
-      QListWidgetItem *item = new QListWidgetItem(m_ui->historyList);
-      MessageWidget *message = new MessageWidget(item, m_allMesages[i],
-                               m_ui->chatList->currentRow(), i);
-
-      connect(message, &MessageWidget::selfDelete,
-              this, &MainWindow::messageDeleteCliked);
+      MessageWidget *message = new MessageWidget(nullptr, m_allMesages[i],
+                               m_ui->chatList->currentRow());
+      addMessage(message);
 
       connect(message, &MessageWidget::resizeFinished,
               this, [=]()
       {
-        m_scroll = false;
+        m_canScroll = false;
       });
-
-      m_ui->historyList->setItemWidget(item, message);
-      m_ui->historyList->setCurrentItem(item);
-
     }
 
-    for (OpenAIChat *chatGPT : m_chatGPTList)
+    for (ChatGPT *chatGPT : m_chatGPTList)
     {
       if (chatGPT->getIndex() == m_ui->chatList->currentRow())
       {
         answerState(!chatGPT->isError());
         errorState(chatGPT->isError());
-        chatGPT->deleteLater();
         m_chatGPTList.removeOne(chatGPT);
+        chatGPT->deleteLater();
         return;
       }
     }
@@ -424,7 +389,7 @@ void MainWindow::showChat()
 
 void MainWindow::answerState(bool waitAnswer)
 {
-  m_waitAnswer = waitAnswer;
+  m_isWaitAnswer = waitAnswer;
   m_movie.setPaused(!waitAnswer);
   m_ui->loading->setVisible(waitAnswer);
   m_ui->stopButton->setVisible(waitAnswer);
@@ -432,18 +397,19 @@ void MainWindow::answerState(bool waitAnswer)
 
 void MainWindow::errorState(bool error)
 {
-  m_errorAnswer = error;
+  m_isErrorAnswer = error;
   m_ui->retryButton->setVisible(error);
 }
 
 void MainWindow::tokensLeft()
 {
-  quint32 tokensLeft = m_chatSettings.maxTokens - m_chatSettings.usedTokens;
+  quint32 tokensLeft = m_chatSettings.getMaxTokens() -
+                       m_chatSettings.usedTokens;
   m_ui->countToken->setText(tr("Tokens left") + ": " +
                             QString::number(tokensLeft));
 }
 
-void MainWindow::setFileChatSettings(quint8 index)
+void MainWindow::setFileChatSettings(const quint8 &index)
 {
   QFile chatJson(QDir::currentPath() + "/chats.json");
 
@@ -461,17 +427,17 @@ void MainWindow::setFileChatSettings(quint8 index)
       object["file_name"] = m_chatSettings.fileName;
       object["model"] = m_chatSettings.model;
       object["used_tokens"] = (int)m_chatSettings.usedTokens;
-      object["max_tokens"] = (int)m_chatSettings.maxTokens;
+      object["max_tokens"] = (int)m_chatSettings.getMaxTokens();
       object["temperature"] = m_chatSettings.temperature;
       object["n"] = m_chatSettings.n;
-      QJsonArray stop = object["stop"].toArray();
+      QJsonArray stops = object["stop"].toArray();
 
-      for (quint8 i = 0; i < stop.count(); i++)
+      for (quint8 i = 0; i < stops.count(); ++i)
       {
-        stop.append(m_chatSettings.stop[i]);
+        stops.append(m_chatSettings.stop[i]);
       }
 
-      object["stop"] = stop;
+      object["stop"] = stops;
       object["presence_penalty"] = m_chatSettings.presencePenalty;
       object["frequency_penalty"] = m_chatSettings.frequencyPenalty;
       chats[index] = object;
@@ -485,20 +451,30 @@ void MainWindow::setFileChatSettings(quint8 index)
 void MainWindow::sendMessage()
 {
   Settings settings;
-  OpenAIChat *chatGPT = new OpenAIChat(this, settings.openAIKey);
-   m_ui->retryButton->setToolTip("");
+  ChatGPT *chatGPT = new ChatGPT(this, settings.openAIKey);
+  m_ui->retryButton->setToolTip("");
 
-  connect(chatGPT, &OpenAIChat::responseReceived,
+  connect(chatGPT, &ChatGPT::responseReceived,
           this, &MainWindow::responseReceived);
-  connect(chatGPT, &OpenAIChat::replyError,
+  connect(chatGPT, &ChatGPT::replyError,
           this, &MainWindow::replyError);
 
   m_chatGPTList.append(chatGPT);
   answerState(true);
   errorState(false);
   setChatSettings(m_ui->chatList->currentRow());
-  chatGPT->send(m_allMesages, m_chatSettings,
-                m_ui->chatList->currentRow());
+  chatGPT->send(m_allMesages, m_chatSettings, m_ui->chatList->currentRow());
+}
+
+void MainWindow::addMessage(MessageWidget *messageWidget)
+{
+  NewListWidgetItem *item = new NewListWidgetItem(m_ui->historyList);
+  messageWidget->setItem(item);
+  m_ui->historyList->setItemWidget(item, messageWidget);
+  m_ui->historyList->setCurrentItem(item);
+
+  connect(messageWidget, &MessageWidget::selfDelete,
+          this, &MainWindow::messageDeleteCliked);
 }
 
 void MainWindow::sendClicked()
@@ -542,11 +518,10 @@ void MainWindow::stopClicked()
   answerState(false);
   errorState(true);
 
-  for (OpenAIChat *chatGPT : qAsConst(m_chatGPTList))
+  for ( ChatGPT *chatGPT : m_chatGPTList)
   {
     if (chatGPT->getIndex() == m_ui->chatList->currentRow())
     {
-      chatGPT->stopChat();
       chatGPT->deleteLater();
       m_chatGPTList.removeOne(chatGPT);
       break;
@@ -563,12 +538,13 @@ void MainWindow::chatSettingsClicked()
 
 void MainWindow::responseReceived(QString response)
 {
-  OpenAIChat *sender = qobject_cast<OpenAIChat*>(QObject::sender());
+  ChatGPT *sender = qobject_cast<ChatGPT*>(QObject::sender());
   m_answerEffect.play();
-  disconnect(sender, &OpenAIChat::responseReceived,
-          this, &MainWindow::responseReceived);
-  disconnect(sender, &OpenAIChat::replyError,
-          this, &MainWindow::replyError);
+
+  disconnect(sender, &ChatGPT::responseReceived,
+             this, &MainWindow::responseReceived);
+  disconnect(sender, &ChatGPT::replyError,
+             this, &MainWindow::replyError);
 
   ChatSettings chatSettings = m_chatSettings;
   setChatSettings(sender->getIndex());
@@ -581,17 +557,10 @@ void MainWindow::responseReceived(QString response)
   {
     answerState(false);
     m_allMesages.append(sender->getAnswerMessage());
-    QListWidgetItem *item = new QListWidgetItem(m_ui->historyList);
-    MessageWidget *messageWidget = new MessageWidget(item,
+    MessageWidget *messageWidget = new MessageWidget(nullptr,
                                    sender->getAnswerMessage(),
-                                   m_ui->chatList->currentRow(),
-                                   m_ui->historyList->count()-1);
-
-    connect(messageWidget, &MessageWidget::selfDelete,
-            this, &MainWindow::messageDeleteCliked);
-
-    m_ui->historyList->setItemWidget(item, messageWidget);
-    m_ui->historyList->setCurrentItem(item);
+                                   m_ui->chatList->currentRow());
+    addMessage(messageWidget);
     m_chatSettings.usedTokens = sender->getUsedToken();
     tokensLeft();
   }
@@ -599,22 +568,22 @@ void MainWindow::responseReceived(QString response)
   {
     QListWidgetItem *item = m_ui->chatList->item(sender->getIndex());
     QWidget *itemWidget = m_ui->chatList->itemWidget(item);
-    ChatItem *chatItem = dynamic_cast<ChatItem *>(itemWidget);
+    ChatItem *chatItem = dynamic_cast<ChatItem*>(itemWidget);
     chatItem->setNewMessage(true);
     m_chatSettings = chatSettings;
   }
 
-  sender->deleteLater();
   m_chatGPTList.removeOne(sender);
+  sender->deleteLater();
 }
 
 void MainWindow::replyError(QString error)
 {
-  OpenAIChat *sender = qobject_cast<OpenAIChat*>(QObject::sender());
+  ChatGPT *sender = qobject_cast<ChatGPT*>(QObject::sender());
 
-  disconnect(sender, &OpenAIChat::responseReceived,
+  disconnect(sender, &ChatGPT::responseReceived,
           this, &MainWindow::responseReceived);
-  disconnect(sender, &OpenAIChat::replyError,
+  disconnect(sender, &ChatGPT::replyError,
           this, &MainWindow::replyError);
 
   m_errorEffect.play();
@@ -626,26 +595,17 @@ void MainWindow::replyError(QString error)
     errorState(true);
   }
 
-  sender->deleteLater();
   m_chatGPTList.removeOne(sender);
+  sender->deleteLater();
 }
 
 void MainWindow::chatItemDeleteClicked()
 {
   ChatItem *sender = qobject_cast<ChatItem*>(QObject::sender());
-  quint8 index = sender->getIndex();
+  const quint8 &index = sender->getItem()->getIndex();
+  m_ui->chatList->takeItem(index);
   bool currentItem = m_ui->chatList->currentItem() ==
                      m_ui->chatList->item(index);
-  delete m_ui->chatList->item(index);
-
-  while (index < m_ui->chatList->count())
-  {
-    QListWidgetItem *listItem = m_ui->chatList->item(index);
-    QWidget *itemWidget = m_ui->chatList->itemWidget(listItem);
-    ChatItem *indexItem = dynamic_cast<ChatItem *>(itemWidget);
-    indexItem->setIndex(index);
-    index++;
-  }
 
   if (checkExistChats())
   {
@@ -656,9 +616,9 @@ void MainWindow::chatItemDeleteClicked()
     }
   }
 
-  for (OpenAIChat *chatGPT : m_chatGPTList)
+  for (ChatGPT *chatGPT : m_chatGPTList)
   {
-    if (chatGPT->getIndex() == index && chatGPT != nullptr)
+    if (chatGPT->getIndex() == index)
     {
       chatGPT->deleteLater();
       m_chatGPTList.removeOne(chatGPT);
@@ -670,26 +630,21 @@ void MainWindow::chatItemDeleteClicked()
 void MainWindow::messageDeleteCliked()
 {
   MessageWidget *sender = qobject_cast<MessageWidget*>(QObject::sender());
-  quint8 index = sender->getIndex();
-  delete m_ui->historyList->item(index);
+
+  disconnect(sender, &MessageWidget::selfDelete,
+             this, &MainWindow::messageDeleteCliked);
+
+  const quint8 &index = sender->getItem()->getIndex();
+  m_ui->historyList->takeItem(index);
   m_allMesages.removeAt(index);
-
-  while (index < m_ui->historyList->count())
-  {
-    QListWidgetItem *listItem = m_ui->historyList->item(index);
-    QWidget *itemWidget = m_ui->historyList->itemWidget(listItem);
-    MessageWidget *indexItem = dynamic_cast<MessageWidget *>(itemWidget);
-    indexItem->setIndex(index);
-    index++;
-  }
-
   bool find = false;
 
-  for (OpenAIChat *chatGPT : m_chatGPTList)
+  for (const auto &chatGPT : m_chatGPTList)
   {
     if (chatGPT->getIndex() == m_ui->chatList->currentRow())
     {
       find = true;
+      break;
     }
   }
 

@@ -1,6 +1,5 @@
 #ifndef SETTINGSWIDGET_H
 #define SETTINGSWIDGET_H
-#pragma once
 
 #include <QDialog>
 #include <QSettings>
@@ -27,7 +26,7 @@ protected:
 
 private:
   Ui::SettingsWidget *m_ui;
-  ChatSettingsWidget *m_chatSettingsWidget;
+  QSharedPointer<ChatSettingsWidget> m_chatSettingsWidget;
   Settings m_settings;
 
 private slots:

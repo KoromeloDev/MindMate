@@ -9,15 +9,12 @@ UpdateChecker::UpdateChecker(QObject *parent, QString user, QString repo)
 
 UpdateChecker::~UpdateChecker()
 {
-  if (m_networkAccessManager != nullptr)
-  {
-    m_networkAccessManager->deleteLater();
-  }
+
 }
 
 void UpdateChecker::checkUpdates()
 {
-  if (m_networkAccessManager != nullptr)
+  if (m_networkManager != nullptr)
   {
     emit needUpdates(false);
     return;
@@ -27,22 +24,20 @@ void UpdateChecker::checkUpdates()
   "https://api.github.com/repos/%1/%2/releases/latest").arg(m_user, m_repo);
   QNetworkRequest request;
   request.setUrl(QUrl(apiUrl));
-  m_networkAccessManager = new QNetworkAccessManager(this);
+  m_networkManager = m_networkManager.create(this);
 
-  connect(m_networkAccessManager, &QNetworkAccessManager::finished,
+  connect(m_networkManager.get(), &QNetworkAccessManager::finished,
           this, &UpdateChecker::onFinished);
 
-	m_networkAccessManager->get(request);
+  m_networkManager->get(request);
 }
 
 void UpdateChecker::onFinished(QNetworkReply *reply)
 {
   QByteArray response = reply->readAll();
 
-  disconnect(m_networkAccessManager, &QNetworkAccessManager::finished,
+  disconnect(m_networkManager.get(), &QNetworkAccessManager::finished,
           this, &UpdateChecker::onFinished);
-  m_networkAccessManager->deleteLater();
-  m_networkAccessManager = nullptr;
 
   if (reply->error() == QNetworkReply::NoError)
   {
@@ -51,7 +46,7 @@ void UpdateChecker::onFinished(QNetworkReply *reply)
     QJsonArray assets = object["assets"].toArray();
     QUrl downloadUrl;
 
-    for (quint8 i = 0; i < assets.count(); i++)
+    for (quint8 i = 0; i < assets.count(); ++i)
     {
       QString value = assets.at(i).toObject()["browser_download_url"]
                       .toString().toLower();
@@ -72,7 +67,8 @@ void UpdateChecker::onFinished(QNetworkReply *reply)
 
     QString tagName = object["tag_name"].toString();
 
-    if (!downloadUrl.isEmpty() && tagName != "v" + QApplication::applicationVersion())
+    if (!downloadUrl.isEmpty() && tagName != "v" +
+        QApplication::applicationVersion())
     {
       emit needUpdates(true, downloadUrl);
       return;

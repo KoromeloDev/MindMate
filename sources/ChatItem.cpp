@@ -3,13 +3,12 @@
 
 #include "ThemeIcon.h"
 
-ChatItem::ChatItem(QWidget *parent, QString name, quint8 index)
+ChatItem::ChatItem(QWidget *parent, QString name, NewListWidgetItem *item)
 : QWidget(parent), m_ui(new Ui::ChatItem)
 {
   m_ui->setupUi(this);
-  setAttribute(Qt::WA_DeleteOnClose);
   m_name = name;
-  m_index = index;
+  m_item = item;
   checkWidth();
 
   connect(m_ui->editButton, &QToolButton::clicked,
@@ -24,24 +23,9 @@ ChatItem::ChatItem(QWidget *parent, QString name, quint8 index)
 ChatItem::~ChatItem()
 {
   delete m_ui;
-
-  if (m_editDialog != nullptr)
-  {
-    m_editDialog->deleteLater();
-  }
 }
 
-quint8 ChatItem::getIndex() const
-{
-  return m_index;
-}
-
-void ChatItem::setIndex(quint8 index)
-{
-  m_index = index;
-}
-
-void ChatItem::setNewMessage(bool message)
+void ChatItem::setNewMessage(const bool &message)
 {
   m_message = message;
 
@@ -55,12 +39,12 @@ void ChatItem::setNewMessage(bool message)
   }
 }
 
-bool ChatItem::thereIsNew() const
+bool ChatItem::isNew() const
 {
   return m_message;
 }
 
-void ChatItem::editName(QString name)
+void ChatItem::setName(const QString &name)
 {
   if (!name.isEmpty())
   {
@@ -73,11 +57,12 @@ void ChatItem::editName(QString name)
 
       if (chatJson.open(QIODevice::WriteOnly | QIODevice::Text))
       {
+        const quint8 &index = m_item->getIndex();
         QJsonDocument document = QJsonDocument::fromJson(jsonData);
         QJsonArray chats = document.array();
-        QJsonObject object = chats[m_index].toObject();
+        QJsonObject object = chats[index].toObject();
         object["name"] = name;
-        chats[m_index] = object;
+        chats[index] = object;
         document.setArray(chats);
         chatJson.write(document.toJson());
         chatJson.close();
@@ -86,6 +71,11 @@ void ChatItem::editName(QString name)
       }
     }
   }
+}
+
+NewListWidgetItem *ChatItem::getItem() const
+{
+  return m_item;
 }
 
 void ChatItem::checkWidth()
@@ -125,10 +115,11 @@ void ChatItem::deleteCliked()
     {
       QJsonDocument document = QJsonDocument::fromJson(jsonData);
       QJsonArray chats = document.array();
-      QJsonObject object = chats[m_index].toObject();
+      const quint8 &index = m_item->getIndex();
+      QJsonObject object = chats[index].toObject();
       QString fileName = object["file_name"].toString();
       fileName = QDir::currentPath() + "/Chat/" + fileName + "_history.json";
-      chats.removeAt(m_index);
+      chats.removeAt(index);
       document.setArray(chats);
       chatJson.write(document.toJson());
       chatJson.close();
@@ -146,18 +137,18 @@ void ChatItem::deleteCliked()
 
 void ChatItem::editClicked()
 {
-  if (m_editDialog == nullptr)
+  m_editDialog = m_editDialog.create(this, tr("Change chat name to") + ":",
+                                     m_name);
+
+  connect(m_editDialog.get(), &EditDialog::textChanged,
+          this, &ChatItem::setName);
+  connect(m_editDialog.get(), &EditDialog::finished, this, [=](int result)
   {
-    m_editDialog = new EditDialog(this, tr("Change chat name to") + ":",
-                                  m_name);
-
-    connect(m_editDialog, &EditDialog::textChanged, this, &ChatItem::editName);
-    connect(m_editDialog, &EditDialog::finished, this, [=]()
+    if (result == 0)
     {
-      m_editDialog->deleteLater();
-      m_editDialog = nullptr;
-    });
+      m_editDialog.clear();
+    }
+  });
 
-    m_editDialog->show();
-  }
+  m_editDialog->show();
 }

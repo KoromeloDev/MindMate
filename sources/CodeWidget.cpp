@@ -3,6 +3,7 @@
 
 #include "ThemeIcon.h"
 #include "Settings.h"
+#include "MessageWidget.h"
 
 CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
 : QWidget(parent), m_ui(new Ui::CodeWidget)
@@ -18,7 +19,7 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
       break;
     }
 
-    i++;
+    ++i;
   }
 
   m_language.append(code.mid(3, i - 3));
@@ -30,7 +31,7 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
 
     if (symbol == '`')
     {
-      j++;
+      ++j;
     }
     else
     {
@@ -41,16 +42,19 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
   m_code.chop(j + 1);
   m_code.remove(0, i + 1);
   m_ui->languageLabel->setText(m_language);
-  m_ui->codeBrowser->setPlainText(m_code);
+  m_ui->codeEdit->setPlainText(m_code);
   m_clipboard = QApplication::clipboard();
-  m_ui->codeBrowser->setContextMenuPolicy(Qt::CustomContextMenu);
+  m_ui->codeEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
   connect(m_ui->copyButton, &QToolButton::clicked,
           this, &CodeWidget::copyClicked);
-  connect(m_ui->codeBrowser, &QTextBrowser::customContextMenuRequested,
+  connect(m_ui->codeEdit, &QTextEdit::customContextMenuRequested,
           this, [=]()
   {
-    menu->exec(QCursor::pos());
+    if (menu != nullptr)
+    {
+      menu->exec(QCursor::pos());
+    }
   });
 
   ThemeIcon::setIcon(*m_ui->copyButton, ":/icons/copy.svg");
@@ -60,37 +64,41 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
 CodeWidget::~CodeWidget()
 {
   delete m_ui;
-
-  if (m_highlighter != nullptr)
-  {
-    m_highlighter->deleteLater();
-  }
-
-  if (m_chatGPT != nullptr)
-  {
-    m_chatGPT->deleteLater();
-  }
-
-  if (m_timer != nullptr)
-  {
-    m_timer->deleteLater();
-  }
 }
 
-void CodeWidget::resizeWidget(quint16 margin)
+void CodeWidget::resizeWidget()
 {
-  quint16 sizeWidth = parentWidget()->size().width() - 30 - margin;
-  quint16 sizeHeight = m_ui->codeBrowser->document()->size().toSize().height() +
-                       70;
-  m_ui->codeBrowser->setMaximumWidth(sizeWidth);
-  m_ui->codeBrowser->setMaximumHeight(sizeHeight);
-  setMaximumWidth(sizeWidth + 40);
-  setMaximumHeight(sizeHeight);
+  MessageWidget *messageWidget = dynamic_cast<MessageWidget *>(parentWidget());
+
+  if (messageWidget == nullptr)
+  {
+    return;
+  }
+
+  m_size.setWidth(messageWidget->getSize().width());
+  m_size.setHeight(m_ui->codeEdit->document()->size().toSize().height()+70);
+  setMaximumSize(m_size);
 }
 
-QString CodeWidget::getCode()
+QString CodeWidget::getCode() const
 {
   return m_code;
+}
+
+QSize CodeWidget::getSize() const
+{
+  return m_size;
+}
+
+QString CodeWidget::getFullText() const
+{
+  return "```" + m_ui->languageLabel->text() + "\n" +
+         m_ui->codeEdit->toPlainText() + "\n```";
+}
+
+void CodeWidget::setEdit(const bool &isEdit)
+{
+  m_ui->codeEdit->setReadOnly(!isEdit);
 }
 
 void CodeWidget::setCodeAutoHighlighter()
@@ -101,11 +109,11 @@ void CodeWidget::setCodeAutoHighlighter()
 
   if (language.isEmpty() && settings.languageRecognize)
   {
-    m_chatGPT = new OpenAIChat(this, settings.openAIKey);
+    m_chatGPT = m_chatGPT.create(this, settings.openAIKey);
     ChatSettings chatSettings;
     chatSettings.stop = {" ", ".", "\n"};
 
-    connect(m_chatGPT, &OpenAIChat::responseReceived,
+    connect(m_chatGPT.get(), &ChatGPT::responseReceived,
             this, &CodeWidget::languageRecognize);
 
     m_chatGPT->send(m_code +
@@ -217,14 +225,14 @@ void CodeWidget::setCodeAutoHighlighter()
     languageEnum = QSHL::CodeBash;
   }
 
-  QTextDocument *document = m_ui->codeBrowser->document();
-  m_highlighter = new QSH(document);
+  QTextDocument *document = m_ui->codeEdit->document();
+  m_highlighter = m_highlighter.create(document);
   m_highlighter->setCurrentLanguage(languageEnum);
 }
 
 void CodeWidget::languageRecognize()
 {
-  disconnect(m_chatGPT, &OpenAIChat::responseReceived,
+  disconnect(m_chatGPT.get(), &ChatGPT::responseReceived,
              this, &CodeWidget::languageRecognize);
 
   m_language = m_chatGPT->getAnswerMessage().content;
@@ -261,11 +269,11 @@ void CodeWidget::copyClicked()
   {
     m_ui->copyButton->setText(tr("Copied") + "!");
     ThemeIcon::setIcon(*m_ui->copyButton, ":/icons/accept.svg");
-    m_timer = new QTimer(this);
+    m_timer = m_timer.create(this);
     m_timer->setSingleShot(true);
     m_timer->setInterval(1500);
 
-    connect(m_timer, &QTimer::timeout, this, &CodeWidget::timerTimeout);
+    connect(m_timer.get(), &QTimer::timeout, this, &CodeWidget::timerTimeout);
 
     m_timer->start();
   }
@@ -273,7 +281,7 @@ void CodeWidget::copyClicked()
 
 void CodeWidget::timerTimeout()
 {
-  disconnect(m_timer, &QTimer::timeout, this, &CodeWidget::timerTimeout);
+  disconnect(m_timer.get(), &QTimer::timeout, this, &CodeWidget::timerTimeout);
 
   m_timer->deleteLater();
   m_timer = nullptr;

@@ -1,6 +1,5 @@
 #ifndef CHATSETTINGS_H
 #define CHATSETTINGS_H
-#pragma once
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -8,20 +7,27 @@
 #include <QFile>
 #include <QDir>
 
-struct ChatSettings
+class ChatSettings
 {
+public:
+  ChatSettings();
+
   QString name;
   QString fileName;
-  QString model = "gpt-3.5-turbo";
+  QString model;
   quint32 usedTokens;
-  quint32 maxTokens;
-  float temperature = 1;
-  quint8 n = 1;
+  float temperature;
+  quint8 n;
   QStringList stop;
-  float presencePenalty = 0;
-  float frequencyPenalty = 0;
+  float presencePenalty;
+  float frequencyPenalty;
 
-  static ChatSettings getSettings(quint8 index);
+  ChatSettings getSettings(quint8 index) const;
+  quint32 getMaxTokens(QString model) const;
+  quint32 getMaxTokens() const;
+
+private:
+  quint32 m_maxTokens;
 
 };
 

@@ -1,6 +1,5 @@
 #ifndef NEWTEXTEDIT_H
 #define NEWTEXTEDIT_H
-#pragma once
 
 #include <QWidget>
 #include <QTextEdit>

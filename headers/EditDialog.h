@@ -1,6 +1,5 @@
 #ifndef EDITDIALOG_H
 #define EDITDIALOG_H
-#pragma once
 
 #include <QDialog>
 #include <QAbstractButton>
@@ -22,10 +21,11 @@ public:
 private:
   Ui::EditDialog *m_ui;
 
+private slots:
   void buttonAccepted();
 
 signals:
-  void textChanged(QString text);
+  void textChanged(const QString text);
 
 };
 

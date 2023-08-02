@@ -1,6 +1,5 @@
 #ifndef THEMEICON_H
 #define THEMEICON_H
-#pragma once
 
 #include <QObject>
 #include <QToolButton>

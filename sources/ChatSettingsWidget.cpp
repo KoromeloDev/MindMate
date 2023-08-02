@@ -30,7 +30,7 @@ ChatSettingsWidget::~ChatSettingsWidget()
   delete m_ui;
 }
 
-ChatSettings ChatSettingsWidget::getSettings()
+ChatSettings ChatSettingsWidget::getSettings() const
 {
   return m_settings;
 }
@@ -66,7 +66,7 @@ void ChatSettingsWidget::setParameters()
   m_ui->fPValue->setText(QString::number(m_settings.frequencyPenalty));
 }
 
-void ChatSettingsWidget::modelChanged(QString text)
+void ChatSettingsWidget::modelChanged(const QString &text)
 {
   m_settings.model = text;
 }

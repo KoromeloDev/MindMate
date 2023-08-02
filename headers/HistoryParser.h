@@ -1,6 +1,5 @@
 #ifndef HISTORYPARSER_H
 #define HISTORYPARSER_H
-#pragma once
 
 #include <QObject>
 #include <QJsonObject>
@@ -24,6 +23,7 @@ public:
     System
   };
   Q_ENUM(Role)
+
   struct Message
   {
     Role role;
@@ -42,7 +42,7 @@ public:
 
 private:
   QFile m_history;
-  quint16 m_countMessage = 0;
+  quint16 m_countMessage;
 
 };
 

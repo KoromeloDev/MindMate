@@ -2,6 +2,13 @@
 
 Settings::Settings()
 {
+  languageRecognize = true;
+  autoNaming = true;
+
+  #if CHECKUPDATES
+  checkUpdates = false;
+  #endif
+
   readSettings();
 }
 
@@ -48,7 +55,7 @@ void Settings::readSettings()
 
   QStringList stopList;
 
-  for (quint8 i = 0; i < 4; i++)
+  for (quint8 i = 0; i < 4; ++i)
   {
     QString stopWord = settings.value("StopWord" + QString::number(i)).
                        toString();
@@ -96,7 +103,7 @@ void Settings::writeSettings()
   settings.setValue("Temperature", chatSettings.temperature);
   settings.setValue("N", chatSettings.n);
 
-  for (quint8 i = 0; i < chatSettings.stop.length(); i++)
+  for (quint8 i = 0; i < chatSettings.stop.length(); ++i)
   {
     settings.setValue("StopWord" + QString::number(i), chatSettings.stop[i]);
   }

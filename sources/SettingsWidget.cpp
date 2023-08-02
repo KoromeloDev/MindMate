@@ -8,12 +8,12 @@ SettingsWidget::SettingsWidget(QWidget *parent)
 : QDialog(parent), m_ui(new Ui::SettingsWidget)
 {
   m_ui->setupUi(this);
-  setAttribute(Qt::WA_DeleteOnClose);
   QString version = QApplication::applicationVersion();
   m_ui->version->setText(tr("Version") + ": " + version);
   m_settings.readSettings();
-  m_chatSettingsWidget = new ChatSettingsWidget(this, m_settings.chatSettings);
-  m_ui->verticalLayout_2->addWidget(m_chatSettingsWidget);
+  m_chatSettingsWidget = m_chatSettingsWidget.create(this,
+                                                     m_settings.chatSettings);
+  m_ui->verticalLayout_2->addWidget(m_chatSettingsWidget.get());
 
   #if CHECKUPDATES
   m_ui->checkUpdates->setChecked(m_settings.checkUpdates);

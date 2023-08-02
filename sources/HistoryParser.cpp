@@ -3,6 +3,7 @@
 HistoryParser::HistoryParser(QObject *parent, QString fileName)
 : QObject(parent)
 {
+  m_countMessage = 0;
   m_history.setFileName(QDir::currentPath() + "/Chat/" +
                         fileName + "_history.json");
   if (!m_history.exists())

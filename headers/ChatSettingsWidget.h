@@ -1,6 +1,5 @@
 #ifndef CHATSETTINGSWIDGET_H
 #define CHATSETTINGSWIDGET_H
-#pragma once
 
 #include <QWidget>
 #include <QJsonDocument>
@@ -23,7 +22,7 @@ public:
                               ChatSettings settings = {});
   ~ChatSettingsWidget();
 
-  ChatSettings getSettings();
+  ChatSettings getSettings() const;
 
 protected:
   void changeEvent(QEvent *event);
@@ -35,7 +34,7 @@ private:
   void setParameters();
 
 private slots:
-  void modelChanged(QString text);
+  void modelChanged(const QString &text);
   void temperatureSliderMoved(quint8 position);
   void nSliderMoved(quint8 position);
   void pPSliderMoved(qint8 position);

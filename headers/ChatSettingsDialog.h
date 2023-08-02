@@ -1,6 +1,5 @@
 #ifndef CHATSETTINGSDIALOG_H
 #define CHATSETTINGSDIALOG_H
-#pragma once
 
 #include <QDialog>
 #include <QJsonDocument>
@@ -25,7 +24,7 @@ public:
 private:
   Ui::ChatSettingsDialog *m_ui;
   quint8 m_index;
-  ChatSettingsWidget *m_settingsWidget;
+  QSharedPointer<ChatSettingsWidget> m_settingsWidget;
 
 public slots:
   void accept() override;

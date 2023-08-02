@@ -15,11 +15,11 @@ QIcon ThemeIcon::getIcon(QString path)
   QImage image(path);
   image.convertTo(QImage::Format_ARGB32);
 
-  for (int y = 0; y < image.height(); y++)
+  for (int y = 0; y < image.height(); ++y)
   {
     QRgb *scanLine = (QRgb *)image.scanLine(y);
 
-    for (int x = 0; x < image.width(); x++)
+    for (int x = 0; x < image.width(); ++x)
     {
       QRgb pixel = *scanLine;
       quint8 color;
@@ -34,7 +34,7 @@ QIcon ThemeIcon::getIcon(QString path)
       }
 
       *scanLine = qRgba(color, color, color, qAlpha(pixel));
-      scanLine++;
+      ++scanLine;
     }
   }
 

@@ -10,11 +10,11 @@ struct Settings
   Settings();
 
   #if CHECKUPDATES
-  bool checkUpdates = false;
+  bool checkUpdates;
   #endif
 
-  bool languageRecognize = true;
-  bool autoNaming = true;
+  bool languageRecognize;
+  bool autoNaming;
   QString openAIKey;
   ChatSettings chatSettings;
 

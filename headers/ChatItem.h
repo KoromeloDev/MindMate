@@ -1,9 +1,7 @@
 #ifndef CHATITEM_H
 #define CHATITEM_H
-#pragma once
 
 #include <QWidget>
-#include <QListWidgetItem>
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
@@ -12,6 +10,7 @@
 #include <QJsonDocument>
 
 #include "EditDialog.h"
+#include "NewListWidgetItem.h"
 
 namespace Ui
 {
@@ -24,22 +23,20 @@ class ChatItem : public QWidget
 
 public:
   explicit ChatItem(QWidget *parent = nullptr, QString name = 0,
-                    quint8 index = 0);
+                    NewListWidgetItem *item = nullptr);
   ~ChatItem();
 
-  quint8 getIndex() const;
-  void setIndex(quint8 index);
-  void setNewMessage(bool message);
-
-  bool thereIsNew() const;
-  void editName(QString name);
+  bool isNew() const;
+  void setNewMessage(const bool &message);
+  void setName(const QString &name);
+  NewListWidgetItem *getItem() const;
 
 private:
   Ui::ChatItem *m_ui;
   QString m_name;
-  quint8 m_index;
+  NewListWidgetItem *m_item;
   bool m_message;
-  EditDialog *m_editDialog = nullptr;
+  QSharedPointer<EditDialog> m_editDialog;
 
   void checkWidth();
 

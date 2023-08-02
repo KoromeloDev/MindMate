@@ -3,43 +3,349 @@
 
 #include "ChatSettings.h"
 #include "ThemeIcon.h"
+#include "EditMessageDialog.h"
 
-MessageWidget::MessageWidget(QListWidgetItem *item,
-                             HistoryParser::Message message, quint8 chatIndex,
-                             quint8 index) : m_ui(new Ui::MessageWidget)
+QSharedPointer<EditMessageDialog> m_editDialog;
+
+MessageWidget::MessageWidget(NewListWidgetItem *item,
+                             HistoryParser::Message message, quint8 chatIndex) : m_ui(new Ui::MessageWidget)
 {
   m_ui->setupUi(this);
   m_item = item;
   m_message = message;
   m_chatIndex = chatIndex;
-  m_index = index;
-  QString colorOne;
-  QString colorTwo;
+  init();
+}
 
-  switch (message.role)
+MessageWidget::MessageWidget(MessageWidget *messageWidget, bool isEdit)
+: m_ui(new Ui::MessageWidget), m_isEdit(isEdit)
+{
+  m_ui->setupUi(this);
+
+  if (!isEdit)
+  {
+    m_item = messageWidget->getItem();
+  }
+  else
+  {
+    m_item = nullptr;
+  }
+
+  m_message = messageWidget->getMessage();
+  m_chatIndex = messageWidget->getChatIndex();
+  init();
+}
+
+MessageWidget::~MessageWidget()
+{
+  delete m_ui;
+}
+
+void MessageWidget::resize()
+{
+  if (parentWidget() == nullptr)
+  {
+    return;
+  }
+
+  ++m_queueResize;
+  setMaximumWidth(parentWidget()->size().width());
+  m_height = 0;
+  m_width = 0;
+
+  if (m_textEdit.length() != 0)
+  {
+    for (quint8 i = 0; i < m_textEdit.length(); ++i)
+    {
+      QSize textParameter = getSizeTextEdit(m_textEdit[i].get(), i);
+      m_height += textParameter.height();
+
+      if (textParameter.width() > m_width)
+      {
+        m_width = textParameter.width();
+      }
+    }
+  }
+  else
+  {
+    if (m_message.role == HistoryParser::Role::System || m_isEdit)
+    {
+      m_width = parentWidget()->size().width();
+    }
+    else
+    {
+      m_width = parentWidget()->size().width() * 0.7;
+    }
+
+    if (m_codeWidgets.count() == 1)
+    {
+      m_width -= 42;
+    }
+  }
+
+  for (const auto &code : qAsConst(m_codeWidgets))
+  {
+    qint16 size = code->getSize().height();
+//    if (size == -1)
+//    {
+//      --m_queueResize;
+//      code->resizeWidget();
+//      resize();
+//      return;
+//    }
+//    else
+//    {
+      m_height += size;
+//    }
+  }
+
+  m_ui->horizontalSpacer->changeSize(m_width, 0);
+  setMinimumHeight(m_height);
+
+  if (m_item != nullptr)
+  {
+    m_item->setSizeHint(QSize(width(), m_height+14));
+  }
+
+  for (const auto &code : qAsConst(m_codeWidgets))
+  {
+    code->resizeWidget();
+  }
+
+  --m_queueResize;
+
+  if (m_queueResize == 0)
+  {
+    emit resizeFinished(getSize());
+  }
+}
+
+QSize MessageWidget::getSizeTextEdit(QTextEdit *textEdit, quint8 index) const
+{
+  quint16 maxSizeWidth = parentWidget()->size().width();
+  quint16 sizeWidth = 32;
+  quint16 sizeHeight = textEdit->document()->size().toSize().height() + 14;
+  textEdit->setMaximumHeight(sizeHeight);
+
+  if (m_message.role == HistoryParser::Role::System && !m_isEdit)
+  {
+    textEdit->setAlignment(Qt::AlignCenter);
+    sizeWidth = maxSizeWidth - 42;
+  }
+  else
+  {
+    if (!m_isEdit)
+    {
+      maxSizeWidth *= 0.7;
+    }
+    else
+    {
+      maxSizeWidth = 800;
+      sizeHeight += 14;
+    }
+
+    if (isMaxWidth())
+    {
+      sizeWidth = maxSizeWidth;
+    }
+    else if (m_textWidth.length() != 0)
+    {
+      sizeWidth += m_textWidth[index];
+    }
+  }
+
+  textEdit->setMaximumWidth(sizeWidth);
+  return QSize(sizeWidth, sizeHeight);
+}
+
+void MessageWidget::createText()
+{
+  static QRegularExpression re("\\s*(`{3}([^\n]*\n[\\s\\S]*?)\\s*`{3})\\s*");
+  QRegularExpressionMatchIterator matchIterator =
+                                  re.globalMatch(m_message.content);
+  QStringList codeText;
+  quint8 indexCode = 0;
+//  quint8 codeWidget = 0;
+  QStringList textList;
+  quint8 indexText = 0;
+//  quint8 textWidget = 0;
+  QVector<qint16> startPosition;
+  QVector<qint16> endPosition;
+  QString text = m_message.content;
+
+  if (!m_isEdit)
+  {
+    while (matchIterator.hasNext())
+    {
+      QRegularExpressionMatch match = matchIterator.next();
+      qint16 start = match.capturedStart();
+      qint16 end = match.capturedEnd();
+      QString capturedText = match.captured(1);
+      startPosition.append(start);
+      endPosition.append(end);
+      codeText.append(capturedText);
+    }
+  }
+
+  for (quint8 i = 0; i < startPosition.count(); ++i)
+  {
+    qint16 end = i == 0 ? 0 : endPosition[i-1];
+
+    if (startPosition[i] != end)
+    {
+      m_widgetList.append(false);
+      qint16 n = startPosition[i] - end;
+      QString subText = text.sliced(endPosition[i-1], n);
+      textList.append(subText);
+    }
+
+    m_widgetList.append(true);
+  }
+
+  if (startPosition.count() == 0)
+  {
+    m_widgetList.append(false);
+    textList.append(text);
+  }
+  else
+  {
+    QString subText = text.sliced(endPosition.last(), -1);
+
+    if (!subText.isEmpty())
+    {
+      m_widgetList.append(false);
+      textList.append(text.sliced(endPosition.last(), -1));
+    }
+  }
+
+  for (quint8 i = 0; i < m_widgetList.count(); ++i)
+  {
+    bool isCodeWidget = m_widgetList[i];
+    Border border;
+
+    if (i == 0)
+    {
+      border.topLeft = 15;
+      border.topRight = 15;
+    }
+
+    if (i + 1 == m_widgetList.count())
+    {
+      border.bottomLeft = 15;
+      border.bottomRight = 15;
+    }
+
+    if (isCodeWidget && !m_isEdit)
+    {
+      addCodeWidget(codeText[indexCode], border);
+      ++indexCode;
+    }
+    else
+    {
+      addTextEdit(textList[indexText], border);
+      ++indexText;
+    }
+  }
+
+  if (m_message.role != HistoryParser::Role::System)
+  {
+    setContentsMargins(10, 0, 10, 0);
+  }
+}
+
+bool MessageWidget::isMaxWidth() const
+{
+  quint16 maxSize;
+
+  if (!m_isEdit)
+  {
+    maxSize = parentWidget()->size().width() * 0.7;
+  }
+  else
+  {
+    maxSize = 800;
+  }
+
+  for (const float &textWidth : m_textWidth)
+  {
+    if (m_message.role != HistoryParser::Role::System
+        && (textWidth >= maxSize || m_codeWidgets.count() != 0))
+    {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+void MessageWidget::setBorder(QWidget *widget, const Border &border)
+{
+  widget->setStyleSheet(widget->styleSheet() +
+                        "border-top-left-radius: " +
+                        QString::number(border.topLeft) + ";"
+                        "border-top-right-radius: " +
+                        QString::number(border.topRight)  + ";"
+                        "border-bottom-left-radius: " +
+                        QString::number(border.bottomLeft)  + ";"
+                        "border-bottom-right-radius: " +
+                        QString::number(border.bottomRight)  + ";");
+}
+
+void MessageWidget::addCodeWidget(const QString &codeText, const Border &border)
+{
+  QSharedPointer<CodeWidget> code = code.create(this, codeText, m_menu.get());
+
+  connect(code.get(), &CodeWidget::changeLanguage,
+          this, &MessageWidget::changeLanguage);
+
+  code->setEdit(m_isEdit);
+  m_codeWidgets.append(code);
+  addWidgetToLayout(code.get());
+  setBorder(code.get(), border);
+}
+
+void MessageWidget::resizeTimer()
+{
+  m_timer = m_timer.create();
+  m_timer->setInterval(5);
+  m_timer->setSingleShot(true);
+
+  connect(m_timer.get(), &QTimer::timeout, this, [=]()
+  {
+    m_timer.clear();
+    resize();
+  });
+
+  m_timer->start();
+}
+
+void MessageWidget::init()
+{
+  QString color1;
+  QString color2;
+  QString color3;
+
+  switch (m_message.role)
   {
     case HistoryParser::Role::Assistant:
-        colorOne = "ef745c";
-        colorTwo = "6E3AD5";
+        color1 = "ef745c";
+        color2 = "6E3AD5";
         break;
 
     case HistoryParser::Role::User:
-        colorOne = "40c9ff";
-        colorTwo = "e81cff";
+        color1 = "40c9ff";
+        color2 = "e81cff";
         break;
 
     case HistoryParser::Role::System:
-        colorOne = "e20b8c";
-        colorTwo = "f84b00";
+        color1 = "e20b8c";
+        color2 = "f84b00";
         break;
   }
 
   setStyleSheet("background: qlineargradient("
-                "x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #" + colorOne +", "
-                "stop: 1 #" + colorTwo +");");
-  QString color1;
-  QString color2;
-  QString color3;
+                "x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #" + color1 +", "
+                "stop: 1 #" + color2 +");");
 
   if (QPalette().color(QPalette::Window).value() < 128)
   {
@@ -54,334 +360,117 @@ MessageWidget::MessageWidget(QListWidgetItem *item,
     color3 = "#e6e6e6";
   }
 
-  m_menu = new QMenu(this);
-  m_menu->setStyleSheet("QMenu {"
-                          "color: " + color1 + ";"
-                          "border: 1px solid" + color1 + ";"
-                          "icon-size: 26px;"
-                          "font-size: 16px;}"
-                        "QMenu::item {"
-                          "background-color:" + color2 + ";}"
-                        "QMenu::item:selected {"
-                          "background-color: " + color3 + ";}");
-  m_menu->addAction(ThemeIcon::getIcon(":/icons/delete.svg"), tr("Delete"),
-                    this, &MessageWidget::actionDeleteClicked);
+  if (!m_isEdit)
+  {
+    m_menu = m_menu.create(this);
+    m_menu->setStyleSheet("QMenu {"
+                            "background-color:" + color2 + ";"
+                            "color: " + color1 + ";"
+                            "icon-size: 26px;"
+                            "font-size: 16px;}"
+                          "QMenu::item {"
+                            "background-color:" + color2 + ";}"
+                          "QMenu::item:selected {"
+                            "background-color: " + color3 + ";}");
+    m_menu->addAction(ThemeIcon::getIcon(":/icons/delete.svg"), tr("Delete"),
+                      this, &MessageWidget::actionDeleteClicked);
+    m_menu->addAction(ThemeIcon::getIcon(":/icons/edit.svg"), tr("Edit"),
+                      this, &MessageWidget::actionEditClicked);
+  }
+
   createText();
   selection("`([^`]*)`");
   selection("'([^']*)'");
   selection("\"([^\"]*)\"");
-
-  if (index == 0)
-  {
-    m_timer = new QTimer(this);
-    m_timer->setSingleShot(true);
-    m_timer->setInterval(50);
-
-    connect(m_timer, &QTimer::timeout, this, [=]()
-    {
-      m_timer->deleteLater();
-      m_timer = nullptr;
-      resize();
-    });
-
-    m_timer->start();
-  }
+  resizeTimer();
 }
 
-MessageWidget::~MessageWidget()
+void MessageWidget::addWidgetToLayout(QWidget *widget)
 {
-  delete m_ui;
-  m_layout->deleteLater();
-  delete m_menu;
+  Qt::AlignmentFlag position;
 
-  if (m_timer != nullptr)
+  switch (m_message.role)
   {
-    m_timer->deleteLater();
+    case HistoryParser::Role::Assistant:
+      position = Qt::AlignLeft;
+      break;
+    case HistoryParser::Role::System:
+      position = Qt::AlignHCenter;
+      break;
+    case HistoryParser::Role::User:
+      position = Qt::AlignRight;
+      break;
+    default:
+      return;
   }
 
-  for (quint8 i = 0; i < m_codeWidgets.count(); i++)
-  {
-    delete m_codeWidgets[i];
-  }
-
-  for (quint8 i = 0; i < m_textBrowsers.count(); i++)
-  {
-    delete m_textBrowsers[i];
-  }
+  m_ui->verticalLayout->addWidget(widget);
+  m_ui->verticalLayout->setAlignment(position);
 }
 
-void MessageWidget::resize()
+void MessageWidget::addTextEdit(QString text, Border border)
 {
-  m_height = 0;
-  m_width = 0;
-  quint8 i = 0;
+  QSharedPointer<QTextEdit> textEdit = textEdit.create(this);
+  textEdit->setStyleSheet("color: white;"
+                             "padding-left:10px;"
+                             "padding-right:10px;"
+                             "padding-top:5px;"
+                             "padding-bottom:5px;");
+  textEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+  textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  textEdit->setMinimumSize(40, 40);
+  textEdit->setFont(QFont(":/fonts/Roboto-Regular.ttf"));
+  m_textEdit.append(textEdit);
+  addWidgetToLayout(textEdit.get());
+  textEdit->setText(text);
+  textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
+  QFontMetrics fontSize(textEdit->font());
+  m_textWidth.append(fontSize.boundingRect(QRect(), Qt::TextDontClip, text).
+                     width());
 
-  if (m_textBrowsers.length() != 0)
+  connect(textEdit.get(), &QTextEdit::customContextMenuRequested, this, [=]()
   {
-    for (QTextBrowser *textBrowser : qAsConst(m_textBrowsers))
-    {
-      QSize textParameter = getSizeTextBrowser(textBrowser, i);
-      m_height += textParameter.height();
-
-      if (textParameter.width() > m_width)
-      {
-        m_width = textParameter.width();
-      }
-
-      i++;
-    }
-  }
-  else
-  {
-    m_width = parentWidget()->size().width() * 0.7;
-
-    if (m_message.role == HistoryParser::Role::User)
-    {
-      quint16 parentSize = parentWidget()->size().width();
-      m_leftMargin = parentSize - m_width;
-      parentSize += m_leftMargin;
-      m_width += m_leftMargin;
-      setContentsMargins(m_leftMargin, 0, 10, 0);
-    }
-    else if (m_message.role == HistoryParser::Role::System)
-    {
-      m_width = parentWidget()->size().width();
-    }
-  }
-
-  for (CodeWidget *code : qAsConst(m_codeWidgets))
-  {
-    m_height += code->size().height();
-  }
-
-  setFixedWidth(m_width);
-  setMinimumHeight(m_height);
-
-  if (m_item != nullptr)
-  {
-    m_item->setSizeHint(QSize(width(), m_height+12));
-  }
-
-  for (CodeWidget *code : qAsConst(m_codeWidgets))
-  {
-    code->resizeWidget(m_leftMargin);
-  }
-
-  emit resizeFinished();
-}
-
-QSize MessageWidget::getSizeTextBrowser(QTextBrowser *textBrowser, quint8 index)
-{
-  quint16 maxSizeWidth = parentWidget()->size().width();
-  float sizeWidth = 32;
-
-  if (m_message.role != HistoryParser::Role::System)
-  {
-    maxSizeWidth *= 0.7;
-
-    if (isMaxWidth())
-    {
-      sizeWidth = maxSizeWidth;
-    }
-    else if (m_textWidth.length() != 0)
-    {
-      sizeWidth += m_textWidth[index];
-    }
-  }
-  else
-  {
-    sizeWidth = maxSizeWidth - 42;
-    textBrowser->setAlignment(Qt::AlignCenter);
-  }
-
-  if (m_message.role == HistoryParser::Role::User)
-  {
-    quint16 margin = parentWidget()->size().width() - sizeWidth - 31;
-    m_leftMargin = margin;
-    sizeWidth += margin;
-    setContentsMargins(margin, 0, 10, 0);
-  }
-
-  quint16 sizeHeight = textBrowser->document()->size().toSize().height() + 12;
-  sizeWidth += 40;
-  textBrowser->setMaximumWidth(sizeWidth);
-  textBrowser->setMaximumHeight(sizeHeight);
-
-  return QSize(sizeWidth, sizeHeight);
-}
-
-void MessageWidget::createText()
-{
-  m_layout = new QVBoxLayout(this);
-  m_layout->setSpacing(0);
-  m_layout->setContentsMargins(10, 0, 10, 0);
-  setLayout(m_layout);
-
-  static QRegularExpression re("\\s*(`{3}([^\n]*\n[\\s\\S]*?)\\s*`{3})\\s*");
-  QRegularExpressionMatchIterator matchIterator =
-                                  re.globalMatch(m_message.content);
-  QList<qint16> positions = {0};
-  QList<qint16> lenght =  {0};
-  QString text = m_message.content;
-  QStringList codeText;
-  quint8 indexCode = 0;
-  QStringList textList;
-
-  while (matchIterator.hasNext())
-  {
-    QRegularExpressionMatch match = matchIterator.next();
-
-    if (positions.count() == 1)
-    {
-      positions.append(match.capturedStart());
-    }
-
-    lenght.append(match.capturedLength());
-    positions.append(match.capturedEnd());
-    codeText.append(match.captured(1));
-  }
-
-  positions.append(text.length());
-  lenght.append(-1);
-
-  for (quint8 i = 0; i < lenght.count(); i++)
-  {
-    if (i + 1 != positions.count())
-    {
-      quint16 n = positions[i+1] - lenght[i] - positions[i];
-      QString subText = text.mid(positions[i], n);
-
-      if (!subText.isEmpty())
-      {
-        textList.append(subText);
-      }
-    }
-  }
-
-  for (const QString &subText : textList)
-  {
-    QTextBrowser *textBrowser = new QTextBrowser(this);
-    Border border;
-    textBrowser->setStyleSheet("padding-left:10px;"
-                               "padding-right:10px;"
-                               "padding-top:5px;"
-                               "padding-bottom:5px;");
-    textBrowser->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    textBrowser->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    textBrowser->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    textBrowser->setMinimumSize(40, 40);
-    textBrowser->setFont(QFont(":/fonts/Roboto-Regular.ttf"));
-    m_layout->addWidget(textBrowser);
-    m_textBrowsers.append(textBrowser);
-    textBrowser->setText(subText);
-    textBrowser->setContextMenuPolicy(Qt::CustomContextMenu);
-    QFontMetrics fontSize(textBrowser->font());
-    m_textWidth.append(fontSize.boundingRect(QRect(), Qt::TextDontClip, text).
-                       width());
-
-    connect(textBrowser, &QTextBrowser::customContextMenuRequested, this, [=]()
+    if (m_menu != nullptr)
     {
       m_menu->exec(QCursor::pos());
-    });
-
-    if (subText == textList[0])
-    {
-      border.topLeft = 15;
-      border.topRight = 15;
     }
+  });
 
-    if (subText == textList.last() && indexCode + 1 != codeText.count())
-    {
-      border.bottomLeft = 15;
-      border.bottomRight = 15;
-    }
-
-    setBorder(textBrowser, border);
-
-    if (indexCode < codeText.count())
-    {
-      Border border;
-
-      if (subText == textList.last())
-      {
-        border.bottomLeft = 15;
-        border.bottomRight = 15;
-      }
-
-      addCodeWidget(codeText[indexCode], border);
-      indexCode++;
-    }
-  }
-
-  if (textList.count() == 0 && codeText.count() != 0)
+  if (m_isEdit)
   {
-    Border border;
-    border.topLeft = 15;
-    border.topRight = 15;
-    border.bottomLeft = 15;
-    border.bottomRight = 15;
-    addCodeWidget(codeText[indexCode], border);
+    connect(textEdit.get(), &QTextEdit::textChanged, this, &MessageWidget::resize);
   }
-
-  if (m_message.role != HistoryParser::Role::User)
+  else
   {
-    setContentsMargins(10, 0, 10, 0);
-  }
-}
-
-bool MessageWidget::isMaxWidth()
-{
-  float maxSize = parentWidget()->size().width() * 0.7;
-
-  for (float textWidth : m_textWidth)
-  {
-    if (m_message.role != HistoryParser::Role::System
-        && (textWidth >= maxSize || m_codeWidgets.count() != 0))
-    {
-      return true;
-    }
+    textEdit->setReadOnly(true);
   }
 
-  return false;
-}
-
-void MessageWidget::setBorder(QWidget *widget, Border border)
-{
-  widget->setStyleSheet(widget->styleSheet() +
-                        "border-top-left-radius: " +
-                        QString::number(border.topLeft) + ";"
-                        "border-top-right-radius: " +
-                        QString::number(border.topRight)  + ";"
-                        "border-bottom-left-radius: " +
-                        QString::number(border.bottomLeft)  + ";"
-                        "border-bottom-right-radius: " +
-                        QString::number(border.bottomRight)  + ";");
-}
-
-void MessageWidget::addCodeWidget(QString codeText, Border border)
-{
-  CodeWidget *code = new CodeWidget(this, codeText, m_menu);
-
-  connect(code, &CodeWidget::changeLanguage,
-          this, &MessageWidget::changeLanguage);
-
-  m_codeWidgets.append(code);
-  m_layout->addWidget(code);
-  setBorder(code, border);
-}
-
-void MessageWidget::contextMenuEvent(QContextMenuEvent *event)
-{
-  m_menu->exec(event->globalPos());
+  setBorder(textEdit.get(), border);
 }
 
 void MessageWidget::actionDeleteClicked()
 {
+  ChatSettings сhatSettings;
   HistoryParser historyParser(this,
-                              ChatSettings::getSettings(m_chatIndex).fileName);
-  historyParser.deleteMessage(m_index);
+                              сhatSettings.getSettings(m_chatIndex).fileName);
+  historyParser.deleteMessage(m_item->getIndex());
   deleteLater();
   emit selfDelete();
+}
+
+void MessageWidget::actionEditClicked()
+{
+  QWidget *parent = m_item->listWidget()->parentWidget()->parentWidget();
+  m_editDialog = m_editDialog.create(parent, this);
+
+    connect(m_editDialog.get(), &EditMessageDialog::finished, this, [=]()
+    {
+      editMessage(m_editDialog->getMessageWidget()->getMessage().content);
+      m_editDialog.clear();
+    });
+
+  m_editDialog->show();
 }
 
 void MessageWidget::changeLanguage(QString language)
@@ -390,7 +479,7 @@ void MessageWidget::changeLanguage(QString language)
   quint16 i = m_message.content.indexOf("```\n" + sender->getCode() + "\n```");
   quint16 j = i;
 
-  for (;j < m_message.content.length(); j++)
+  for (;j < m_message.content.length(); ++j)
   {
     if (m_message.content[j] == '\n')
     {
@@ -399,9 +488,7 @@ void MessageWidget::changeLanguage(QString language)
   }
 
   m_message.content.insert(j, language);
-  HistoryParser historyParser(this,
-                              ChatSettings::getSettings(m_chatIndex).fileName);
-  historyParser.editMessage(m_index, m_message.content);
+  editMessage(m_message.content);
 }
 
 void MessageWidget::resizeEvent(QResizeEvent *event)
@@ -410,9 +497,9 @@ void MessageWidget::resizeEvent(QResizeEvent *event)
   resize();
 }
 
-qint8 MessageWidget::getIndex() const
+NewListWidgetItem *MessageWidget::getItem()
 {
-  return m_index;
+  return m_item;
 }
 
 qint8 MessageWidget::getChatIndex() const
@@ -420,9 +507,34 @@ qint8 MessageWidget::getChatIndex() const
   return m_chatIndex;
 }
 
-void MessageWidget::setIndex(qint8 index)
+void MessageWidget::setItem(NewListWidgetItem *item)
 {
-  m_index = index;
+  m_item = item;
+}
+
+void MessageWidget::editMessage(QString newText)
+{
+  if (m_message.content == newText)
+  {
+    return;
+  }
+
+  ChatSettings сhatSettings;
+  HistoryParser historyParser(this,
+                              сhatSettings.getSettings(m_chatIndex).fileName);
+  historyParser.editMessage(m_item->getIndex(), newText);
+  m_message.content = newText;
+  m_widgetList.clear();
+  m_textEdit.clear();
+  m_codeWidgets.clear();
+  createText();
+  resize();
+  resizeTimer();
+}
+
+QSize MessageWidget::getSize() const
+{
+  return QSize(m_width, m_height);
 }
 
 void MessageWidget::selection(QString pattern)
@@ -433,10 +545,10 @@ void MessageWidget::selection(QString pattern)
   format.setFontWeight(QFont::Bold);
   quint8 i = 0;
 
-  for (QTextBrowser *textBrowser : qAsConst(m_textBrowsers))
+  for (const auto &textEdit : qAsConst(m_textEdit))
   {
-    QTextCursor cursor(textBrowser->document());
-    QString text = textBrowser->toPlainText();
+    QTextCursor cursor(textEdit->document());
+    QString text = textEdit->toPlainText();
     matchIterator = re.globalMatch(text);
 
     while (matchIterator.hasNext())
@@ -449,11 +561,36 @@ void MessageWidget::selection(QString pattern)
       m_textWidth[i] += 0.3;
     }
 
-    i++;
+    ++i;
   }
 }
 
-HistoryParser::Message MessageWidget::getMessage()
+HistoryParser::Message MessageWidget::getMessage() const
 {
   return m_message;
+}
+
+void MessageWidget::updateMessage()
+{
+  QString content;
+  quint8 indexCode = 0;
+  quint8 indexText = 0;
+
+  for (quint8 i = 0; i < m_widgetList.count(); ++i)
+  {
+    bool isCodeWidget = m_widgetList[i];
+
+    if (isCodeWidget)
+    {
+      content.append(m_codeWidgets[indexCode]->getFullText());
+      ++indexCode;
+    }
+    else
+    {
+      content.append(m_textEdit[indexText]->toPlainText());
+      ++indexText;
+    }
+  }
+
+  m_message.content = content;
 }

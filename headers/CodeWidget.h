@@ -1,13 +1,12 @@
 #ifndef CODEWIDGET_H
 #define CODEWIDGET_H
-#pragma once
 
 #include <QClipboard>
 #include <QMenu>
 #include <QTimer>
 #include <QWidget>
 
-#include "OpenAIChat.h"
+#include "ChatGPT.h"
 #include "qsourcehighliter.h"
 
 using QSH = QSourceHighlite::QSourceHighliter;
@@ -23,32 +22,36 @@ class CodeWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit CodeWidget (QWidget *parent = nullptr, QString code = 0,
+  explicit CodeWidget(QWidget *parent = nullptr, QString code = 0,
                        QMenu *menu = nullptr);
-  ~CodeWidget ();
+  ~CodeWidget();
 
-  void resizeWidget (quint16 margin = 0);
-  QString getCode ();
+  void resizeWidget();
+  QString getCode() const;
+  QSize getSize() const;
+  QString getFullText() const;
+  void setEdit(const bool &isEdit);
 
 private:
   Ui::CodeWidget *m_ui;
   QString m_language;
   QString m_code;
   QClipboard *m_clipboard;
-  QSH *m_highlighter = nullptr;
-  OpenAIChat *m_chatGPT = nullptr;
-  QTimer *m_timer = nullptr;
+  QSharedPointer<QSH> m_highlighter;
+  QSharedPointer<ChatGPT> m_chatGPT;
+  QSharedPointer<QTimer> m_timer;
+  QSize m_size;
 
-  void setCodeAutoHighlighter ();
-  void languageRecognize ();
+  void setCodeAutoHighlighter();
+  void languageRecognize();
 
 private slots:
-  void copyClicked ();
-  void timerTimeout ();
+  void copyClicked();
+  void timerTimeout();
 
 signals:
-  void contextMenuRequested (QPoint pos);
-  void changeLanguage (QString language);
+  void contextMenuRequested(QPoint pos);
+  void changeLanguage(QString language);
 };
 
 #endif // CODEWIDGET_H
