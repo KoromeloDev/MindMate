@@ -21,14 +21,19 @@
   <url type="homepage">https://github.com/KoromeloDev/MindMate</url>
 
   <releases>
+    <release version="1.1.11-beta" date="2023-06-03">
+      <description>
+        <p>Fixed issues</p>
+      </description>
+    </release>
     <release version="1.1.10-beta" date="2023-06-03">
       <description>
-        <p>Fixes size delete message icon</p>
+        <p>Fixed issues</p>
       </description>
     </release>
     <release version="1.1.9-beta" date="2023-05-29">
       <description>
-        <p>Fixes issues</p>
+        <p>Fixed issues</p>
       </description>
     </release>
   </releases>
