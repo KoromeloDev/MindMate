@@ -1,9 +1,0 @@
-[Desktop Entry]
-Categories=Network;
-Exec=/usr/bin/MindMate
-GenericName[ru_RU]=Неофициальное приложение для чата с ChatGPT
-GenericName=Unofficial chat app with ChatGPT
-Name=MindMate
-Type=Application
-Icon=io.github.koromelodev.mindmate
-Terminal=true
