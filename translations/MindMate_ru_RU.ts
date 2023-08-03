@@ -12,7 +12,7 @@
 <context>
     <name>ChatItem</name>
     <message>
-        <location filename="../sources/ChatItem.cpp" line="+143"/>
+        <location filename="../sources/ChatItem.cpp" line="+140"/>
         <source>Change chat name to</source>
         <translation>Изменить название чата на</translation>
     </message>
@@ -159,7 +159,7 @@
         <translation>Помощник</translation>
     </message>
     <message>
-        <location filename="../sources/MainWindow.cpp" line="+82"/>
+        <location filename="../sources/MainWindow.cpp" line="+88"/>
         <source>Update available</source>
         <translation>Доступно обновление</translation>
     </message>
@@ -169,18 +169,18 @@
         <translation>Ссылка на скачивание приложения</translation>
     </message>
     <message>
-        <location line="+124"/>
+        <location line="+123"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
         <location line="+75"/>
-        <location line="+214"/>
+        <location line="+199"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location line="-80"/>
+        <location line="-79"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>
@@ -188,7 +188,7 @@
 <context>
     <name>MessageWidget</name>
     <message>
-        <location filename="../sources/MessageWidget.cpp" line="+391"/>
+        <location filename="../sources/MessageWidget.cpp" line="+373"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>

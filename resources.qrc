@@ -18,5 +18,6 @@
         <file>icons/dot.svg</file>
         <file>sounds/message.wav</file>
         <file>sounds/error.wav</file>
+        <file>style.css</file>
     </qresource>
 </RCC>

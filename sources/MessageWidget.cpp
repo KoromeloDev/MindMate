@@ -165,10 +165,8 @@ void MessageWidget::createText()
                                   re.globalMatch(m_message.content);
   QStringList codeText;
   quint8 indexCode = 0;
-//  quint8 codeWidget = 0;
   QStringList textList;
   quint8 indexText = 0;
-//  quint8 textWidget = 0;
   QVector<qint16> startPosition;
   QVector<qint16> endPosition;
   QString text = m_message.content;
@@ -195,7 +193,7 @@ void MessageWidget::createText()
     {
       m_widgetList.append(false);
       qint16 n = startPosition[i] - end;
-      QString subText = text.sliced(endPosition[i-1], n);
+      QString subText = text.sliced(end, n);
       textList.append(subText);
     }
 
@@ -209,12 +207,12 @@ void MessageWidget::createText()
   }
   else
   {
-    QString subText = text.sliced(endPosition.last(), -1);
+    QString subText = text.mid(endPosition.last(), -1);
 
     if (!subText.isEmpty())
     {
       m_widgetList.append(false);
-      textList.append(text.sliced(endPosition.last(), -1));
+      textList.append(subText);
     }
   }
 

@@ -49,15 +49,19 @@ ChatSettings ChatSettings::getSettings(quint8 index) const
 
 quint32 ChatSettings::getMaxTokens(QString model) const
 {
-  if (model == "gpt-3.5-turbo-0301" || model == "gpt-3.5-turbo")
+  if (model == "gpt-3.5-turbo" || model == "gpt-3.5-turbo-0613")
   {
     return 4096;
   }
-  else if (model == "gpt-4" || model == "gpt-4-0314")
+  else if (model == "gpt-4" || model == "gpt-4-0613")
+  {
+    return 8192;
+  }
+  else if (model == "gpt-3.5-turbo-16k" || model == "gpt-3.5-turbo-16k-0613")
   {
     return 16384;
   }
-  else if (model == "gpt-4-32k-0314" || model == "gpt-4")
+  else if (model == "gpt-4-32k" || model == "gpt-4-32k-0613")
   {
     return 32768;
   }
