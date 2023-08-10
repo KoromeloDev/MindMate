@@ -26,20 +26,11 @@ int main(int argc, char *argv[])
 {
   QApplication application(argc, argv);
   application.setApplicationVersion(APP_VERSION "-beta");
+  QTranslator translator;
 
   //Creating a folder with configuration files
   {
     QString path = QDir::homePath();
-
-    #if defined(Q_OS_WIN)
-    for (const QString &key : QStyleFactory::keys())
-    {
-      if (key.toLower() == "fusion")
-      {
-        application.setStyle(QStyleFactory::create(key));
-      }
-    }
-    #endif
 
     #if defined(Q_OS_LINUX)
     #if FLATPAK
@@ -55,11 +46,11 @@ int main(int argc, char *argv[])
 
     createPath({path});
     QDir::setCurrent(path);
+    createPath({"Chat"});
   }
 
   //Translation of the application
   {
-    QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
 
     for (const QString &locale : uiLanguages)
@@ -76,7 +67,7 @@ int main(int argc, char *argv[])
 
   //Setup the application font
   {
-    QString fontFileName = ":/fonts/Roboto-Regular.ttf";
+    QString fontFileName = ":/resources/fonts/Roboto-Regular.ttf";
     QFont font("Roboto", 11);
     int fontId = QFontDatabase::addApplicationFont(fontFileName);
     QStringList fontFamilies = QFontDatabase::applicationFontFamilies(fontId);
@@ -88,17 +79,31 @@ int main(int argc, char *argv[])
     }
   }
 
-  createPath({"Chat"});
   MainWindow windows;
-  QString mainStyle;
-  QFile style(":/style.css");
 
-  if (style.open(QIODevice::ReadOnly | QIODevice::Text))
+  //Set application style
   {
-    mainStyle = style.readAll();
+    QString mainStyle;
+    QFile style(":/resources/style.css");
+
+    if (style.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+      mainStyle = style.readAll();
+    }
+
+    windows.setStyleSheet(mainStyle);
+
+    #if defined(Q_OS_WIN)
+    for (const QString &key : QStyleFactory::keys())
+    {
+      if (key.toLower() == "fusion")
+      {
+        application.setStyle(QStyleFactory::create(key));
+      }
+    }
+    #endif
   }
 
-  windows.setStyleSheet(mainStyle);
   windows.show();
   return application.exec();
 }

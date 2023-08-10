@@ -71,7 +71,7 @@
       <item>
        <widget class="QLabel" name="languageLabel">
         <property name="text">
-         <string>language</string>
+         <string notr="true">language</string>
         </property>
        </widget>
       </item>

@@ -86,17 +86,7 @@ void MessageWidget::resize()
   for (const auto &code : qAsConst(m_codeWidgets))
   {
     qint16 size = code->getSize().height();
-//    if (size == -1)
-//    {
-//      --m_queueResize;
-//      code->resizeWidget();
-//      resize();
-//      return;
-//    }
-//    else
-//    {
-      m_height += size;
-//    }
+    m_height += size;
   }
 
   m_ui->horizontalSpacer->changeSize(m_width, 0);
@@ -370,9 +360,11 @@ void MessageWidget::init()
                             "background-color:" + color2 + ";}"
                           "QMenu::item:selected {"
                             "background-color: " + color3 + ";}");
-    m_menu->addAction(ThemeIcon::getIcon(":/icons/delete.svg"), tr("Delete"),
+    m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/delete.svg"),
+                      tr("Delete"),
                       this, &MessageWidget::actionDeleteClicked);
-    m_menu->addAction(ThemeIcon::getIcon(":/icons/edit.svg"), tr("Edit"),
+    m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/edit.svg"),
+                      tr("Edit"),
                       this, &MessageWidget::actionEditClicked);
   }
 
@@ -418,7 +410,7 @@ void MessageWidget::addTextEdit(QString text, Border border)
   textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   textEdit->setMinimumSize(40, 40);
-  textEdit->setFont(QFont(":/fonts/Roboto-Regular.ttf"));
+  textEdit->setFont(QFont(":/resources/fonts/Roboto-Regular.ttf"));
   m_textEdit.append(textEdit);
   addWidgetToLayout(textEdit.get());
   textEdit->setText(text);

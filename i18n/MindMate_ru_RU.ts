@@ -6,7 +6,7 @@
     <message>
         <location filename="../sources/ChatGPT.cpp" line="+84"/>
         <source>Connection failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Сбой подключения</translation>
     </message>
 </context>
 <context>
@@ -32,7 +32,7 @@
         <translation type="vanished">Настройки Чата</translation>
     </message>
     <message>
-        <location filename="../ui/ChatSettingsWidget.ui" line="+236"/>
+        <location filename="../ui/ChatSettingsWidget.ui" line="+246"/>
         <source>Temperature</source>
         <translation>Температура</translation>
     </message>
@@ -52,12 +52,12 @@
         <translation>Стоп слова</translation>
     </message>
     <message>
-        <location line="-312"/>
+        <location line="-322"/>
         <source>Presence penalty</source>
         <translation>Штраф за присутствие</translation>
     </message>
     <message>
-        <location line="+124"/>
+        <location line="+134"/>
         <source>Frequency penalty</source>
         <translation>Штраф за частоту</translation>
     </message>
@@ -72,12 +72,12 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;До 4 последовательностей, в которых API перестанет генерировать дальнейшие токены.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="-284"/>
+        <location line="-294"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Positive values penalize new tokens based on whether they appear in the text so far, increasing the model&apos;s likelihood to talk about new topics.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Положительные значения наказывают за новые токены в зависимости от того, появляются ли они в тексте на данный момент, увеличивая вероятность того, что модель заговорит на новые темы.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+124"/>
+        <location line="+134"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model&apos;s likelihood to repeat the same line verbatim.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Положительные значения наказывают за новые токены на основе их существующей частоты в тексте на данный момент, уменьшая вероятность дословного повторения одной и той же строки моделью.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -85,12 +85,7 @@
 <context>
     <name>CodeWidget</name>
     <message>
-        <location filename="../ui/CodeWidget.ui" line="+74"/>
-        <source>language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+26"/>
+        <location filename="../ui/CodeWidget.ui" line="+100"/>
         <location filename="../sources/CodeWidget.cpp" line="+288"/>
         <source>Copy</source>
         <translation>Копировать</translation>
@@ -118,7 +113,7 @@
     <message>
         <location filename="../ui/EditMessageDialog.ui" line="+32"/>
         <source>Edit message</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование сообщения</translation>
     </message>
 </context>
 <context>
@@ -169,18 +164,18 @@
         <translation>Ссылка на скачивание приложения</translation>
     </message>
     <message>
-        <location line="+123"/>
+        <location line="+116"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
         <location line="+75"/>
-        <location line="+199"/>
+        <location line="+201"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location line="-79"/>
+        <location line="-81"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>
@@ -188,14 +183,14 @@
 <context>
     <name>MessageWidget</name>
     <message>
-        <location filename="../sources/MessageWidget.cpp" line="+373"/>
+        <location filename="../sources/MessageWidget.cpp" line="+363"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактировать</translation>
     </message>
 </context>
 <context>

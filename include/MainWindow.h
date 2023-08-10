@@ -84,5 +84,8 @@ private slots:
   void chatItemDeleteClicked();
   void messageDeleteCliked();
 
+signals:
+  void resized();
+
 };
 #endif // MAINWINDOW_H

@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../resources.qrc">
-    <normaloff>:/icons/MindMateLogo.svg</normaloff>:/icons/MindMateLogo.svg</iconset>
+    <normaloff>:/resources/icons/MindMateLogo.svg</normaloff>:/resources/icons/MindMateLogo.svg</iconset>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>

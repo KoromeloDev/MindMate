@@ -18,8 +18,8 @@ ChatSettingsWidget::ChatSettingsWidget(QWidget *parent, ChatSettings settings)
   connect(m_ui->fPSlider, &QSlider::sliderMoved,
           this, &ChatSettingsWidget::fPSliderMoved);
 
-  ThemeIcon::setIcon(*m_ui->addStopButton, ":/icons/add.svg");
-  ThemeIcon::setIcon(*m_ui->deleteStopButton, ":/icons/delete.svg");
+  ThemeIcon::setIcon(*m_ui->addStopButton, ":/resources/icons/add.svg");
+  ThemeIcon::setIcon(*m_ui->deleteStopButton, ":/resources/icons/delete.svg");
 
   m_settings = settings;
   setParameters();

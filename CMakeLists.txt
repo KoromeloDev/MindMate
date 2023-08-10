@@ -4,25 +4,23 @@ project(MindMate VERSION 1.1.13 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 set(CMAKE_AUTOUIC True)
 set(CMAKE_AUTOMOC True)
 set(CMAKE_AUTORCC True)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ui/)
 
-file(GLOB TS translations/*.ts)
-file(GLOB SOURCE sources/*.cpp)
-file(GLOB HEADERS headers/*.h)
+file(GLOB TS i18n/*.ts)
+file(GLOB SOURCE src/*.cpp)
+file(GLOB HEADERS include/*.h)
 file(GLOB UI ui/*.ui)
 set(PROJECT_SOURCES ${TS} ${SOURCE} ${HEADERS} ${UI} resources.qrc)
 
 if(LINUX)
   set(APP_ID io.github.koromelodev.mindmate)
-  set(APP_ICON icons/MindMateLogo.svg)
-  set(APP_ICON_PNG icons/${APP_ID}.png)
-  set(METAINFO ${APP_ID}.metainfo.xml)
-  set(DESKTOP_FILE ${PROJECT_NAME}.desktop)
+  set(APP_ICON resources/icons/MindMateLogo.svg)
+  set(APP_ICON_PNG resources/icons/${APP_ID}.png)
+  set(METAINFO resources/${APP_ID}.metainfo.xml)
+  set(DESKTOP_FILE resources/${PROJECT_NAME}.desktop)
 
   if (FLATPAK)
     set(PATH_ICON /app/share/icons/hicolor/scalable/apps)
@@ -42,7 +40,7 @@ if(LINUX)
 else(WIN32)
   set(CMAKE_RC_COMPILER_INIT windres)
   enable_language(RC)
-  set(PROJECT_SOURCES ${PROJECT_SOURCES} icon.rc)
+  set(PROJECT_SOURCES ${PROJECT_SOURCES} resources/icon.rc)
 endif()
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
@@ -57,11 +55,11 @@ else()
   target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=True)
 endif()
 
-target_include_directories(${PROJECT_NAME} PUBLIC headers source ui
-                           translations)
+add_subdirectory(import)
+target_include_directories(${PROJECT_NAME} PUBLIC include src ui i18n)
+
 find_package(Qt6 REQUIRED COMPONENTS Widgets LinguistTools Network Svg
              Multimedia)
-add_subdirectory(lib)
 target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Widgets Qt6::Network
                       Qt6::Svg Qt6::Multimedia QSourceHighliter)
 

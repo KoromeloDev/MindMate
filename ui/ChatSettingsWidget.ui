@@ -111,17 +111,17 @@
      </property>
      <item>
       <property name="text">
-       <string>gpt-4-32k-0613</string>
+       <string notr="true">gpt-4-32k-0613</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>gpt-4-32k</string>
+       <string notr="true">gpt-4-32k</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>gpt-4-0613</string>
+       <string notr="true">gpt-4-0613</string>
       </property>
      </item>
      <item>
@@ -131,17 +131,17 @@
      </item>
      <item>
       <property name="text">
-       <string>gpt-3.5-turbo-16k-0613</string>
+       <string notr="true">gpt-3.5-turbo-16k-0613</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>gpt-3.5-turbo-16k</string>
+       <string notr="true">gpt-3.5-turbo-16k</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>gpt-3.5-turbo-0613</string>
+       <string notr="true">gpt-3.5-turbo-0613</string>
       </property>
      </item>
      <item>

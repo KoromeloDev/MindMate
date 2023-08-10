@@ -33,7 +33,7 @@ SettingsWidget::SettingsWidget(QWidget *parent)
     m_ui->keyLabel->setText(tr("API key") + ": " + keyHidden);
   }
 
-  ThemeIcon::setIcon(*m_ui->editKeyButton, ":/icons/edit.svg");
+  ThemeIcon::setIcon(*m_ui->editKeyButton, ":/resources/icons/edit.svg");
 
   connect(m_ui->editKeyButton, &QToolButton::clicked,
           this, &SettingsWidget::editKeyClicked);

@@ -15,9 +15,8 @@ ChatItem::ChatItem(QWidget *parent, QString name, NewListWidgetItem *item)
           this, &ChatItem::editClicked);
   connect(m_ui->deleteButton, &QToolButton::clicked,
           this, &ChatItem::deleteCliked);
-
-  ThemeIcon::setIcon(*m_ui->editButton, ":/icons/edit.svg");
-  ThemeIcon::setIcon(*m_ui->deleteButton, ":/icons/delete.svg");
+  ThemeIcon::setIcon(*m_ui->editButton, ":/resources/icons/edit.svg");
+  ThemeIcon::setIcon(*m_ui->deleteButton, ":/resources/icons/delete.svg");
 }
 
 ChatItem::~ChatItem()
@@ -31,7 +30,7 @@ void ChatItem::setNewMessage(const bool &message)
 
   if (message)
   {
-    ThemeIcon::setIcon(*m_ui->messageIcon, ":/icons/dot.svg");
+    ThemeIcon::setIcon(*m_ui->messageIcon, ":/resources/icons/dot.svg");
   }
   else
   {

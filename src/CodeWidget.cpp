@@ -57,7 +57,7 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
     }
   });
 
-  ThemeIcon::setIcon(*m_ui->copyButton, ":/icons/copy.svg");
+  ThemeIcon::setIcon(*m_ui->copyButton, ":/resources/icons/copy.svg");
   setCodeAutoHighlighter();
 }
 
@@ -268,7 +268,7 @@ void CodeWidget::copyClicked()
   if (m_timer == nullptr)
   {
     m_ui->copyButton->setText(tr("Copied") + "!");
-    ThemeIcon::setIcon(*m_ui->copyButton, ":/icons/accept.svg");
+    ThemeIcon::setIcon(*m_ui->copyButton, ":/resources/icons/accept.svg");
     m_timer = m_timer.create(this);
     m_timer->setSingleShot(true);
     m_timer->setInterval(1500);
@@ -286,5 +286,5 @@ void CodeWidget::timerTimeout()
   m_timer->deleteLater();
   m_timer = nullptr;
   m_ui->copyButton->setText(tr("Copy"));
-  ThemeIcon::setIcon(*m_ui->copyButton, ":/icons/copy.svg");
+  ThemeIcon::setIcon(*m_ui->copyButton, ":/resources/icons/copy.svg");
 }

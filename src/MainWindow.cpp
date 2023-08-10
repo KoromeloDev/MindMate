@@ -48,23 +48,23 @@ MainWindow::MainWindow(QWidget *parent)
   }
   #endif
 
-  m_movie.setFileName(":/icons/eclipse.gif");
+  m_movie.setFileName(":/resources/icons/eclipse.gif");
   m_movie.setScaledSize(QSize(32, 32));
   m_ui->loading->setMovie(&m_movie);
   setChatSettings(0);
   fillChatList();
   m_ui->historyList->verticalScrollBar()->setSingleStep(20);
 
-  ThemeIcon::setIcon(*m_ui->newChatButton, ":/icons/add.svg");
-  ThemeIcon::setIcon(*m_ui->settingsButton, ":/icons/settings.svg");
-  ThemeIcon::setIcon(*m_ui->retryButton, ":/icons/refresh.svg");
-  ThemeIcon::setIcon(*m_ui->stopButton, ":/icons/stop.svg");
+  ThemeIcon::setIcon(*m_ui->newChatButton, ":/resources/icons/add.svg");
+  ThemeIcon::setIcon(*m_ui->settingsButton, ":/resources/icons/settings.svg");
+  ThemeIcon::setIcon(*m_ui->retryButton, ":/resources/icons/refresh.svg");
+  ThemeIcon::setIcon(*m_ui->stopButton, ":/resources/icons/stop.svg");
   ThemeIcon::setIcon(*m_ui->chatSettingsButton, ":/icons/configuration.svg");
-  ThemeIcon::setIcon(*m_ui->sendButton, ":/icons/send.svg");
+  ThemeIcon::setIcon(*m_ui->sendButton, ":/resources/icons/send.svg");
 
-  m_answerEffect.setSource(QUrl::fromLocalFile(":/sounds/message.wav"));
+  m_answerEffect.setSource(QUrl::fromLocalFile(":/resources/sounds/message.wav"));
   m_answerEffect.setVolume(0.20f);
-  m_errorEffect.setSource(QUrl::fromLocalFile(":/sounds/error.wav"));
+  m_errorEffect.setSource(QUrl::fromLocalFile(":/resources/sounds/error.wav"));
   m_errorEffect.setVolume(0.15f);
 }
 
@@ -96,14 +96,7 @@ void MainWindow::needUpdates(bool haveUpdates, QUrl downloadUrl)
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
   QMainWindow::resizeEvent(event);
-
-  for (quint16 i = 0; i < m_ui->historyList->count(); ++i)
-  {
-    QListWidgetItem *item = m_ui->historyList->item(i);
-    QWidget *itemWidget = m_ui->historyList->itemWidget(item);
-    MessageWidget *message = dynamic_cast<MessageWidget *>(itemWidget);
-    message->resize();
-  }
+  emit resized();
 }
 
 void MainWindow::paintEvent(QPaintEvent *event)
@@ -473,6 +466,8 @@ void MainWindow::addMessage(MessageWidget *messageWidget)
   m_ui->historyList->setItemWidget(item, messageWidget);
   m_ui->historyList->setCurrentItem(item);
 
+  connect(this, &MainWindow::resized,
+          messageWidget, &MessageWidget::resize);
   connect(messageWidget, &MessageWidget::selfDelete,
           this, &MainWindow::messageDeleteCliked);
 }
