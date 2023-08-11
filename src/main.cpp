@@ -35,7 +35,10 @@ int main(int argc, char *argv[])
 
     #if defined(Q_OS_LINUX)
     #if FLATPAK
-    path.append("/.var/app/" APP_ID "/config");
+    path.append("/.var/app/");
+    path.append(APP_ID);
+    path.append("/config");
+    qDebug() << "App id:" << APP_ID;
     #else
     path.append("/.config/");
     path.append(PROJECT_NAME);
@@ -46,6 +49,7 @@ int main(int argc, char *argv[])
     #endif
 
     qDebug() << path;
+
     createPath({path});
     QDir::setCurrent(path);
     createPath({"Chat"});
