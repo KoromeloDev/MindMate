@@ -50,7 +50,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
                            -DPROJECT_NAME="${PROJECT_NAME}")
 if(FLATPAK)
   target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=False
-                             -DFLATPAK=${FLATPAK})
+                             -DFLATPAK=${FLATPAK} -DAPP_ID=${DAPP_ID})
 else()
   target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=True)
 endif()
