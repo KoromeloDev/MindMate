@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.26)
-project(MindMate VERSION 1.1.14 LANGUAGES CXX)
+project(MindMate VERSION 1.1.15 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -49,8 +49,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
                            -DAPP_VERSION="${PROJECT_VERSION}"
                            -DPROJECT_NAME="${PROJECT_NAME}")
 if(FLATPAK)
-  target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=False
-                             -DFLATPAK=${FLATPAK} -DAPP_ID=${DAPP_ID})
+  target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=False)
 else()
   target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=True)
 endif()

@@ -33,12 +33,8 @@ int main(int argc, char *argv[])
     QString path = QDir::homePath();
 
     #if defined(Q_OS_LINUX)
-    #if FLATPAK
-    path.append("/.var/app/" APP_ID "/config");
-    #else
     path.append("/.config/");
     path.append(PROJECT_NAME);
-    #endif
     #elif defined(Q_OS_WIN)
     path.append("/AppData/Local/");
     path.append(PROJECT_NAME);
