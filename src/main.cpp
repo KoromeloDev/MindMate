@@ -7,7 +7,6 @@
 #include <QFile>
 #include <QFontDatabase>
 #include <QStyleFactory>
-#include <QDebug>
 
 //Creates folders in the current directory
 void createPath(QStringList pathList)
@@ -48,10 +47,6 @@ int main(int argc, char *argv[])
     createPath({path});
     QDir::setCurrent(path);
     createPath({"Chat"});
-
-    #if FLATPAK
-    qDebug() << path;
-    #endif
   }
 
   //Translation of the application
