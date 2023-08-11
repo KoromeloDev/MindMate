@@ -47,6 +47,10 @@ int main(int argc, char *argv[])
     createPath({path});
     QDir::setCurrent(path);
     createPath({"Chat"});
+
+    #if FLATPAK
+    createPath({"Flatpak"});
+    #endif
   }
 
   //Translation of the application
