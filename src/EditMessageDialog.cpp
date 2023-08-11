@@ -45,24 +45,6 @@ void EditMessageDialog::resize(QSize size)
 {
   size += QSize(12, 125);
 
-  if (size.width() > maxSize.width())
-  {
-    setMaximumWidth(maxSize.width());
-    setMinimumWidth(maxSize.width());
-    size.setWidth(maxSize.width());
-  }
-  else if (size.width() < minSize.width())
-  {
-    setMaximumWidth(minSize.width());
-    setMinimumWidth(minSize.width());
-    size.setWidth(minSize.width());
-  }
-  else
-  {
-    setMaximumWidth(size.width());
-    setMinimumWidth(size.width());
-  }
-
   if (size.height() > maxSize.height())
   {
     setMaximumHeight(maxSize.height());

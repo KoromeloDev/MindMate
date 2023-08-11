@@ -56,8 +56,8 @@ private:
   };
   QSharedPointer<QMenu> m_menu;
   qint8 m_chatIndex;
-  bool m_isEdit = false;
-  quint8 m_queueResize = 0;
+  bool m_isEdit;
+  quint8 m_queueResize;
   QVector<bool> m_widgetList;           //  true == code widget
   QSharedPointer<QTimer> m_timer;
 
@@ -74,6 +74,7 @@ private:
 
 signals:
   void selfDelete();
+  void selfEdit();
   void resizeFinished(QSize size);
 
 private slots:

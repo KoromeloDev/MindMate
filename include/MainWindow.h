@@ -79,10 +79,11 @@ private slots:
   void retryClicked();
   void stopClicked();
   void chatSettingsClicked();
-  void responseReceived(QString response);
+  void responseReceived();
   void replyError(QString error);
   void chatItemDeleteClicked();
   void messageDeleteCliked();
+  void messageEdit();
 
 signals:
   void resized();

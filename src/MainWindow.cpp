@@ -59,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
   ThemeIcon::setIcon(*m_ui->settingsButton, ":/resources/icons/settings.svg");
   ThemeIcon::setIcon(*m_ui->retryButton, ":/resources/icons/refresh.svg");
   ThemeIcon::setIcon(*m_ui->stopButton, ":/resources/icons/stop.svg");
-  ThemeIcon::setIcon(*m_ui->chatSettingsButton, ":/icons/configuration.svg");
+  ThemeIcon::setIcon(*m_ui->chatSettingsButton, ":/resources/icons/configuration.svg");
   ThemeIcon::setIcon(*m_ui->sendButton, ":/resources/icons/send.svg");
 
   m_answerEffect.setSource(QUrl::fromLocalFile(":/resources/sounds/message.wav"));
@@ -470,6 +470,8 @@ void MainWindow::addMessage(MessageWidget *messageWidget)
           messageWidget, &MessageWidget::resize);
   connect(messageWidget, &MessageWidget::selfDelete,
           this, &MainWindow::messageDeleteCliked);
+  connect(messageWidget, &MessageWidget::selfEdit,
+          this, &MainWindow::messageEdit);
 }
 
 void MainWindow::sendClicked()
@@ -531,7 +533,7 @@ void MainWindow::chatSettingsClicked()
   chatSettings->show();
 }
 
-void MainWindow::responseReceived(QString response)
+void MainWindow::responseReceived()
 {
   ChatGPT *sender = qobject_cast<ChatGPT*>(QObject::sender());
   m_answerEffect.play();
@@ -648,4 +650,10 @@ void MainWindow::messageDeleteCliked()
     errorState(m_allMesages.count() != 0 &&
                m_allMesages.last().role == HistoryParser::Role::User);
   }
+}
+
+void MainWindow::messageEdit()
+{
+  MessageWidget *sender = qobject_cast<MessageWidget*>(QObject::sender());
+  m_allMesages[sender->getItem()->getIndex()] = sender->getMessage();
 }

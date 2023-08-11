@@ -14,6 +14,8 @@ MessageWidget::MessageWidget(NewListWidgetItem *item,
   m_item = item;
   m_message = message;
   m_chatIndex = chatIndex;
+  m_isEdit = false;
+  m_queueResize = 0;
   init();
 }
 
@@ -122,17 +124,13 @@ QSize MessageWidget::getSizeTextEdit(QTextEdit *textEdit, quint8 index) const
     textEdit->setAlignment(Qt::AlignCenter);
     sizeWidth = maxSizeWidth - 42;
   }
+  else if (m_isEdit)
+  {
+    sizeWidth = maxSizeWidth - 42;
+  }
   else
   {
-    if (!m_isEdit)
-    {
-      maxSizeWidth *= 0.7;
-    }
-    else
-    {
-      maxSizeWidth = 800;
-      sizeHeight += 14;
-    }
+    maxSizeWidth *= 0.7;
 
     if (isMaxWidth())
     {
@@ -348,6 +346,8 @@ void MessageWidget::init()
     color3 = "#e6e6e6";
   }
 
+  createText();
+
   if (!m_isEdit)
   {
     m_menu = m_menu.create(this);
@@ -366,13 +366,11 @@ void MessageWidget::init()
     m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/edit.svg"),
                       tr("Edit"),
                       this, &MessageWidget::actionEditClicked);
+    selection("`([^`]*)`");
+    selection("'([^']*)'");
+    selection("\"([^\"]*)\"");
+    resizeTimer();
   }
-
-  createText();
-  selection("`([^`]*)`");
-  selection("'([^']*)'");
-  selection("\"([^\"]*)\"");
-  resizeTimer();
 }
 
 void MessageWidget::addWidgetToLayout(QWidget *widget)
@@ -454,11 +452,16 @@ void MessageWidget::actionEditClicked()
   QWidget *parent = m_item->listWidget()->parentWidget()->parentWidget();
   m_editDialog = m_editDialog.create(parent, this);
 
-    connect(m_editDialog.get(), &EditMessageDialog::finished, this, [=]()
-    {
-      editMessage(m_editDialog->getMessageWidget()->getMessage().content);
-      m_editDialog.clear();
-    });
+  connect(m_editDialog.get(), &EditMessageDialog::rejected, this, [=]()
+  {
+    m_editDialog.clear();
+  });
+
+  connect(m_editDialog.get(), &EditMessageDialog::accepted, this, [=]()
+  {
+    editMessage(m_editDialog->getMessageWidget()->getMessage().content);
+    m_editDialog.clear();
+  });
 
   m_editDialog->show();
 }
@@ -520,6 +523,7 @@ void MessageWidget::editMessage(QString newText)
   createText();
   resize();
   resizeTimer();
+  emit selfEdit();
 }
 
 QSize MessageWidget::getSize() const
@@ -563,24 +567,6 @@ HistoryParser::Message MessageWidget::getMessage() const
 void MessageWidget::updateMessage()
 {
   QString content;
-  quint8 indexCode = 0;
-  quint8 indexText = 0;
-
-  for (quint8 i = 0; i < m_widgetList.count(); ++i)
-  {
-    bool isCodeWidget = m_widgetList[i];
-
-    if (isCodeWidget)
-    {
-      content.append(m_codeWidgets[indexCode]->getFullText());
-      ++indexCode;
-    }
-    else
-    {
-      content.append(m_textEdit[indexText]->toPlainText());
-      ++indexText;
-    }
-  }
-
+  content.append(m_textEdit[0]->toPlainText());
   m_message.content = content;
 }

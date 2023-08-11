@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-project(MindMate VERSION 1.1.13 LANGUAGES CXX)
+project(MindMate VERSION 1.1.14 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)

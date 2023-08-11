@@ -5,6 +5,7 @@
 #include <QToolButton>
 #include <QPushButton>
 #include <QLabel>
+#include <QPainter>
 
 class ThemeIcon : public QObject
 {
@@ -13,7 +14,7 @@ class ThemeIcon : public QObject
 public:
   static void setIcon(QToolButton &button, QString path);
   static void setIcon(QLabel &label, QString path);
-  static QIcon getIcon(QString path);
+  static QIcon getIcon(QString path, QSize size = QSize(32, 32));
 };
 
 #endif // THEMEICON_H
