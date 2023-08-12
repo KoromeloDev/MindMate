@@ -7,7 +7,6 @@
 #include <QFile>
 #include <QFontDatabase>
 #include <QStyleFactory>
-#include <QDebug>
 
 //Creates folders in the current directory
 void createPath(QStringList pathList)
@@ -38,7 +37,6 @@ int main(int argc, char *argv[])
     path.append("/.var/app/");
     path.append(APP_ID);
     path.append("/config");
-    qDebug() << "App id:" << APP_ID;
     #else
     path.append("/.config/");
     path.append(PROJECT_NAME);
@@ -47,8 +45,6 @@ int main(int argc, char *argv[])
     path.append("/AppData/Local/");
     path.append(PROJECT_NAME);
     #endif
-
-    qDebug() << path;
 
     createPath({path});
     QDir::setCurrent(path);

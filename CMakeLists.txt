@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.26)
-project(MindMate VERSION 1.1.16 LANGUAGES CXX)
+project(MindMate VERSION 1.1.15 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -27,15 +27,11 @@ if(LINUX)
     set(PATH_ICON_PNG /app/share/icons/hicolor/128x128/apps)
     set(DESKTOP_INSTALL_DIR /app/share/applications)
     set(METAINFO_PATH /app/share/metainfo)
-    configure_file(${DESKTOP_FILE} ${APP_ID}.desktop COPYONLY)
-    set(DESKTOP_FILE ${APP_ID}.desktop)
-    file(APPEND ${DESKTOP_FILE} Terminal=true)
   else()
     set(PATH_ICON /usr/share/icons/hicolor/scalable/apps)
     set(PATH_ICON_PNG /usr/share/icons/hicolor/128x128/apps)
     set(DESKTOP_INSTALL_DIR $ENV{HOME}/.local/share/applications)
     set(METAINFO_PATH /usr/share/metainfo)
-
   endif()
 else(WIN32)
   set(CMAKE_RC_COMPILER_INIT windres)
@@ -82,8 +78,16 @@ if(LINUX)
           RENAME ${APP_ID}.svg)
   install(FILES ${APP_ICON_PNG}
           DESTINATION ${PATH_ICON_PNG})
-  install(FILES ${DESKTOP_FILE}
-          DESTINATION ${DESKTOP_INSTALL_DIR})
+
+  if(FLATPAK)
+    install(FILES ${DESKTOP_FILE}
+            DESTINATION ${DESKTOP_INSTALL_DIR}
+            RENAME ${APP_ID}.desktop)
+  else()
+    install(FILES ${DESKTOP_FILE}
+            DESTINATION ${DESKTOP_INSTALL_DIR})
+  endif()
+
   install(FILES ${METAINFO}
           DESTINATION ${METAINFO_PATH})
 endif()
