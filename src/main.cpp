@@ -81,6 +81,19 @@ int main(int argc, char *argv[])
     }
   }
 
+  //Set application style for windows
+  {
+    #if defined(Q_OS_WIN)
+    for (const QString &key : QStyleFactory::keys())
+    {
+      if (key.toLower() == "fusion")
+      {
+        application.setStyle(QStyleFactory::create(key));
+      }
+    }
+    #endif
+  }
+
   MainWindow windows;
 
   //Set application style
@@ -94,16 +107,6 @@ int main(int argc, char *argv[])
     }
 
     windows.setStyleSheet(mainStyle);
-
-    #if defined(Q_OS_WIN)
-    for (const QString &key : QStyleFactory::keys())
-    {
-      if (key.toLower() == "fusion")
-      {
-        application.setStyle(QStyleFactory::create(key));
-      }
-    }
-    #endif
   }
 
   windows.show();
