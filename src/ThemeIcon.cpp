@@ -1,7 +1,5 @@
 #include "ThemeIcon.h"
 
-#include <QSvgRenderer>
-
 void ThemeIcon::setIcon(QToolButton &button, QString path)
 {
   button.setIcon(getIcon(path, button.iconSize()));
