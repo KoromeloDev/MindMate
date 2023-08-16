@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.26)
-project(MindMate VERSION 1.1.16 LANGUAGES CXX)
+project(MindMate VERSION 1.1.17 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -58,6 +58,8 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets LinguistTools Network Svg
              Multimedia)
 target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Widgets Qt6::Network
                       Qt6::Svg Qt6::Multimedia QSourceHighliter)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE TRUE)
 
 qt_add_translations(${PROJECT_NAME} TS_FILES ${TS})
 

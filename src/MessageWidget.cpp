@@ -96,7 +96,7 @@ void MessageWidget::resize()
 
   if (m_item != nullptr)
   {
-    m_item->setSizeHint(QSize(width(), m_height+14));
+    m_item->setSizeHint(QSize(width(), m_height+18));
   }
 
   for (const auto &code : qAsConst(m_codeWidgets))
@@ -127,6 +127,7 @@ QSize MessageWidget::getSizeTextEdit(QTextEdit *textEdit, quint8 index) const
   else if (m_isEdit)
   {
     sizeWidth = maxSizeWidth - 42;
+    sizeHeight += 18;
   }
   else
   {
