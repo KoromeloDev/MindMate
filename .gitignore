@@ -53,6 +53,3 @@ compile_commands.json
 
 *_qmlcache.qrc
 io.github.koromelodev.mindmate.desktop
-installer/packages/io.github.koromelodev.mindmate/meta/package.xml
-installer/packages/io.github.koromelodev.mindmate/data/MindMate.exe
-installer/config/config.xml
