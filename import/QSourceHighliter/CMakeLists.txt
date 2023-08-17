@@ -1,6 +1,6 @@
 project(QSourceHighliter VERSION 1.0.0 LANGUAGES CXX)
 
-set(CMAKE_AUTOMOC True)
+set(CMAKE_AUTOMOC true)
 
 file(GLOB SOURCE src/*.cpp)
 file(GLOB HEADERS include/*.h)

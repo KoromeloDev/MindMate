@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.26)
-project(MindMate VERSION 1.1.17 LANGUAGES CXX)
+project(MindMate VERSION 1.1.18 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD_REQUIRED true)
 
-set(CMAKE_AUTOUIC True)
-set(CMAKE_AUTOMOC True)
-set(CMAKE_AUTORCC True)
+set(CMAKE_AUTOUIC true)
+set(CMAKE_AUTOMOC true)
+set(CMAKE_AUTORCC true)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ui/)
 
 file(GLOB TS i18n/*.ts)
@@ -45,10 +45,10 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
                            -DAPP_VERSION="${PROJECT_VERSION}"
                            -DPROJECT_NAME="${PROJECT_NAME}")
 if(FLATPAK)
-  target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=False
+  target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=false
                              -DFLATPAK=${FLATPAK} -DAPP_ID="${APP_ID}")
 else()
-  target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=True)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=true)
 endif()
 
 add_subdirectory(import)
@@ -59,7 +59,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets LinguistTools Network Svg
 target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Widgets Qt6::Network
                       Qt6::Svg Qt6::Multimedia QSourceHighliter)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE TRUE)
+set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE true)
 
 qt_add_translations(${PROJECT_NAME} TS_FILES ${TS})
 
