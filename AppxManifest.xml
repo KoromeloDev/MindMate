@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities">
+  <Identity Name="24808DisoftGameDevelopers.MindMate" Version="1.1.18.0" Publisher="CN=943C3367-2BFF-4226-A82B-A1C5E0D2AF36" ProcessorArchitecture="x86" />
+  <Properties>
+    <DisplayName>Mind Mate</DisplayName>
+    <PublisherDisplayName>Disoft Game Developers</PublisherDisplayName>
+    <Description>MindMate is an unofficial chat app with ChatGPT</Description>
+    <Logo>iconengines\icon.png</Logo>
+  </Properties>
+  <Resources>
+    <Resource Language="en-us" />
+    <Resource Language="ru-ru" />
+  </Resources>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.0.0" MaxVersionTested="10.0.23.0" />
+  </Dependencies>
+  <Capabilities>
+    <Capability Name="internetClient"/>
+  </Capabilities>
+  <Applications>
+    <Application Id="MindMate" Executable="MindMate.exe" EntryPoint="windows.partialTrustApplication">
+      <uap:VisualElements DisplayName="MindMate" Description="MindMate is an unofficial chat app with ChatGPT"	Square150x150Logo="iconengines\icon.png"
+        Square44x44Logo="iconengines\icon.png" BackgroundColor="#1c1c1c" />
+    </Application>
+  </Applications>
+</Package>
