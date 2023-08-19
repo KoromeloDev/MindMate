@@ -30,10 +30,11 @@ int main(int argc, char *argv[])
 
   //Creating a folder with configuration files
   {
-    QString path = QDir::homePath();
+    QString path;
 
     #if defined(Q_OS_LINUX)
     #if FLATPAK
+    path.append(QDir::homePath());
     path.append("/.var/app/");
     path.append(APP_ID);
     path.append("/config");
@@ -42,7 +43,8 @@ int main(int argc, char *argv[])
     path.append(PROJECT_NAME);
     #endif
     #elif defined(Q_OS_WIN)
-    path.append("/AppData/Local/");
+    path.append(qgetenv("HOMEPATH"));
+    path.append("\\AppData\\Local\\");
     path.append(PROJECT_NAME);
     #endif
 

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.26)
-project(MindMate VERSION 1.1.18 LANGUAGES CXX)
+project(MindMate VERSION 1.1.19 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
@@ -47,8 +47,10 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 if(FLATPAK)
   target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=false
                              -DFLATPAK=${FLATPAK} -DAPP_ID="${APP_ID}")
-else()
+elseif(LINUX)
   target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=true)
+else()
+  target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=false)
 endif()
 
 add_subdirectory(import)
