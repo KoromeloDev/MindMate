@@ -316,6 +316,9 @@
           <property name="horizontalScrollBarPolicy">
            <enum>Qt::ScrollBarAlwaysOff</enum>
           </property>
+          <property name="autoScroll">
+           <bool>false</bool>
+          </property>
           <property name="autoScrollMargin">
            <number>0</number>
           </property>

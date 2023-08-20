@@ -91,18 +91,13 @@ void MessageWidget::resize()
     m_height += size;
   }
 
-  m_ui->horizontalSpacer->changeSize(m_width, 0);
-  setMinimumHeight(m_height);
-
   if (m_item != nullptr)
   {
     m_item->setSizeHint(QSize(width(), m_height+18));
   }
 
-  for (const auto &code : qAsConst(m_codeWidgets))
-  {
-    code->resizeWidget();
-  }
+  m_ui->horizontalSpacer->changeSize(m_width, 0);
+  setMinimumHeight(m_height);
 
   --m_queueResize;
 
@@ -117,7 +112,6 @@ QSize MessageWidget::getSizeTextEdit(QTextEdit *textEdit, quint8 index) const
   quint16 maxSizeWidth = parentWidget()->size().width();
   quint16 sizeWidth = 32;
   quint16 sizeHeight = textEdit->document()->size().toSize().height() + 14;
-  textEdit->setMaximumHeight(sizeHeight);
 
   if (m_message.role == HistoryParser::Role::System && !m_isEdit)
   {
@@ -143,7 +137,9 @@ QSize MessageWidget::getSizeTextEdit(QTextEdit *textEdit, quint8 index) const
     }
   }
 
+  textEdit->setMaximumHeight(sizeHeight);
   textEdit->setMaximumWidth(sizeWidth);
+
   return QSize(sizeWidth, sizeHeight);
 }
 
@@ -152,9 +148,9 @@ void MessageWidget::createText()
   static QRegularExpression re("\\s*(`{3}([^\n]*\n[\\s\\S]*?)\\s*`{3})\\s*");
   QRegularExpressionMatchIterator matchIterator =
                                   re.globalMatch(m_message.content);
-  QStringList codeText;
+  QVector<QString> codeText;
   quint8 indexCode = 0;
-  QStringList textList;
+  QVector<QString> textList;
   quint8 indexText = 0;
   QVector<qint16> startPosition;
   QVector<qint16> endPosition;
@@ -281,20 +277,22 @@ void MessageWidget::setBorder(QWidget *widget, const Border &border)
 void MessageWidget::addCodeWidget(const QString &codeText, const Border &border)
 {
   QSharedPointer<CodeWidget> code = code.create(this, codeText, m_menu.get());
-
   connect(code.get(), &CodeWidget::changeLanguage,
           this, &MessageWidget::changeLanguage);
+  connect(this, &MessageWidget::resizeFinished,
+          code.get(), &CodeWidget::resizeWidget);
 
   code->setEdit(m_isEdit);
+  setBorder(code.get(), border);
+
   m_codeWidgets.append(code);
   addWidgetToLayout(code.get());
-  setBorder(code.get(), border);
 }
 
-void MessageWidget::resizeTimer()
+void MessageWidget::resizeTimer(quint16 interval)
 {
   m_timer = m_timer.create();
-  m_timer->setInterval(5);
+  m_timer->setInterval(interval);
   m_timer->setSingleShot(true);
 
   connect(m_timer.get(), &QTimer::timeout, this, [=]()
@@ -308,6 +306,7 @@ void MessageWidget::resizeTimer()
 
 void MessageWidget::init()
 {
+  createText();
   QString color1;
   QString color2;
   QString color3;
@@ -346,8 +345,6 @@ void MessageWidget::init()
     color2 = "white";
     color3 = "#e6e6e6";
   }
-
-  createText();
 
   if (!m_isEdit)
   {
@@ -400,6 +397,13 @@ void MessageWidget::addWidgetToLayout(QWidget *widget)
 void MessageWidget::addTextEdit(QString text, Border border)
 {
   QSharedPointer<QTextEdit> textEdit = textEdit.create(this);
+
+  std::thread t([=]()
+  {
+    QFontMetrics fontSize(textEdit->font());
+    m_textWidth.append(fontSize.horizontalAdvance(text));
+  });
+
   textEdit->setStyleSheet("color: white;"
                              "padding-left:10px;"
                              "padding-right:10px;"
@@ -410,12 +414,8 @@ void MessageWidget::addTextEdit(QString text, Border border)
   textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   textEdit->setMinimumSize(40, 40);
   textEdit->setFont(QFont(":/resources/fonts/Roboto-Regular.ttf"));
-  m_textEdit.append(textEdit);
-  addWidgetToLayout(textEdit.get());
   textEdit->setText(text);
   textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
-  QFontMetrics fontSize(textEdit->font());
-  m_textWidth.append(fontSize.horizontalAdvance(text));
 
   connect(textEdit.get(), &QTextEdit::customContextMenuRequested, this, [=]()
   {
@@ -435,6 +435,9 @@ void MessageWidget::addTextEdit(QString text, Border border)
   }
 
   setBorder(textEdit.get(), border);
+  m_textEdit.append(textEdit);
+  addWidgetToLayout(textEdit.get());
+  t.join();
 }
 
 void MessageWidget::actionDeleteClicked()
@@ -521,8 +524,6 @@ void MessageWidget::editMessage(QString newText)
   m_textEdit.clear();
   m_codeWidgets.clear();
   createText();
-  resize();
-  resizeTimer();
   emit selfEdit();
 }
 

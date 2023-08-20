@@ -8,6 +8,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <thread>
 
 #include "EditDialog.h"
 #include "NewListWidgetItem.h"

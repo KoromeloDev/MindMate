@@ -18,7 +18,7 @@ public:
   quint32 usedTokens;
   float temperature;
   quint8 n;
-  QStringList stop;
+  QVector<QString> stop;
   float presencePenalty;
   float frequencyPenalty;
 

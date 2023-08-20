@@ -53,7 +53,7 @@ void Settings::readSettings()
     chatSettings.n = settings.value("N").toUInt();
   }
 
-  QStringList stopList;
+  QVector<QString> stopList;
 
   for (quint8 i = 0; i < 4; ++i)
   {

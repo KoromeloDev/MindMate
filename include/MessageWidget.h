@@ -5,6 +5,7 @@
 #include <QTextEdit>
 #include <QMenu>
 #include <QTimer>
+#include <thread>
 
 #include "HistoryParser.h"
 #include "CodeWidget.h"
@@ -70,7 +71,7 @@ private:
   void init();
   inline void addWidgetToLayout(QWidget *widget);
   inline void addTextEdit(QString text, Border border);
-  void resizeTimer();
+  void resizeTimer(quint16 interval = 5);
 
 signals:
   void selfDelete();

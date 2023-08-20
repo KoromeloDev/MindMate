@@ -11,6 +11,7 @@
 #include <QUuid>
 #include <QScrollBar>
 #include <QSoundEffect>
+#include <thread>
 
 #include "HistoryParser.h"
 #include "ChatGPT.h"
@@ -38,7 +39,6 @@ public:
 
 protected:
   void resizeEvent(QResizeEvent *event) override;
-  void paintEvent(QPaintEvent *event) override;
 
 private:
   Ui::MainWindow *m_ui;
@@ -50,7 +50,6 @@ private:
   ChatSettings m_chatSettings;
   QSoundEffect m_answerEffect;
   QSoundEffect m_errorEffect;
-  bool m_canScroll;
 
   #if CHECKUPDATES
   QSharedPointer<UpdateChecker> m_updateChecker;
@@ -84,6 +83,7 @@ private slots:
   void chatItemDeleteClicked();
   void messageDeleteCliked();
   void messageEdit();
+  void scrollToBottom();
 
 signals:
   void resized();

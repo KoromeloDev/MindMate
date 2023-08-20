@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QPainter>
+#include <thread>
 
 class ThemeIcon : public QObject
 {

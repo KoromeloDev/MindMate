@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
   m_ui->setupUi(this);
   m_isWaitAnswer = false;
   m_isErrorAnswer = false;
-  m_canScroll = false;
 
   connect(m_ui->textInput, &NewTextEdit::sendText,
           this, &MainWindow::receivedText);
@@ -97,17 +96,6 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 {
   QMainWindow::resizeEvent(event);
   emit resized();
-}
-
-void MainWindow::paintEvent(QPaintEvent *event)
-{
-  QMainWindow::paintEvent(event);
-
-  if (!m_canScroll)
-  {
-    m_ui->historyList->scrollToBottom();
-    m_canScroll = true;
-  }
 }
 
 void MainWindow::setChatSettings(const quint8 &index)
@@ -342,7 +330,7 @@ void MainWindow::showChat()
   m_allMesages.clear();
   setChatSettings(m_ui->chatList->currentRow());
 
-  if (m_chatSettings.fileName != "")
+  if (!m_chatSettings.fileName.isEmpty())
   {
     HistoryParser history(this, m_chatSettings.fileName);
     quint16 count = history.getCountMessage();
@@ -353,13 +341,14 @@ void MainWindow::showChat()
       m_allMesages.append(history.getMessage(i));
       MessageWidget *message = new MessageWidget(nullptr, m_allMesages[i],
                                m_ui->chatList->currentRow());
-      addMessage(message);
 
-      connect(message, &MessageWidget::resizeFinished,
-              this, [=]()
+      if (i + 1 == count)
       {
-        m_canScroll = false;
-      });
+        connect(message, &MessageWidget::resizeFinished,
+                m_ui->historyList, &QListWidget::scrollToBottom);
+      }
+
+      addMessage(message);
     }
 
     for (ChatGPT *chatGPT : m_chatGPTList)
@@ -464,7 +453,6 @@ void MainWindow::addMessage(MessageWidget *messageWidget)
   NewListWidgetItem *item = new NewListWidgetItem(m_ui->historyList);
   messageWidget->setItem(item);
   m_ui->historyList->setItemWidget(item, messageWidget);
-  m_ui->historyList->setCurrentItem(item);
 
   connect(this, &MainWindow::resized,
           messageWidget, &MessageWidget::resize);
@@ -656,4 +644,21 @@ void MainWindow::messageEdit()
 {
   MessageWidget *sender = qobject_cast<MessageWidget*>(QObject::sender());
   m_allMesages[sender->getItem()->getIndex()] = sender->getMessage();
+
+  //Fixing resize edited message widget
+  for (quint8 i = 0; i < 12; ++i)
+  {
+    resize(size() + QSize(1, 0));
+    resize(size() + QSize(-1, 0));
+  }
+}
+
+void MainWindow::scrollToBottom()
+{
+  MessageWidget *message = qobject_cast<MessageWidget*>(QObject::sender());
+
+  disconnect(message, &MessageWidget::resizeFinished,
+             m_ui->historyList, &QListWidget::scrollToBottom);
+
+  m_ui->historyList->scrollToBottom();
 }

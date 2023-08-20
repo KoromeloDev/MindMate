@@ -41,9 +41,9 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
 
   m_code.chop(j + 1);
   m_code.remove(0, i + 1);
+  m_clipboard = QApplication::clipboard();
   m_ui->languageLabel->setText(m_language);
   m_ui->codeEdit->setPlainText(m_code);
-  m_clipboard = QApplication::clipboard();
   m_ui->codeEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
   connect(m_ui->copyButton, &QToolButton::clicked,
