@@ -415,8 +415,7 @@ void MessageWidget::addTextEdit(QString text, Border border)
   textEdit->setText(text);
   textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
   QFontMetrics fontSize(textEdit->font());
-  m_textWidth.append(fontSize.boundingRect(QRect(), Qt::TextDontClip, text).
-                     width());
+  m_textWidth.append(fontSize.horizontalAdvance(text));
 
   connect(textEdit.get(), &QTextEdit::customContextMenuRequested, this, [=]()
   {

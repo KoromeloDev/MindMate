@@ -80,16 +80,14 @@ NewListWidgetItem *ChatItem::getItem() const
 void ChatItem::checkWidth()
 {
   QFontMetrics fontSize(m_ui->nameChat->font());
-  quint16 nameWidth = fontSize.boundingRect(QRect(), Qt::TextDontClip, m_name).
-                      width();
+  quint16 nameWidth = fontSize.horizontalAdvance(m_name);
   QString newName = m_name;
   bool changeName = false;
 
   while (nameWidth > 120)
   {
     newName.chop(1);
-    nameWidth = fontSize.boundingRect(QRect(), Qt::TextDontClip, newName).
-                width();
+    nameWidth = fontSize.horizontalAdvance(newName);
     changeName = true;
   }
 
