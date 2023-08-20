@@ -33,8 +33,9 @@ int main(int argc, char *argv[])
     QString path;
 
     #if defined(Q_OS_LINUX)
-    #if FLATPAK
     path.append(QDir::homePath());
+
+    #if FLATPAK
     path.append("/.var/app/");
     path.append(APP_ID);
     path.append("/config");
