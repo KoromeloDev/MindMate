@@ -8,7 +8,8 @@
 QSharedPointer<EditMessageDialog> m_editDialog;
 
 MessageWidget::MessageWidget(NewListWidgetItem *item,
-                             HistoryParser::Message message, quint8 chatIndex) : m_ui(new Ui::MessageWidget)
+                             HistoryParser::Message message, quint8 chatIndex)
+: m_ui(new Ui::MessageWidget)
 {
   m_ui->setupUi(this);
   m_item = item;
@@ -272,21 +273,28 @@ void MessageWidget::setBorder(QWidget *widget, const Border &border)
                         QString::number(border.bottomLeft)  + ";"
                         "border-bottom-right-radius: " +
                         QString::number(border.bottomRight)  + ";");
+
 }
 
 void MessageWidget::addCodeWidget(const QString &codeText, const Border &border)
 {
   QSharedPointer<CodeWidget> code = code.create(this, codeText, m_menu.get());
+
+  std::thread t([&]()
+  {
+    setBorder(code.get(), border);
+  });
+
   connect(code.get(), &CodeWidget::changeLanguage,
           this, &MessageWidget::changeLanguage);
   connect(this, &MessageWidget::resizeFinished,
           code.get(), &CodeWidget::resizeWidget);
 
   code->setEdit(m_isEdit);
-  setBorder(code.get(), border);
-
   m_codeWidgets.append(code);
   addWidgetToLayout(code.get());
+
+  t.join();
 }
 
 void MessageWidget::resizeTimer(quint16 interval)
@@ -297,8 +305,11 @@ void MessageWidget::resizeTimer(quint16 interval)
 
   connect(m_timer.get(), &QTimer::timeout, this, [=]()
   {
-    m_timer.clear();
-    resize();
+    if (!m_timer.isNull())
+    {
+      m_timer.clear();
+      resize();
+    }
   });
 
   m_timer->start();
@@ -333,6 +344,7 @@ void MessageWidget::init()
                 "x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #" + color1 +", "
                 "stop: 1 #" + color2 +");");
 
+
   if (QPalette().color(QPalette::Window).value() < 128)
   {
     color1 = "white";
@@ -349,25 +361,42 @@ void MessageWidget::init()
   if (!m_isEdit)
   {
     m_menu = m_menu.create(this);
-    m_menu->setStyleSheet("QMenu {"
-                            "background-color:" + color2 + ";"
-                            "color: " + color1 + ";"
-                            "icon-size: 26px;"
-                            "font-size: 16px;}"
-                          "QMenu::item {"
-                            "background-color:" + color2 + ";}"
-                          "QMenu::item:selected {"
-                            "background-color: " + color3 + ";}");
-    m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/delete.svg"),
-                      tr("Delete"),
-                      this, &MessageWidget::actionDeleteClicked);
-    m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/edit.svg"),
-                      tr("Edit"),
-                      this, &MessageWidget::actionEditClicked);
-    selection("`([^`]*)`");
-    selection("'([^']*)'");
-    selection("\"([^\"]*)\"");
+    std::thread t([=]()
+    {
+      m_menu->setStyleSheet("QMenu {"
+                              "background-color:" + color2 + ";"
+                              "color: " + color1 + ";"
+                              "icon-size: 26px;"
+                              "font-size: 16px;}"
+                            "QMenu::item {"
+                              "background-color:" + color2 + ";}"
+                            "QMenu::item:selected {"
+                              "background-color: " + color3 + ";}");
+    });
+
+    std::thread t2([=]()
+    {
+      m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/delete.svg"),
+                        tr("Delete"), this, &MessageWidget::actionDeleteClicked);
+    });
+
+    std::thread t3([=]()
+    {
+      m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/edit.svg"),
+                        tr("Edit"), this, &MessageWidget::actionEditClicked);
+    });
+
+    std::thread t4(&MessageWidget::selection, this, "`([^`]*)`");
+    std::thread t5(&MessageWidget::selection, this, "'([^']*)'");
+    std::thread t6(&MessageWidget::selection, this, "\"([^\"]*)\"");
+
     resizeTimer();
+    t.join();
+    t2.join();
+    t3.join();
+    t4.join();
+    t5.join();
+    t6.join();
   }
 }
 

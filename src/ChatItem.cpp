@@ -8,19 +8,18 @@ ChatItem::ChatItem(QWidget *parent, QString name, NewListWidgetItem *item)
 {
   m_ui->setupUi(this);
   m_name = name;
+
+  std::thread t(&ChatItem::checkWidth, this);
+  t.detach();
+  ThemeIcon::setIcon(*m_ui->editButton, ":/resources/icons/edit.svg");
+  ThemeIcon::setIcon(*m_ui->deleteButton, ":/resources/icons/delete.svg");
+
   m_item = item;
-  std::thread t([=]()
-  {
-    checkWidth();
-  });
 
   connect(m_ui->editButton, &QToolButton::clicked,
           this, &ChatItem::editClicked);
   connect(m_ui->deleteButton, &QToolButton::clicked,
           this, &ChatItem::deleteCliked);
-  ThemeIcon::setIcon(*m_ui->editButton, ":/resources/icons/edit.svg");
-  ThemeIcon::setIcon(*m_ui->deleteButton, ":/resources/icons/delete.svg");
-  t.join();
 }
 
 ChatItem::~ChatItem()

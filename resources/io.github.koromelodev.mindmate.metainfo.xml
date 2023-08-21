@@ -21,6 +21,31 @@
   <url type="homepage">https://github.com/KoromeloDev/MindMate</url>
 
   <releases>
+    <release version="1.2.1-beta" date="2023-08-21">
+      <description>
+        <p>Fixed issues and performance improvement</p>
+      </description>
+    </release>
+    <release version="1.1.18-beta" date="2023-08-17">
+      <description>
+        <p>Fixed issues</p>
+      </description>
+    </release>
+    <release version="1.1.17-beta" date="2023-08-16">
+      <description>
+        <p>Fixed issues</p>
+      </description>
+    </release>
+    <release version="1.1.16-beta" date="2023-08-15">
+      <description>
+        <p>Fixed issues</p>
+      </description>
+    </release>
+    <release version="1.1.14-beta" date="2023-08-14">
+      <description>
+        <p>Fixed issues and added message editing</p>
+      </description>
+    </release>
     <release version="1.1.11-beta" date="2023-06-03">
       <description>
         <p>Fixed issues</p>

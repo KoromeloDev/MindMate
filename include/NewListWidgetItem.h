@@ -6,7 +6,7 @@
 class NewListWidgetItem : public QListWidgetItem
 {
 public:
-  NewListWidgetItem(QListWidget *parent);
+  explicit NewListWidgetItem(QListWidget *parent = nullptr);
   int getIndex() const;
 
 private:

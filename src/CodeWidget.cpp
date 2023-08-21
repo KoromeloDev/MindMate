@@ -9,6 +9,9 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
 : QWidget(parent), m_ui(new Ui::CodeWidget)
 {
   m_ui->setupUi(this);
+
+  ThemeIcon::setIcon(*m_ui->copyButton, ":/resources/icons/copy.svg");
+
   quint8 i = 0;
   m_code = code;
 
@@ -41,9 +44,10 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
 
   m_code.chop(j + 1);
   m_code.remove(0, i + 1);
+  m_ui->codeEdit->setPlainText(m_code);
+
   m_clipboard = QApplication::clipboard();
   m_ui->languageLabel->setText(m_language);
-  m_ui->codeEdit->setPlainText(m_code);
   m_ui->codeEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
   connect(m_ui->copyButton, &QToolButton::clicked,
@@ -57,7 +61,6 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
     }
   });
 
-  ThemeIcon::setIcon(*m_ui->copyButton, ":/resources/icons/copy.svg");
   setCodeAutoHighlighter();
 }
 

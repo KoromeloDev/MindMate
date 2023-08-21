@@ -131,6 +131,9 @@ padding-bottom:10px;
 border-top-left-radius: 0%;
 border-top-right-radius: 0%;</string>
      </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
     </widget>
    </item>
   </layout>

@@ -7,5 +7,5 @@ NewListWidgetItem::NewListWidgetItem(QListWidget *parent) : QListWidgetItem(pare
 
 int NewListWidgetItem::getIndex() const
 {
-  return m_listWidget->row(this);
+  return m_listWidget != nullptr ? m_listWidget->row(this) : -1;
 }

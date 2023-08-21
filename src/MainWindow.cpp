@@ -13,8 +13,16 @@ MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
   m_ui->setupUi(this);
-  m_isWaitAnswer = false;
-  m_isErrorAnswer = false;
+
+  setChatSettings(0);
+  fillChatList();
+
+  ThemeIcon::setIcon(*m_ui->newChatButton, ":/resources/icons/add.svg");
+  ThemeIcon::setIcon(*m_ui->settingsButton, ":/resources/icons/settings.svg");
+  ThemeIcon::setIcon(*m_ui->retryButton, ":/resources/icons/refresh.svg");
+  ThemeIcon::setIcon(*m_ui->stopButton, ":/resources/icons/stop.svg");
+  ThemeIcon::setIcon(*m_ui->chatSettingsButton, ":/resources/icons/configuration.svg");
+  ThemeIcon::setIcon(*m_ui->sendButton, ":/resources/icons/send.svg");
 
   connect(m_ui->textInput, &NewTextEdit::sendText,
           this, &MainWindow::receivedText);
@@ -47,19 +55,12 @@ MainWindow::MainWindow(QWidget *parent)
   }
   #endif
 
+  m_isWaitAnswer = false;
+  m_isErrorAnswer = false;
   m_movie.setFileName(":/resources/icons/eclipse.gif");
   m_movie.setScaledSize(QSize(32, 32));
   m_ui->loading->setMovie(&m_movie);
-  setChatSettings(0);
-  fillChatList();
   m_ui->historyList->verticalScrollBar()->setSingleStep(20);
-
-  ThemeIcon::setIcon(*m_ui->newChatButton, ":/resources/icons/add.svg");
-  ThemeIcon::setIcon(*m_ui->settingsButton, ":/resources/icons/settings.svg");
-  ThemeIcon::setIcon(*m_ui->retryButton, ":/resources/icons/refresh.svg");
-  ThemeIcon::setIcon(*m_ui->stopButton, ":/resources/icons/stop.svg");
-  ThemeIcon::setIcon(*m_ui->chatSettingsButton, ":/resources/icons/configuration.svg");
-  ThemeIcon::setIcon(*m_ui->sendButton, ":/resources/icons/send.svg");
 
   m_answerEffect.setSource(QUrl::fromLocalFile(":/resources/sounds/message.wav"));
   m_answerEffect.setVolume(0.20f);
@@ -108,7 +109,6 @@ void MainWindow::receivedText(QString text)
   if (!text.isEmpty() && ((!m_isWaitAnswer && !m_isErrorAnswer) ||
      (m_allMesages.count() != 0 && m_ui->roleBox->currentIndex() != 0)))
   {
-    m_ui->textInput->clear();
     HistoryParser history(this, m_chatSettings.fileName);
     HistoryParser::Message message;
     message.content = text;
@@ -129,11 +129,10 @@ void MainWindow::receivedText(QString text)
         break;
     }
 
+    addMessage(message, m_ui->chatList->currentRow());
     history.addNewMessage(message);
     m_allMesages.append(message);
-    MessageWidget *messageWidget = new MessageWidget(nullptr, message,
-                                   m_ui->chatList->currentRow());
-    addMessage(messageWidget);
+    m_ui->textInput->clear();
 
     if (message.role ==  HistoryParser::User)
     {
@@ -231,17 +230,15 @@ void MainWindow::fillChatList()
       {
         QJsonObject object = chats[i].toObject();
         QString name = object["name"].toString();
-        NewListWidgetItem *item = new NewListWidgetItem(m_ui->chatList);
-        ChatItem *chatItem = new ChatItem(m_ui->chatList, name, item);
-
-        connect(chatItem, &ChatItem::removed,
-                this, &MainWindow::chatItemDeleteClicked);
-
-        item->setSizeHint(QSize(0, 50));
-        m_ui->chatList->setItemWidget(item, chatItem);
+        addChatItem(name);
       }
 
-      m_ui->chatList->setCurrentItem(m_ui->chatList->item(0));
+      std::thread t([&]()
+      {
+        m_ui->chatList->setCurrentItem(m_ui->chatList->item(0));
+      });
+
+      t.detach();
     }
   }
 }
@@ -267,6 +264,24 @@ bool MainWindow::checkExistChats()
   }
 
   return createChat(tr("New chat"));
+}
+
+void MainWindow::addChatItem(QString name)
+{
+  NewListWidgetItem *item = new NewListWidgetItem(m_ui->chatList);
+  ChatItem *chatItem = new ChatItem(m_ui->chatList, name, item);
+
+  std::thread t([=]()
+  {
+    m_ui->chatList->setItemWidget(item, chatItem);
+  });
+
+  item->setSizeHint(QSize(0, 50));
+
+  connect(chatItem, &ChatItem::removed,
+          this, &MainWindow::chatItemDeleteClicked);
+
+  t.detach();
 }
 
 bool MainWindow::createChat(QString name)
@@ -309,14 +324,7 @@ bool MainWindow::createChat(QString name)
       document.setArray(chats);
       chatJson.write(document.toJson());
       chatJson.close();
-      NewListWidgetItem *item = new NewListWidgetItem(m_ui->chatList);
-      ChatItem *chatItem = new ChatItem(m_ui->chatList, name, item);
-      item->setSizeHint(QSize(0, 50));
-
-      connect(chatItem, &ChatItem::removed,
-              this, &MainWindow::chatItemDeleteClicked);
-
-      m_ui->chatList->setItemWidget(item, chatItem);
+      addChatItem(name);
       return true;
     }
   }
@@ -339,16 +347,14 @@ void MainWindow::showChat()
     for (quint16 i = 0; i < count; ++i)
     {
       m_allMesages.append(history.getMessage(i));
-      MessageWidget *message = new MessageWidget(nullptr, m_allMesages[i],
-                               m_ui->chatList->currentRow());
+      MessageWidget *message = addMessage(m_allMesages[i],
+                                          m_ui->chatList->currentRow());
 
       if (i + 1 == count)
       {
         connect(message, &MessageWidget::resizeFinished,
-                m_ui->historyList, &QListWidget::scrollToBottom);
+                this, &MainWindow::scrollToBottom);
       }
-
-      addMessage(message);
     }
 
     for (ChatGPT *chatGPT : m_chatGPTList)
@@ -448,10 +454,11 @@ void MainWindow::sendMessage()
   chatGPT->send(m_allMesages, m_chatSettings, m_ui->chatList->currentRow());
 }
 
-void MainWindow::addMessage(MessageWidget *messageWidget)
+MessageWidget *MainWindow::addMessage(HistoryParser::Message message,
+                                      quint8 chatIndex)
 {
   NewListWidgetItem *item = new NewListWidgetItem(m_ui->historyList);
-  messageWidget->setItem(item);
+  MessageWidget *messageWidget = new MessageWidget(item, message, chatIndex);
   m_ui->historyList->setItemWidget(item, messageWidget);
 
   connect(this, &MainWindow::resized,
@@ -460,6 +467,8 @@ void MainWindow::addMessage(MessageWidget *messageWidget)
           this, &MainWindow::messageDeleteCliked);
   connect(messageWidget, &MessageWidget::selfEdit,
           this, &MainWindow::messageEdit);
+
+  return messageWidget;
 }
 
 void MainWindow::sendClicked()
@@ -542,10 +551,7 @@ void MainWindow::responseReceived()
   {
     answerState(false);
     m_allMesages.append(sender->getAnswerMessage());
-    MessageWidget *messageWidget = new MessageWidget(nullptr,
-                                   sender->getAnswerMessage(),
-                                   m_ui->chatList->currentRow());
-    addMessage(messageWidget);
+    addMessage(sender->getAnswerMessage(), m_ui->chatList->currentRow());
     m_chatSettings.usedTokens = sender->getUsedToken();
     tokensLeft();
   }
@@ -619,7 +625,7 @@ void MainWindow::messageDeleteCliked()
   disconnect(sender, &MessageWidget::selfDelete,
              this, &MainWindow::messageDeleteCliked);
 
-  const quint8 &index = sender->getItem()->getIndex();
+  const qint8 &index = sender->getItem()->getIndex();
   m_ui->historyList->takeItem(index);
   m_allMesages.removeAt(index);
   bool find = false;
@@ -658,7 +664,7 @@ void MainWindow::scrollToBottom()
   MessageWidget *message = qobject_cast<MessageWidget*>(QObject::sender());
 
   disconnect(message, &MessageWidget::resizeFinished,
-             m_ui->historyList, &QListWidget::scrollToBottom);
+             this, &MainWindow::scrollToBottom);
 
   m_ui->historyList->scrollToBottom();
 }

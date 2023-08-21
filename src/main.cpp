@@ -81,14 +81,13 @@ void setStyle(MainWindow &windows)
   QString mainStyle;
   QFile style(":/resources/style.css");
 
-  if (style.open(QIODevice::ReadOnly | QIODevice::Text))
-  {
-    mainStyle = style.readAll();
-  }
-
   std::thread t([&]()
   {
-    windows.setStyleSheet(mainStyle);
+    if (style.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+      mainStyle = style.readAll();
+      windows.setStyleSheet(mainStyle);
+    }
   });
 
   #if defined(Q_OS_WIN)
@@ -107,12 +106,13 @@ void setStyle(MainWindow &windows)
 int main(int argc, char *argv[])
 {
   QApplication application(argc, argv);
-  std::thread t(setFont);
+  std::thread tFont(setFont);
   application.setApplicationVersion(APP_VERSION "-beta");
   QTranslator translator;
-  setTranslation(translator);
+  std::thread tTranslator(setTranslation, std::ref(translator));
   setPath();
-  t.join();
+  tTranslator.join();
+  tFont.join();
   MainWindow windows;
   setStyle(windows);
   windows.show();

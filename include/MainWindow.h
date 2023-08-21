@@ -68,7 +68,8 @@ private:
   void tokensLeft();
   void setFileChatSettings(const quint8 &index);
   void sendMessage();
-  void addMessage(MessageWidget *messageWidget);
+  MessageWidget *addMessage(HistoryParser::Message message, quint8 chatIndex);
+  void addChatItem(QString name);
 
 private slots:
   void sendClicked();
