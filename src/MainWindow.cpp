@@ -4,7 +4,6 @@
 #include "NewTextEdit.h"
 #include "SettingsWidget.h"
 #include "ThemeIcon.h"
-#include "ChatSettingsDialog.h"
 #include "ChatItem.h"
 #include "Settings.h"
 #include "NewListWidgetItem.h"
@@ -281,7 +280,7 @@ void MainWindow::addChatItem(QString name)
   connect(chatItem, &ChatItem::removed,
           this, &MainWindow::chatItemDeleteClicked);
 
-  t.detach();
+  t.join();
 }
 
 bool MainWindow::createChat(QString name)
@@ -299,13 +298,7 @@ bool MainWindow::createChat(QString name)
   object.insert("max_tokens", 4096);
   object.insert("temperature", chatSettings.temperature);
   object.insert("n", chatSettings.n);
-  QJsonArray stop;
-
-  for (const QString &stopWord : chatSettings.stop)
-  {
-    stop.append(stopWord);
-  }
-
+  QJsonArray stop = QJsonArray::fromStringList(chatSettings.stop);
   object.insert("stop", stop);
   object.insert("presence_penalty", chatSettings.presencePenalty);
   object.insert("frequency_penalty", chatSettings.frequencyPenalty);
@@ -418,14 +411,7 @@ void MainWindow::setFileChatSettings(const quint8 &index)
       object["max_tokens"] = (int)m_chatSettings.getMaxTokens();
       object["temperature"] = m_chatSettings.temperature;
       object["n"] = m_chatSettings.n;
-      QJsonArray stops = object["stop"].toArray();
-
-      for (quint8 i = 0; i < stops.count(); ++i)
-      {
-        stops.append(m_chatSettings.stop[i]);
-      }
-
-      object["stop"] = stops;
+      object["stop"] = QJsonArray::fromStringList(m_chatSettings.stop);
       object["presence_penalty"] = m_chatSettings.presencePenalty;
       object["frequency_penalty"] = m_chatSettings.frequencyPenalty;
       chats[index] = object;
@@ -525,9 +511,9 @@ void MainWindow::stopClicked()
 
 void MainWindow::chatSettingsClicked()
 {
-  ChatSettingsDialog *chatSettings = new ChatSettingsDialog(this,
-                                     m_ui->chatList->currentRow());
-  chatSettings->show();
+  m_chatSettingsDialog = m_chatSettingsDialog.create(
+                         this, m_ui->chatList->currentRow());
+  m_chatSettingsDialog->show();
 }
 
 void MainWindow::responseReceived()

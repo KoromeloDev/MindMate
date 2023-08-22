@@ -7,6 +7,7 @@
 #include <QJsonArray>
 
 #include "ChatSettings.h"
+#include "EditDialog.h"
 
 namespace Ui
 {
@@ -30,6 +31,7 @@ protected:
 private:
   Ui::ChatSettingsWidget *m_ui;
   ChatSettings m_settings;
+  QSharedPointer<EditDialog> m_editDialog;
 
   void setParameters();
 
@@ -39,6 +41,9 @@ private slots:
   void nSliderMoved(quint8 position);
   void pPSliderMoved(qint8 position);
   void fPSliderMoved(qint8 position);
+  void addClicked();
+  void addStopWord(const QString text);
+  void deleteClicked();
 
 };
 

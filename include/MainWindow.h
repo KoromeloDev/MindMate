@@ -17,6 +17,7 @@
 #include "ChatGPT.h"
 #include "ChatSettings.h"
 #include "MessageWidget.h"
+#include "ChatSettingsDialog.h"
 
 #if CHECKUPDATES
 #include "UpdateChecker.h"
@@ -50,6 +51,7 @@ private:
   ChatSettings m_chatSettings;
   QSoundEffect m_answerEffect;
   QSoundEffect m_errorEffect;
+  QSharedPointer<ChatSettingsDialog> m_chatSettingsDialog;
 
   #if CHECKUPDATES
   QSharedPointer<UpdateChecker> m_updateChecker;

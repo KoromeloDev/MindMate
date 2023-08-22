@@ -51,7 +51,6 @@ SettingsWidget::SettingsWidget(QWidget *parent)
 SettingsWidget::~SettingsWidget()
 {
   delete m_ui;
-  m_chatSettingsWidget->deleteLater();
 }
 
 void SettingsWidget::closeEvent(QCloseEvent *event)

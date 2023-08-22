@@ -1,12 +1,14 @@
 #include "ChatSettingsDialog.h"
 #include "ui_ChatSettingsDialog.h"
 
+
 ChatSettingsDialog::ChatSettingsDialog(QWidget *parent, quint8 index)
 : QDialog(parent), m_ui(new Ui::ChatSettingsDialog)
 {
   m_ui->setupUi(this);
   m_index = index;
   ChatSettings сhatSettings;
+
   m_settingsWidget = m_settingsWidget.create(this,
                                              сhatSettings.getSettings(m_index));
 
@@ -41,6 +43,7 @@ void ChatSettingsDialog::accept()
       object["model"] = chatSettings.model;
       object["temperature"] = chatSettings.temperature;
       object["n"] = chatSettings.n;
+      object["stop"] = QJsonArray::fromStringList(chatSettings.stop);
       object["presence_penalty"] = chatSettings.presencePenalty;
       object["frequency_penalty"] = chatSettings.frequencyPenalty;
       chats[m_index] = object;

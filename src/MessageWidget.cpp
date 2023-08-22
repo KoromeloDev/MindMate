@@ -71,7 +71,7 @@ void MessageWidget::resize()
   }
   else
   {
-    if (m_message.role == HistoryParser::Role::System || m_isEdit)
+    if (m_message.role == HistoryParser::Role::System)
     {
       m_width = parentWidget()->size().width();
     }
@@ -122,7 +122,11 @@ QSize MessageWidget::getSizeTextEdit(QTextEdit *textEdit, quint8 index) const
   else if (m_isEdit)
   {
     sizeWidth = maxSizeWidth - 42;
-    sizeHeight += 18;
+
+    if (sizeHeight >= 600 - 53)
+    {
+      sizeHeight += 18;
+    }
   }
   else
   {
@@ -134,7 +138,7 @@ QSize MessageWidget::getSizeTextEdit(QTextEdit *textEdit, quint8 index) const
     }
     else if (m_textWidth.length() != 0)
     {
-      sizeWidth += m_textWidth[index];
+      sizeWidth += m_textWidth[index] + 10;
     }
   }
 
@@ -596,7 +600,5 @@ HistoryParser::Message MessageWidget::getMessage() const
 
 void MessageWidget::updateMessage()
 {
-  QString content;
-  content.append(m_textEdit[0]->toPlainText());
-  m_message.content = content;
+  m_message.content = m_textEdit[0]->toPlainText();
 }

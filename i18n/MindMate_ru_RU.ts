@@ -4,7 +4,7 @@
 <context>
     <name>ChatGPT</name>
     <message>
-        <location filename="../sources/ChatGPT.cpp" line="+84"/>
+        <location filename="../src/ChatGPT.cpp" line="+86"/>
         <source>Connection failed</source>
         <translation>Сбой подключения</translation>
     </message>
@@ -12,7 +12,7 @@
 <context>
     <name>ChatItem</name>
     <message>
-        <location filename="../sources/ChatItem.cpp" line="+140"/>
+        <location filename="../src/ChatItem.cpp" line="+140"/>
         <source>Change chat name to</source>
         <translation>Изменить название чата на</translation>
     </message>
@@ -47,12 +47,12 @@
         <translation>Количество ответов</translation>
     </message>
     <message>
-        <location line="+63"/>
+        <location line="+60"/>
         <source>Stop words</source>
-        <translation>Стоп слова</translation>
+        <translation>Стоп-слова</translation>
     </message>
     <message>
-        <location line="-322"/>
+        <location line="-319"/>
         <source>Presence penalty</source>
         <translation>Штраф за присутствие</translation>
     </message>
@@ -67,12 +67,12 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Сколько вариантов завершения чата необходимо сгенерировать для каждого входного сообщения.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+26"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Up to 4 sequences where the API will stop generating further tokens.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;До 4 последовательностей, в которых API перестанет генерировать дальнейшие токены.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="-294"/>
+        <location line="-291"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Positive values penalize new tokens based on whether they appear in the text so far, increasing the model&apos;s likelihood to talk about new topics.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Положительные значения наказывают за новые токены в зависимости от того, появляются ли они в тексте на данный момент, увеличивая вероятность того, что модель заговорит на новые темы.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -81,12 +81,17 @@
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model&apos;s likelihood to repeat the same line verbatim.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Положительные значения наказывают за новые токены на основе их существующей частоты в тексте на данный момент, уменьшая вероятность дословного повторения одной и той же строки моделью.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <location filename="../src/ChatSettingsWidget.cpp" line="+114"/>
+        <source>Add stop word</source>
+        <translation>Добавление стоп-слова</translation>
+    </message>
 </context>
 <context>
     <name>CodeWidget</name>
     <message>
         <location filename="../ui/CodeWidget.ui" line="+100"/>
-        <location filename="../sources/CodeWidget.cpp" line="+288"/>
+        <location filename="../src/CodeWidget.cpp" line="+291"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -95,7 +100,7 @@
         <translation type="obsolete">Удалить</translation>
     </message>
     <message>
-        <location filename="../sources/CodeWidget.cpp" line="-18"/>
+        <location filename="../src/CodeWidget.cpp" line="-18"/>
         <source>Copied</source>
         <translation>Скопировано</translation>
     </message>
@@ -139,7 +144,7 @@
         <translation>Остановить</translation>
     </message>
     <message>
-        <location line="+147"/>
+        <location line="+150"/>
         <source>User</source>
         <translation>Пользователь</translation>
     </message>
@@ -154,7 +159,7 @@
         <translation>Помощник</translation>
     </message>
     <message>
-        <location filename="../sources/MainWindow.cpp" line="+88"/>
+        <location filename="../src/MainWindow.cpp" line="+87"/>
         <source>Update available</source>
         <translation>Доступно обновление</translation>
     </message>
@@ -164,18 +169,18 @@
         <translation>Ссылка на скачивание приложения</translation>
     </message>
     <message>
-        <location line="+116"/>
+        <location line="+103"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
-        <location line="+75"/>
-        <location line="+201"/>
+        <location line="+73"/>
+        <location line="+202"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location line="-81"/>
+        <location line="-78"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>
@@ -183,12 +188,12 @@
 <context>
     <name>MessageWidget</name>
     <message>
-        <location filename="../sources/MessageWidget.cpp" line="+363"/>
+        <location filename="../src/MessageWidget.cpp" line="+384"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+6"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
@@ -251,13 +256,13 @@
         <translation>Проверять обновления</translation>
     </message>
     <message>
-        <location filename="../sources/SettingsWidget.cpp" line="+12"/>
+        <location filename="../src/SettingsWidget.cpp" line="+12"/>
         <source>Version</source>
         <translation>Версия</translation>
     </message>
     <message>
         <location line="+21"/>
-        <location line="+51"/>
+        <location line="+50"/>
         <source>API key</source>
         <translation>API ключ</translation>
     </message>

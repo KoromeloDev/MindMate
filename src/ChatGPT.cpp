@@ -28,6 +28,8 @@ void ChatGPT::send(QVector<HistoryParser::Message> message,
   json.insert("model", m_chatSettings.model);
   json.insert("temperature", m_chatSettings.temperature);
   json.insert("n", m_chatSettings.n);
+  QJsonArray stop = QJsonArray::fromStringList(m_chatSettings.stop);
+  json.insert("stop", stop);
   json.insert("presence_penalty", m_chatSettings.presencePenalty);
   json.insert("frequency_penalty", m_chatSettings.frequencyPenalty);
   QJsonArray messages;

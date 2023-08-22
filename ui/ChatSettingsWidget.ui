@@ -363,9 +363,6 @@
     <layout class="QVBoxLayout" name="verticalLayout_6">
      <item>
       <widget class="QLabel" name="label">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Up to 4 sequences where the API will stop generating further tokens.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -381,13 +378,16 @@
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QListWidget" name="stopList">
-         <property name="enabled">
-          <bool>false</bool>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="maximumSize">
+         <property name="minimumSize">
           <size>
-           <width>16777215</width>
-           <height>100</height>
+           <width>0</width>
+           <height>90</height>
           </size>
          </property>
          <property name="frameShape">
@@ -396,15 +396,15 @@
          <property name="frameShadow">
           <enum>QFrame::Plain</enum>
          </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
         </widget>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
           <widget class="QToolButton" name="addStopButton">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
              <horstretch>0</horstretch>
@@ -427,9 +427,6 @@
          </item>
          <item>
           <widget class="QToolButton" name="deleteStopButton">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
              <horstretch>0</horstretch>

@@ -16,25 +16,31 @@ void Settings::readSettings()
 {
   QSettings settings("settings.ini", QSettings::IniFormat);
   settings.beginGroup("Main");
+  QVariant v_languageRecognize = settings.value("AutoLanguageRecognize");
+  QVariant v_autoNaming = settings.value("AutoNamingChat");
 
   #if CHECKUPDATES
   checkUpdates = settings.value("CheckUpdates").toBool();
   #endif
 
-  if (settings.value("AutoLanguageRecognize").isValid())
+  if (v_languageRecognize.isValid())
   {
-    languageRecognize = settings.value("AutoLanguageRecognize").toBool();
+    languageRecognize = v_languageRecognize.toBool();
   }
 
-  if (settings.value("AutoNamingChat").isValid())
+  if (v_autoNaming.isValid())
   {
-    autoNaming = settings.value("AutoNamingChat").toBool();
+    autoNaming = v_autoNaming.toBool();
   }
 
   settings.endGroup();
 
   settings.beginGroup("Chat");
   openAIKey = settings.value("OpenAIKey").toString();
+  QVariant v_temperature = settings.value("Temperature");
+  QVariant v_n = settings.value("N");
+  QVariant v_presencePenalty = settings.value("PresencePenalty");
+  QVariant v_frequencyPenalty = settings.value("FrequencyPenalty");
 
   QString model = settings.value("Model").toString();
 
@@ -43,14 +49,14 @@ void Settings::readSettings()
     chatSettings.model = model;
   }
 
-  if (!settings.value("Temperature").isNull())
+  if (!v_temperature.isNull())
   {
-    chatSettings.temperature = settings.value("Temperature").toFloat();
+    chatSettings.temperature = v_temperature.toFloat();
   }
 
-  if (!settings.value("N").isNull())
+  if (!v_n.isNull())
   {
-    chatSettings.n = settings.value("N").toUInt();
+    chatSettings.n = v_n.toUInt();
   }
 
   QVector<QString> stopList;
@@ -59,6 +65,7 @@ void Settings::readSettings()
   {
     QString stopWord = settings.value("StopWord" + QString::number(i)).
                        toString();
+
     if (!stopWord.isEmpty())
     {
       stopList.append(stopWord);
@@ -70,15 +77,14 @@ void Settings::readSettings()
     chatSettings.stop = stopList;
   }
 
-  if (!settings.value("PresencePenalty").isNull())
+  if (!v_presencePenalty.isNull())
   {
-    chatSettings.presencePenalty = settings.value("PresencePenalty").toFloat();
+    chatSettings.presencePenalty = v_presencePenalty.toFloat();
   }
 
-  if (!settings.value("FrequencyPenalty").isNull())
+  if (!v_frequencyPenalty.isNull())
   {
-    chatSettings.frequencyPenalty = settings.value("FrequencyPenalty").
-                                    toFloat();
+    chatSettings.frequencyPenalty = v_frequencyPenalty.toFloat();
   }
 
   settings.endGroup();
@@ -103,9 +109,10 @@ void Settings::writeSettings()
   settings.setValue("Temperature", chatSettings.temperature);
   settings.setValue("N", chatSettings.n);
 
-  for (quint8 i = 0; i < chatSettings.stop.length(); ++i)
+  for (quint8 i = 0; i < 4; ++i)
   {
-    settings.setValue("StopWord" + QString::number(i), chatSettings.stop[i]);
+    QString stop = chatSettings.stop.length() > i ? chatSettings.stop[i] : "";
+    settings.setValue("StopWord" + QString::number(i), stop);
   }
 
   settings.setValue("PresencePenalty", chatSettings.presencePenalty);
