@@ -70,7 +70,7 @@ private:
   void tokensLeft();
   void setFileChatSettings(const quint8 &index);
   void sendMessage();
-  MessageWidget *addMessage(HistoryParser::Message message, quint8 chatIndex);
+  void addMessage(HistoryParser::Message message, quint8 chatIndex);
   void addChatItem(QString name);
 
 private slots:

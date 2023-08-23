@@ -16,7 +16,6 @@ MessageWidget::MessageWidget(NewListWidgetItem *item,
   m_message = message;
   m_chatIndex = chatIndex;
   m_isEdit = false;
-  m_queueResize = 0;
   init();
 }
 
@@ -123,7 +122,7 @@ QSize MessageWidget::getSizeTextEdit(QTextEdit *textEdit, quint8 index) const
   {
     sizeWidth = maxSizeWidth - 42;
 
-    if (sizeHeight >= 600 - 53)
+    if (sizeHeight >= 530)
     {
       sizeHeight += 18;
     }
@@ -303,6 +302,7 @@ void MessageWidget::addCodeWidget(const QString &codeText, const Border &border)
 
 void MessageWidget::resizeTimer(quint16 interval)
 {
+  m_isTimerResize = false;
   m_timer = m_timer.create();
   m_timer->setInterval(interval);
   m_timer->setSingleShot(true);
@@ -313,6 +313,8 @@ void MessageWidget::resizeTimer(quint16 interval)
     {
       m_timer.clear();
       resize();
+      m_isTimerResize = true;
+      emit resizeFinished(getSize());
     }
   });
 
@@ -321,6 +323,7 @@ void MessageWidget::resizeTimer(quint16 interval)
 
 void MessageWidget::init()
 {
+  m_queueResize = 0;
   createText();
   QString color1;
   QString color2;
@@ -378,29 +381,20 @@ void MessageWidget::init()
                               "background-color: " + color3 + ";}");
     });
 
-    std::thread t2([=]()
-    {
-      m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/delete.svg"),
-                        tr("Delete"), this, &MessageWidget::actionDeleteClicked);
-    });
+    m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/delete.svg"),
+                      tr("Delete"), this, &MessageWidget::actionDeleteClicked);
 
-    std::thread t3([=]()
-    {
-      m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/edit.svg"),
-                        tr("Edit"), this, &MessageWidget::actionEditClicked);
-    });
+    m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/edit.svg"),
+                      tr("Edit"), this, &MessageWidget::actionEditClicked);
 
-    std::thread t4(&MessageWidget::selection, this, "`([^`]*)`");
-    std::thread t5(&MessageWidget::selection, this, "'([^']*)'");
-    std::thread t6(&MessageWidget::selection, this, "\"([^\"]*)\"");
+    std::thread t2(&MessageWidget::selection, this, "`([^`]*)`");
+    std::thread t3(&MessageWidget::selection, this, "'([^']*)'");
+    selection("\"([^\"]*)\"");
 
-    resizeTimer();
-    t.join();
     t2.join();
     t3.join();
-    t4.join();
-    t5.join();
-    t6.join();
+    resizeTimer();
+    t.join();
   }
 }
 
@@ -524,6 +518,11 @@ void MessageWidget::resizeEvent(QResizeEvent *event)
 {
   QWidget::resizeEvent(event);
   resize();
+}
+
+bool MessageWidget::isTimerResize() const
+{
+  return m_isTimerResize;
 }
 
 NewListWidgetItem *MessageWidget::getItem()

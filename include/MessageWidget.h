@@ -35,6 +35,7 @@ public:
   void setItem(NewListWidgetItem *item);
   void editMessage(QString newText);
   QSize getSize() const;
+  bool isTimerResize() const;
 
 protected:
   void resizeEvent(QResizeEvent *event) override;
@@ -61,6 +62,7 @@ private:
   quint8 m_queueResize;
   QVector<bool> m_widgetList;           //  true == code widget
   QSharedPointer<QTimer> m_timer;
+  bool m_isTimerResize;
 
   void selection(QString pattern);
   QSize getSizeTextEdit(QTextEdit *textEdit, quint8 index) const;

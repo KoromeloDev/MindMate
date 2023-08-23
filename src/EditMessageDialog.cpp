@@ -43,7 +43,7 @@ void EditMessageDialog::changeEvent(QEvent *e)
 
 void EditMessageDialog::resize(QSize size)
 {
-  size += QSize(12, 53);
+  size += QSize(12, 70);
 
   if (size.height() > maxSize.height())
   {

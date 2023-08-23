@@ -81,26 +81,11 @@ void setStyle(MainWindow &windows)
   QString mainStyle;
   QFile style(":/resources/style.css");
 
-  std::thread t([&]()
+  if (style.open(QIODevice::ReadOnly | QIODevice::Text))
   {
-    if (style.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-      mainStyle = style.readAll();
-      windows.setStyleSheet(mainStyle);
-    }
-  });
-
-  #if defined(Q_OS_WIN)
-  for (const QString &key : QStyleFactory::keys())
-  {
-    if (key.toLower() == "fusion")
-    {
-      application.setStyle(QStyleFactory::create(key));
-    }
+    mainStyle = style.readAll();
+    windows.setStyleSheet(mainStyle);
   }
-  #endif
-
-  t.join();
 }
 
 int main(int argc, char *argv[])
@@ -113,6 +98,18 @@ int main(int argc, char *argv[])
   setPath();
   tTranslator.join();
   tFont.join();
+
+  //Set application style for windows
+  #if defined(Q_OS_WIN)
+  for (const QString &key : QStyleFactory::keys())
+  {
+    if (key.toLower() == "fusion")
+    {
+      QApplication::setStyle(QStyleFactory::create(key));
+    }
+  }
+  #endif
+
   MainWindow windows;
   setStyle(windows);
   windows.show();
