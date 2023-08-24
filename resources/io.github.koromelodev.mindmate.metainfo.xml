@@ -14,7 +14,9 @@
 
   <description>
     <p>
-       The app supports chat settings, can send system messages, delete and edit messages
+      The app supports chat settings, can send system messages, delete and edit messages.
+      <br /> You can see the instructions
+      <a href="https://github.com/KoromeloDev/MindMate#how-to-use">here.</a>
     </p>
   </description>
 
