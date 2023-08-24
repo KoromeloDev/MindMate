@@ -21,6 +21,11 @@
   <url type="homepage">https://github.com/KoromeloDev/MindMate</url>
 
   <releases>
+    <release version="1.3.2-beta" date="2023-08-24">
+      <description>
+        <p>Fixed issues and improved stability</p>
+      </description>
+    </release>
     <release version="1.3.0-beta" date="2023-08-22">
       <description>
         <p>Fixed issues and added stop word functionality</p>
