@@ -576,13 +576,11 @@ void MainWindow::chatItemDeleteClicked()
   disconnect(m_ui->chatList, &QListWidget::currentItemChanged,
              this, &MainWindow::chatItemChanged);
 
+  bool currentItem = m_ui->chatList->currentRow() == index;
   m_ui->chatList->takeItem(index);
 
   connect(m_ui->chatList, &QListWidget::currentItemChanged,
           this, &MainWindow::chatItemChanged);
-
-  bool currentItem = m_ui->chatList->currentItem() ==
-                     m_ui->chatList->item(index);
 
   if (checkExistChats())
   {

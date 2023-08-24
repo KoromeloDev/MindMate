@@ -174,13 +174,13 @@
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
-        <location line="+73"/>
-        <location line="+202"/>
+        <location line="+69"/>
+        <location line="+198"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location line="-78"/>
+        <location line="-75"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>
@@ -188,12 +188,12 @@
 <context>
     <name>MessageWidget</name>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="+384"/>
+        <location filename="../src/MessageWidget.cpp" line="+385"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+3"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
