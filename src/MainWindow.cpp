@@ -2,7 +2,7 @@
 #include "ui_MainWindow.h"
 
 #include "NewTextEdit.h"
-#include "SettingsWidget.h"
+#include "MessageWidget.h"
 #include "ThemeIcon.h"
 #include "ChatItem.h"
 #include "Settings.h"
@@ -473,8 +473,8 @@ void MainWindow::chatItemChanged(QListWidgetItem *item)
 
 void MainWindow::settingsClicked()
 {
-  SettingsWidget *settings = new SettingsWidget(this);
-  settings->show();
+  m_settingsWidget = m_settingsWidget.create(this);
+  m_settingsWidget->show();
 }
 
 void MainWindow::retryClicked()

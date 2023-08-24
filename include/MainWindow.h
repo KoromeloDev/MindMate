@@ -16,8 +16,8 @@
 #include "HistoryParser.h"
 #include "ChatGPT.h"
 #include "ChatSettings.h"
-#include "MessageWidget.h"
 #include "ChatSettingsDialog.h"
+#include "SettingsWidget.h"
 
 #if CHECKUPDATES
 #include "UpdateChecker.h"
@@ -52,6 +52,7 @@ private:
   QSoundEffect m_answerEffect;
   QSoundEffect m_errorEffect;
   QSharedPointer<ChatSettingsDialog> m_chatSettingsDialog;
+  QSharedPointer<SettingsWidget> m_settingsWidget;
 
   #if CHECKUPDATES
   QSharedPointer<UpdateChecker> m_updateChecker;
