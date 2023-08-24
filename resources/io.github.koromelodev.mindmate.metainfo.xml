@@ -3,7 +3,7 @@
   <id>io.github.koromelodev.mindmate</id>
 
   <name>MindMate</name>
-  <summary>Unofficial chat app with ChatGPT</summary>
+  <summary>Unofficial application for ChatGPT</summary>
 
   <metadata_license>CC-BY-SA-4.0</metadata_license>
   <project_license>CC-BY-SA-4.0</project_license>
@@ -14,14 +14,14 @@
 
   <description>
     <p>
-      Unofficial chat app with Chat GPT. With support for various chat settings, the ability to write system messages, delete messages and much more.
+       The app supports chat settings, can send system messages, delete and edit messages
     </p>
   </description>
 
   <url type="homepage">https://github.com/KoromeloDev/MindMate</url>
 
   <releases>
-    <release version="1.3.2-beta" date="2023-08-24">
+    <release version="1.3.3-beta" date="2023-08-24">
       <description>
         <p>Fixed issues and improved stability</p>
       </description>
