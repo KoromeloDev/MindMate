@@ -10,6 +10,9 @@ You can install MindMate using flatpak. To do this, you can go to [Flathub](http
 flatpak install flathub io.github.koromelodev.mindmate
 ```
 
+### Windows:
+You can install MindMate using the [Microsoft Store.](https://www.microsoft.com/store/apps/9PC99CMCJLNF)
+
 ## How to install from source code
 <h3 align="center">
   Dependencies
