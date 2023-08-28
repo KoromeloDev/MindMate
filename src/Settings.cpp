@@ -4,11 +4,6 @@ Settings::Settings()
 {
   languageRecognize = true;
   autoNaming = true;
-
-  #if CHECKUPDATES
-  checkUpdates = false;
-  #endif
-
   readSettings();
 }
 
@@ -18,10 +13,6 @@ void Settings::readSettings()
   settings.beginGroup("Main");
   QVariant v_languageRecognize = settings.value("AutoLanguageRecognize");
   QVariant v_autoNaming = settings.value("AutoNamingChat");
-
-  #if CHECKUPDATES
-  checkUpdates = settings.value("CheckUpdates").toBool();
-  #endif
 
   if (v_languageRecognize.isValid())
   {
@@ -94,10 +85,6 @@ void Settings::writeSettings()
 {
   QSettings settings("settings.ini", QSettings::IniFormat);
   settings.beginGroup("Main");
-
-  #if CHECKUPDATES
-  settings.setValue("CheckUpdates", checkUpdates);
-  #endif
 
   settings.setValue("AutoLanguageRecognize", languageRecognize);
   settings.setValue("AutoNamingChat", autoNaming);

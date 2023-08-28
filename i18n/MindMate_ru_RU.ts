@@ -159,17 +159,15 @@
         <translation>Помощник</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="+87"/>
         <source>Update available</source>
-        <translation>Доступно обновление</translation>
+        <translation type="vanished">Доступно обновление</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Link to download the application</source>
-        <translation>Ссылка на скачивание приложения</translation>
+        <translation type="vanished">Ссылка на скачивание приложения</translation>
     </message>
     <message>
-        <location line="+103"/>
+        <location filename="../src/MainWindow.cpp" line="+163"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
@@ -211,27 +209,27 @@
         <translation>Общие</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+63"/>
         <source>Auto language recognize</source>
         <translation>Автоматическое распознание языка</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="-42"/>
         <source>Auto naming chat</source>
         <translation>Автоматически называть чаты</translation>
     </message>
     <message>
-        <location line="-26"/>
+        <location line="+58"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the widget with the code does not have a programming language, then it tries to turn to ChatGPT to determine the language (This may take some time).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Если у виджета с кодом нет языка программирования, то он пытается обратиться к ChatGPT для определения языка (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="-42"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically names the chat by sending a request to ChatGPT (This may take some time).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Автоматически присваивает название чату, отправляя запрос в ChatGPT (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+67"/>
         <source>Chat</source>
         <translation>Чат</translation>
     </message>
@@ -251,9 +249,8 @@
         <translation>API ключ:</translation>
     </message>
     <message>
-        <location line="-198"/>
         <source>Check updates</source>
-        <translation>Проверять обновления</translation>
+        <translation type="vanished">Проверять обновления</translation>
     </message>
     <message>
         <location filename="../src/SettingsWidget.cpp" line="+12"/>
@@ -261,8 +258,8 @@
         <translation>Версия</translation>
     </message>
     <message>
-        <location line="+21"/>
-        <location line="+50"/>
+        <location line="+13"/>
+        <location line="+45"/>
         <source>API key</source>
         <translation>API ключ</translation>
     </message>

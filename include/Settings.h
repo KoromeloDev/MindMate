@@ -9,10 +9,6 @@ struct Settings
 {
   Settings();
 
-  #if CHECKUPDATES
-  bool checkUpdates;
-  #endif
-
   bool languageRecognize;
   bool autoNaming;
   QString openAIKey;

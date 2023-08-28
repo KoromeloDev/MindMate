@@ -45,12 +45,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
                            -DAPP_VERSION="${PROJECT_VERSION}"
                            -DPROJECT_NAME="${PROJECT_NAME}")
 if(FLATPAK)
-  target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=false
-                             -DFLATPAK=${FLATPAK} -DAPP_ID="${APP_ID}")
-elseif(LINUX)
-  target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=true)
-else()
-  target_compile_definitions(${PROJECT_NAME} PRIVATE -DCHECKUPDATES=false)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE -DFLATPAK=${FLATPAK}
+                             -DAPP_ID="${APP_ID}")
 endif()
 
 add_subdirectory(import)

@@ -14,14 +14,6 @@ SettingsWidget::SettingsWidget(QWidget *parent)
   m_chatSettingsWidget = m_chatSettingsWidget.create(this,
                                                      m_settings.chatSettings);
   m_ui->verticalLayout_2->addWidget(m_chatSettingsWidget.get());
-
-  #if CHECKUPDATES
-  m_ui->checkUpdates->setChecked(m_settings.checkUpdates);
-  #else
-  m_ui->checkUpdates->setHidden(true);
-  m_ui->updatesLabel->setHidden(true);
-  #endif
-
   m_ui->langRecognize->setChecked(m_settings.languageRecognize);
   m_ui->autoNamingChat->setChecked(m_settings.autoNaming);
 
@@ -41,11 +33,6 @@ SettingsWidget::SettingsWidget(QWidget *parent)
           this, &SettingsWidget::autoNamingStateChanged);
   connect(m_ui->langRecognize, &QCheckBox::stateChanged,
           this, &SettingsWidget::languageRecognizeStateChanged);
-
-  #if CHECKUPDATES
-  connect(m_ui->checkUpdates, &QCheckBox::stateChanged,
-          this, &SettingsWidget::checkUpdatesStateChanged);
-  #endif
 }
 
 SettingsWidget::~SettingsWidget()
@@ -101,10 +88,3 @@ void SettingsWidget::autoNamingStateChanged(quint8 state)
 {
   m_settings.autoNaming = state;
 }
-
-#if CHECKUPDATES
-void SettingsWidget::checkUpdatesStateChanged(quint8 state)
-{
-  m_settings.checkUpdates = state;
-}
-#endif

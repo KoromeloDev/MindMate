@@ -40,20 +40,6 @@ MainWindow::MainWindow(QWidget *parent)
   connect(m_ui->chatSettingsButton, &QToolButton::clicked,
           this, &MainWindow::chatSettingsClicked);
 
-  #if CHECKUPDATES
-  Settings settings;
-
-  if(settings.checkUpdates)
-  {
-    m_updateChecker = m_updateChecker.create(this, "KoromeloDev", "MindMate");
-
-    connect(m_updateChecker.get(), &UpdateChecker::needUpdates,
-            this, &MainWindow::needUpdates);
-
-    m_updateChecker->checkUpdates();
-  }
-  #endif
-
   m_isWaitAnswer = false;
   m_isErrorAnswer = false;
   m_movie.setFileName(":/resources/icons/eclipse.gif");
@@ -76,21 +62,6 @@ MainWindow::~MainWindow()
     chatGPT->deleteLater();
   }
 }
-
-#if CHECKUPDATES
-void MainWindow::needUpdates(bool haveUpdates, QUrl downloadUrl)
-{
-  m_updateChecker.clear();
-
-  if (haveUpdates)
-  {
-    QMessageBox::information(this, tr("Update available"),
-                             "<a href='" + downloadUrl.toString() + "'>" +
-                             tr("Link to download the application") +
-                             "</a>");
-  }
-}
-#endif
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {

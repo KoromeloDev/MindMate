@@ -32,10 +32,6 @@ private:
 private slots:
   void editKeyClicked();
 
-  #if CHECKUPDATES
-  void checkUpdatesStateChanged(quint8 state);
-  #endif
-
   void languageRecognizeStateChanged(quint8 state);
   void autoNamingStateChanged(quint8 state);
 

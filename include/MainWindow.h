@@ -19,10 +19,6 @@
 #include "ChatSettingsDialog.h"
 #include "SettingsWidget.h"
 
-#if CHECKUPDATES
-#include "UpdateChecker.h"
-#endif
-
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
@@ -53,12 +49,6 @@ private:
   QSoundEffect m_errorEffect;
   QSharedPointer<ChatSettingsDialog> m_chatSettingsDialog;
   QSharedPointer<SettingsWidget> m_settingsWidget;
-
-  #if CHECKUPDATES
-  QSharedPointer<UpdateChecker> m_updateChecker;
-
-  void needUpdates(bool haveUpdates, QUrl downloadUrl);
-  #endif
 
   void setChatSettings(const quint8 &index);
   void receivedText(QString text);
