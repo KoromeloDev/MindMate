@@ -23,7 +23,7 @@ class CodeWidget : public QWidget
 
 public:
   explicit CodeWidget(QWidget *parent = nullptr, QString code = 0,
-                       QMenu *menu = nullptr);
+                      QMenu *menu = nullptr, quint8 index = 0);
   ~CodeWidget();
 
   void resizeWidget();
@@ -38,9 +38,10 @@ private:
   QString m_code;
   QClipboard *m_clipboard;
   QSharedPointer<QSH> m_highlighter;
-  QSharedPointer<ChatGPT> m_chatGPT;
+  ChatGPT *m_chatGPT;
   QSharedPointer<QTimer> m_timer;
   QSize m_size;
+  quint8 m_index;
 
   void setCodeAutoHighlighter();
   void languageRecognize();
@@ -51,7 +52,7 @@ private slots:
 
 signals:
   void contextMenuRequested(QPoint pos);
-  void changeLanguage(QString language);
+  void changeLanguage(QString language, quint8 index);
 };
 
 #endif // CODEWIDGET_H

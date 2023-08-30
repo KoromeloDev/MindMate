@@ -43,7 +43,7 @@ private:
   bool m_isWaitAnswer;
   bool m_isErrorAnswer;
   QMovie m_movie;
-  QVector<HistoryParser::Message> m_allMesages;
+  QVector<HistoryParser::Messages> m_allMesages;
   ChatSettings m_chatSettings;
   QSoundEffect m_answerEffect;
   QSoundEffect m_errorEffect;
@@ -61,7 +61,7 @@ private:
   void tokensLeft();
   void setFileChatSettings(const quint8 &index);
   void sendMessage();
-  void addMessage(HistoryParser::Message message, quint8 chatIndex);
+  void addMessages(HistoryParser::Messages message, quint8 chatIndex);
   void addChatItem(QString name);
 
 private slots:
@@ -75,7 +75,7 @@ private slots:
   void responseReceived();
   void replyError(QString error);
   void chatItemDeleteClicked();
-  void messageDeleteCliked();
+  void messageDeleteCliked(bool all);
   void messageEdit();
   void scrollToBottom();
 

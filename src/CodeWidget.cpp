@@ -5,15 +5,17 @@
 #include "Settings.h"
 #include "MessageWidget.h"
 
-CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
+CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu, quint8 index)
 : QWidget(parent), m_ui(new Ui::CodeWidget)
 {
   m_ui->setupUi(this);
 
   ThemeIcon::setIcon(*m_ui->copyButton, ":/resources/icons/copy.svg");
 
+  m_chatGPT = nullptr;
   quint8 i = 0;
   m_code = code;
+  m_index = index;
 
   while (i < code.length())
   {
@@ -67,6 +69,11 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu)
 CodeWidget::~CodeWidget()
 {
   delete m_ui;
+
+  if (m_chatGPT != nullptr)
+  {
+    delete m_chatGPT;
+  }
 }
 
 void CodeWidget::resizeWidget()
@@ -112,11 +119,11 @@ void CodeWidget::setCodeAutoHighlighter()
 
   if (language.isEmpty() && settings.languageRecognize)
   {
-    m_chatGPT = m_chatGPT.create(this, settings.openAIKey);
+    m_chatGPT = new ChatGPT(settings.openAIKey);
     ChatSettings chatSettings;
     chatSettings.stop = {" ", ".", "\n"};
 
-    connect(m_chatGPT.get(), &ChatGPT::responseReceived,
+    connect(m_chatGPT, &ChatGPT::responseReceived,
             this, &CodeWidget::languageRecognize);
 
     m_chatGPT->send(m_code +
@@ -235,19 +242,20 @@ void CodeWidget::setCodeAutoHighlighter()
 
 void CodeWidget::languageRecognize()
 {
-  disconnect(m_chatGPT.get(), &ChatGPT::responseReceived,
+  disconnect(m_chatGPT, &ChatGPT::responseReceived,
              this, &CodeWidget::languageRecognize);
 
-  m_language = m_chatGPT->getAnswerMessage().content;
+  m_language = m_chatGPT->getAnswerMessage().content[0];
   m_chatGPT->deleteLater();
   m_chatGPT = nullptr;
+//  m_chatGPT.clear();
 
   if (!m_language.isEmpty())
   {
     while (!m_language.isEmpty())
     {
-      if (m_language.last(1) == ' ' || m_language.last(1) == '.'
-          || m_language.last(1) == '\n')
+      if (m_language.last(1) == ' ' || m_language.last(1) == '.' ||
+          m_language.last(1) == '\n')
       {
         m_language.remove(m_language.length() - 1, 1);
       }
@@ -258,9 +266,7 @@ void CodeWidget::languageRecognize()
     }
 
     m_language = m_language.toLower();
-    m_ui->languageLabel->setText(m_language);
-    emit changeLanguage(m_language);
-    setCodeAutoHighlighter();
+    emit changeLanguage(m_language, m_index);
   }
 }
 

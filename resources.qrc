@@ -19,5 +19,6 @@
         <file>resources/icons/accept.svg</file>
         <file>resources/fonts/Roboto-Regular.ttf</file>
         <file>resources/style.css</file>
+        <file>resources/icons/back.svg</file>
     </qresource>
 </RCC>

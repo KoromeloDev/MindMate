@@ -21,14 +21,17 @@ public:
 
   MessageWidget *getMessageWidget() const;
 
+  quint8 getIndex() const;
+
 protected:
   void changeEvent(QEvent *e) override;
 
 private:
   Ui::EditMessageDialog *m_ui;
   MessageWidget *m_messageWidget;
-  QSize minSize;
-  QSize maxSize;
+  QSize m_minSize;
+  QSize m_maxSize;
+  quint8 m_index;
 
   void resize(QSize size);
 

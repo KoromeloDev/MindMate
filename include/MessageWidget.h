@@ -22,20 +22,21 @@ class MessageWidget : public QWidget
 
 public:
   explicit MessageWidget(NewListWidgetItem *item = nullptr,
-                         HistoryParser::Message message = {},
+                         HistoryParser::Messages message = {},
                          quint8 chatIndex = 0);
   explicit MessageWidget(MessageWidget *messageWidget, bool isEdit);
   ~MessageWidget();
 
   void resize();
-  HistoryParser::Message getMessage() const;
+  HistoryParser::Messages getMessages() const;
   void updateMessage();
   qint8 getChatIndex() const;
   NewListWidgetItem *getItem();
   void setItem(NewListWidgetItem *item);
-  void editMessage(QString newText);
+  void editMessage(QString newContent, quint8 index = 0);
   QSize getSize() const;
   bool isTimerResize() const;
+  quint8 getCurrentIndex() const;
 
 protected:
   void resizeEvent(QResizeEvent *event) override;
@@ -43,7 +44,7 @@ protected:
 private:
   Ui::MessageWidget *m_ui;
   NewListWidgetItem *m_item;
-  HistoryParser::Message m_message;
+  HistoryParser::Messages m_message;
   QVector<QSharedPointer<CodeWidget>> m_codeWidgets;
   QVector<QSharedPointer<QTextEdit>> m_textEdit;
   QVector<float> m_textWidth;
@@ -51,10 +52,8 @@ private:
   quint16 m_height;
   struct Border
   {
-    quint8 topLeft = 0;
-    quint8 topRight = 0;
-    quint8 bottomLeft = 0;
-    quint8 bottomRight = 0;
+    bool top = false;
+    bool bottom = false;
   };
   QSharedPointer<QMenu> m_menu;
   qint8 m_chatIndex;
@@ -63,6 +62,8 @@ private:
   QVector<bool> m_widgetList;           //  true == code widget
   QSharedPointer<QTimer> m_timer;
   bool m_isTimerResize;
+  quint8 m_currentIndex;
+  quint8 m_allMessage;
 
   void selection(QString pattern);
   QSize getSizeTextEdit(QTextEdit *textEdit, quint8 index) const;
@@ -74,16 +75,21 @@ private:
   inline void addWidgetToLayout(QWidget *widget);
   inline void addTextEdit(QString text, Border border);
   void resizeTimer(quint16 interval = 5);
+  void setPages(bool changeSelected = false);
+  void newText(bool changeSelected = false);
 
 signals:
-  void selfDelete();
+  void selfDelete(bool all);
   void selfEdit();
   void resizeFinished(QSize size);
 
 private slots:
-  void actionDeleteClicked();
+  void actionDeleteAllClicked();
+  void actionDeleteCurrentClicked();
   void actionEditClicked();
-  void changeLanguage(QString language);
+  void changeLanguage(QString language, quint8 index);
+  void nextClicked();
+  void backClicked();
 
 };
 

@@ -3,7 +3,7 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities">
-  <Identity Name="24808DisoftGameDevelopers.MindMate" Version="1.3.3.0" Publisher="CN=943C3367-2BFF-4226-A82B-A1C5E0D2AF36" ProcessorArchitecture="x86" />
+  <Identity Name="24808DisoftGameDevelopers.MindMate" Version="1.4.0.0" Publisher="CN=943C3367-2BFF-4226-A82B-A1C5E0D2AF36" ProcessorArchitecture="x86" />
   <Properties>
     <DisplayName>MindMate</DisplayName>
     <PublisherDisplayName>Disoft Game Developers</PublisherDisplayName>
@@ -24,7 +24,7 @@
   <Applications>
     <Application Id="MindMate" Executable="MindMate.exe" EntryPoint="windows.fullTrustApplication">
       <uap:VisualElements DisplayName="MindMate" Description="MindMate is an unofficial application for ChatGPT"	Square150x150Logo="iconengines\icon.png" 
-        Square44x44Logo="iconengines\icon.png" BackgroundColor="#1c1c1c" />
+        Square44x44Logo="iconengines\icon.png" BackgroundColor="transparent" />
     </Application>
   </Applications>
 </Package>

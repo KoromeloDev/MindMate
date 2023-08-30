@@ -79,7 +79,7 @@ void MainWindow::receivedText(QString text)
   if (!text.isEmpty() && ((!m_isWaitAnswer && !m_isErrorAnswer) ||
      (m_allMesages.count() != 0 && m_ui->roleBox->currentIndex() != 0)))
   {
-    HistoryParser history(this, m_chatSettings.fileName);
+    HistoryParser history(m_chatSettings.fileName);
     HistoryParser::Message message;
     message.content = text;
 
@@ -99,8 +99,8 @@ void MainWindow::receivedText(QString text)
         break;
     }
 
-    addMessage(message, m_ui->chatList->currentRow());
-    history.addNewMessage(message);
+    addMessages(message, m_ui->chatList->currentRow());
+    history.addMessage(message);
     m_allMesages.append(message);
     m_ui->textInput->clear();
 
@@ -110,13 +110,13 @@ void MainWindow::receivedText(QString text)
 
       if (m_ui->historyList->count() == 1 && settings.autoNaming)
       {
-        ChatGPT *chatGPT = new ChatGPT(this, settings.openAIKey);
+        ChatGPT *chatGPT = new ChatGPT(settings.openAIKey);
         ChatSettings chatSettings;
         chatSettings.stop = {"\n"};
 
         connect(chatGPT, &ChatGPT::responseReceived, this, [=]()
         {
-          QString name = chatGPT->getAnswerMessage().content;
+          QString name = chatGPT->getAnswerMessage().content[0];
           chatGPT->deleteLater();
 
           if (!name.isEmpty())
@@ -293,14 +293,14 @@ void MainWindow::showChat()
 
   if (!m_chatSettings.fileName.isEmpty())
   {
-    HistoryParser history(this, m_chatSettings.fileName);
+    HistoryParser history(m_chatSettings.fileName);
     quint16 count = history.getCountMessage();
     tokensLeft();
 
     for (quint16 i = 0; i < count; ++i)
     {
-      m_allMesages.append(history.getMessage(i));
-      addMessage(m_allMesages[i], m_ui->chatList->currentRow());
+      m_allMesages.append(history.getMessages(i));
+      addMessages(m_allMesages[i], m_ui->chatList->currentRow());
     }
 
     if (count > 0)
@@ -391,7 +391,7 @@ void MainWindow::setFileChatSettings(const quint8 &index)
 void MainWindow::sendMessage()
 {
   Settings settings;
-  ChatGPT *chatGPT = new ChatGPT(this, settings.openAIKey);
+  ChatGPT *chatGPT = new ChatGPT(settings.openAIKey);
   m_ui->retryButton->setToolTip("");
 
   connect(chatGPT, &ChatGPT::responseReceived,
@@ -406,7 +406,7 @@ void MainWindow::sendMessage()
   chatGPT->send(m_allMesages, m_chatSettings, m_ui->chatList->currentRow());
 }
 
-void MainWindow::addMessage(HistoryParser::Message message, quint8 chatIndex)
+void MainWindow::addMessages(HistoryParser::Messages message, quint8 chatIndex)
 {
   NewListWidgetItem *item = new NewListWidgetItem(m_ui->historyList);
   MessageWidget *messageWidget = new MessageWidget(item, message, chatIndex);
@@ -491,16 +491,16 @@ void MainWindow::responseReceived()
 
   ChatSettings chatSettings = m_chatSettings;
   setChatSettings(sender->getIndex());
-  HistoryParser history(this, m_chatSettings.fileName);
+  HistoryParser history(m_chatSettings.fileName);
   m_chatSettings.usedTokens = sender->getUsedToken();
   setFileChatSettings(sender->getIndex());
-  history.addNewMessage(sender->getAnswerMessage());
+  history.addMessage(sender->getAnswerMessage());
 
   if (sender->getIndex() == m_ui->chatList->currentRow())
   {
     answerState(false);
     m_allMesages.append(sender->getAnswerMessage());
-    addMessage(sender->getAnswerMessage(), m_ui->chatList->currentRow());
+    addMessages(sender->getAnswerMessage(), m_ui->chatList->currentRow());
     m_chatSettings.usedTokens = sender->getUsedToken();
     tokensLeft();
   }
@@ -573,38 +573,45 @@ void MainWindow::chatItemDeleteClicked()
   }
 }
 
-void MainWindow::messageDeleteCliked()
+void MainWindow::messageDeleteCliked(bool all)
 {
   MessageWidget *sender = qobject_cast<MessageWidget*>(QObject::sender());
+  const quint8 &index = sender->getItem()->getIndex();
 
-  disconnect(sender, &MessageWidget::selfDelete,
-             this, &MainWindow::messageDeleteCliked);
-
-  const qint8 &index = sender->getItem()->getIndex();
-  m_ui->historyList->takeItem(index);
-  m_allMesages.removeAt(index);
-  bool find = false;
-
-  for (const auto &chatGPT : m_chatGPTList)
+  if (all)
   {
-    if (chatGPT->getIndex() == m_ui->chatList->currentRow())
+    disconnect(sender, &MessageWidget::selfDelete,
+               this, &MainWindow::messageDeleteCliked);
+
+    m_ui->historyList->takeItem(index);
+    m_allMesages.removeAt(index);
+    bool find = false;
+
+    for (const auto &chatGPT : m_chatGPTList)
     {
-      find = true;
-      break;
+      if (chatGPT->getIndex() == m_ui->chatList->currentRow())
+      {
+        find = true;
+        break;
+      }
+    }
+
+    if (!find)
+    {
+      errorState(m_allMesages.count() != 0 &&
+                 m_allMesages.last().role == HistoryParser::Role::User);
     }
   }
-
-  if (!find)
+  else
   {
-    errorState(m_allMesages.count() != 0 &&
-               m_allMesages.last().role == HistoryParser::Role::User);
+    m_allMesages[index] = sender->getMessages();
   }
 }
 
 void MainWindow::messageEdit()
 {
   MessageWidget *sender = qobject_cast<MessageWidget*>(QObject::sender());
-  m_allMesages[sender->getItem()->getIndex()] = sender->getMessage();
+  m_allMesages[sender->getItem()->getIndex()] = sender->getMessages();
 
   //Fixing resize edited message widget
   for (quint8 i = 0; i < 12; ++i)

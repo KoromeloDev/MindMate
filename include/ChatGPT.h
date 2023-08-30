@@ -17,23 +17,21 @@ class ChatGPT : public QObject
   Q_OBJECT
 
 public:
-  explicit ChatGPT(QObject *parent = nullptr, QString key = 0);
-  ~ChatGPT();
-  void send(QVector<HistoryParser::Message> message,
+  explicit ChatGPT(QString key = 0);
+  void send(QVector<HistoryParser::Messages> message,
             ChatSettings chatSettings, quint8 index);
   void send(QString message, ChatSettings chatSettings);
-  HistoryParser::Message getAnswerMessage() const;
+  HistoryParser::Messages getAnswerMessage() const;
   quint32 getUsedToken() const;
   quint8 getIndex() const;
   bool isError() const;
 
-
 private:
   QSharedPointer<QNetworkAccessManager> m_networkManager;
   QString m_key;
-  QVector<HistoryParser::Message> m_message;
+  QVector<HistoryParser::Messages> m_message;
   ChatSettings m_chatSettings;
-  HistoryParser::Message m_answerMessage;
+  HistoryParser::Messages m_answerMessage;
   quint32 m_usedToken;
   quint8 m_index;
   bool m_error;

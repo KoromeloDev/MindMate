@@ -8,7 +8,7 @@
 QSharedPointer<EditMessageDialog> m_editDialog;
 
 MessageWidget::MessageWidget(NewListWidgetItem *item,
-                             HistoryParser::Message message, quint8 chatIndex)
+                             HistoryParser::Messages message, quint8 chatIndex)
 : m_ui(new Ui::MessageWidget)
 {
   m_ui->setupUi(this);
@@ -33,7 +33,7 @@ MessageWidget::MessageWidget(MessageWidget *messageWidget, bool isEdit)
     m_item = nullptr;
   }
 
-  m_message = messageWidget->getMessage();
+  m_message = messageWidget->getMessages();
   m_chatIndex = messageWidget->getChatIndex();
   init();
 }
@@ -93,12 +93,11 @@ void MessageWidget::resize()
 
   if (m_item != nullptr)
   {
-    m_item->setSizeHint(QSize(width(), m_height+18));
+    m_item->setSizeHint(QSize(width(), m_height + 56));
   }
 
   m_ui->horizontalSpacer->changeSize(m_width, 0);
   setMinimumHeight(m_height);
-
   --m_queueResize;
 
   if (m_queueResize == 0)
@@ -122,7 +121,7 @@ QSize MessageWidget::getSizeTextEdit(QTextEdit *textEdit, quint8 index) const
   {
     sizeWidth = maxSizeWidth - 42;
 
-    if (sizeHeight >= 530)
+    if (sizeHeight >= 490)
     {
       sizeHeight += 18;
     }
@@ -138,6 +137,11 @@ QSize MessageWidget::getSizeTextEdit(QTextEdit *textEdit, quint8 index) const
     else if (m_textWidth.length() != 0)
     {
       sizeWidth += m_textWidth[index] + 10;
+
+      if (sizeWidth < 120)
+      {
+        sizeWidth = 120;
+      }
     }
   }
 
@@ -151,14 +155,14 @@ void MessageWidget::createText()
 {
   static QRegularExpression re("\\s*(`{3}([^\n]*\n[\\s\\S]*?)\\s*`{3})\\s*");
   QRegularExpressionMatchIterator matchIterator =
-                                  re.globalMatch(m_message.content);
+                                  re.globalMatch(m_message.getMessage());
   QVector<QString> codeText;
   quint8 indexCode = 0;
   QVector<QString> textList;
   quint8 indexText = 0;
   QVector<qint16> startPosition;
   QVector<qint16> endPosition;
-  QString text = m_message.content;
+  QString text = m_message.getMessage();
 
   if (!m_isEdit)
   {
@@ -209,18 +213,7 @@ void MessageWidget::createText()
   {
     bool isCodeWidget = m_widgetList[i];
     Border border;
-
-    if (i == 0)
-    {
-      border.topLeft = 15;
-      border.topRight = 15;
-    }
-
-    if (i + 1 == m_widgetList.count())
-    {
-      border.bottomLeft = 15;
-      border.bottomRight = 15;
-    }
+    border.bottom = i + 1 == m_widgetList.count();
 
     if (isCodeWidget && !m_isEdit)
     {
@@ -267,21 +260,25 @@ bool MessageWidget::isMaxWidth() const
 
 void MessageWidget::setBorder(QWidget *widget, const Border &border)
 {
-  widget->setStyleSheet(widget->styleSheet() +
-                        "border-top-left-radius: " +
-                        QString::number(border.topLeft) + ";"
-                        "border-top-right-radius: " +
-                        QString::number(border.topRight)  + ";"
-                        "border-bottom-left-radius: " +
-                        QString::number(border.bottomLeft)  + ";"
-                        "border-bottom-right-radius: " +
-                        QString::number(border.bottomRight)  + ";");
+  if (border.top)
+  {
+    widget->setStyleSheet(widget->styleSheet() +
+                          "border-top-left-radius: 15;"
+                          "border-top-right-radius: 15;");
+  }
 
+  if(border.bottom)
+  {
+    widget->setStyleSheet(widget->styleSheet() +
+                          "border-bottom-left-radius: 15;"
+                          "border-bottom-right-radius: 15;");
+  }
 }
 
 void MessageWidget::addCodeWidget(const QString &codeText, const Border &border)
 {
-  QSharedPointer<CodeWidget> code = code.create(this, codeText, m_menu.get());
+  QSharedPointer<CodeWidget> code = code.create(this, codeText, m_menu.get(),
+                                                m_currentIndex);
 
   std::thread t([&]()
   {
@@ -321,10 +318,74 @@ void MessageWidget::resizeTimer(quint16 interval)
   m_timer->start();
 }
 
+void MessageWidget::setPages(bool changeSelected)
+{
+  if (m_isEdit)
+  {
+    m_ui->widgetList->setVisible(false);
+    return;
+  }
+
+  if (changeSelected)
+  {
+    ChatSettings сhatSettings;
+    HistoryParser historyParser(сhatSettings.getSettings(m_chatIndex).fileName);
+    historyParser.setSelected(m_item->getIndex(), m_currentIndex);
+    newText(changeSelected);
+    emit selfEdit();
+  }
+
+  m_ui->nextButton->setDisabled(m_currentIndex + 1 == m_allMessage);
+  m_ui->backButton->setDisabled(m_currentIndex == 0);
+  m_ui->label->setText(QString("%1/%2").arg(m_currentIndex + 1)
+                       .arg(m_allMessage));
+}
+
+void MessageWidget::newText(bool changeSelected)
+{
+  if (!m_isEdit && changeSelected)
+  {
+    ChatSettings сhatSettings;
+    HistoryParser historyParser(сhatSettings.getSettings(m_chatIndex).fileName);
+    m_message = historyParser.getMessages(m_item->getIndex());
+  }
+
+  m_widgetList.clear();
+  m_textEdit.clear();
+  m_codeWidgets.clear();
+  createText();
+
+  if (!m_isEdit)
+  {
+    selection("`([^`]*)`");
+    selection("'([^']*)'");
+    selection("\"([^\"]*)\"");
+    resize();
+    resizeTimer();
+  }
+}
+
 void MessageWidget::init()
 {
+  std::thread t([=]()
+  {
+    QIcon backIcon = ThemeIcon::getIcon(":/resources/icons/back.svg");
+    m_ui->backButton->setIcon(backIcon);
+    QPixmap pixmap = backIcon.pixmap(backIcon.actualSize(QSize(32, 32)));
+    QTransform transform;
+    transform.scale(-1, 1);
+    pixmap = pixmap.transformed(transform);
+    m_ui->nextButton->setIcon(QIcon(pixmap));
+  });
+
+  connect(m_ui->nextButton, &QToolButton::clicked,
+          this, &MessageWidget::nextClicked);
+  connect(m_ui->backButton, &QToolButton::clicked,
+          this, &MessageWidget::backClicked);
+
   m_queueResize = 0;
-  createText();
+  m_currentIndex = m_message.selected;
+  m_allMessage = m_message.content.size();
   QString color1;
   QString color2;
   QString color3;
@@ -381,21 +442,39 @@ void MessageWidget::init()
                               "background-color: " + color3 + ";}");
     });
 
-    m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/delete.svg"),
-                      tr("Delete"), this, &MessageWidget::actionDeleteClicked);
-
     m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/edit.svg"),
                       tr("Edit"), this, &MessageWidget::actionEditClicked);
+    m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/delete.svg"),
+                      tr("Delete current"), this,
+                      &MessageWidget::actionDeleteCurrentClicked);
+    m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/delete.svg"),
+                      tr("Delete all"), this,
+                      &MessageWidget::actionDeleteAllClicked);
 
-    std::thread t2(&MessageWidget::selection, this, "`([^`]*)`");
-    std::thread t3(&MessageWidget::selection, this, "'([^']*)'");
-    selection("\"([^\"]*)\"");
-
-    t2.join();
-    t3.join();
-    resizeTimer();
     t.join();
+
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, &QWidget::customContextMenuRequested, this, [=]()
+    {
+      if (m_menu != nullptr)
+      {
+        m_menu->exec(QCursor::pos());
+      }
+    });
   }
+
+  setPages();
+  newText();
+
+  if (m_isEdit)
+  {
+    QTextEdit *textEdit = m_textEdit[0].get();
+    Border border;
+    border.top = true;
+    setBorder(textEdit, border);
+  }
+
+  t.join();
 }
 
 void MessageWidget::addWidgetToLayout(QWidget *widget)
@@ -430,13 +509,12 @@ void MessageWidget::addTextEdit(QString text, Border border)
     QFontMetrics fontSize(textEdit->font());
     m_textWidth.append(fontSize.horizontalAdvance(text));
   });
-
   textEdit->setStyleSheet("color: white;"
-                             "padding-left:10px;"
-                             "padding-right:10px;"
-                             "padding-top:5px;"
-                             "padding-bottom:5px;");
-  textEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+                          "padding-left:10px;"
+                          "padding-right:10px;"
+                          "padding-top:5px;"
+                          "padding-bottom:5px;");
+  textEdit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
   textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   textEdit->setMinimumSize(40, 40);
@@ -467,14 +545,31 @@ void MessageWidget::addTextEdit(QString text, Border border)
   t.join();
 }
 
-void MessageWidget::actionDeleteClicked()
+void MessageWidget::actionDeleteAllClicked()
 {
   ChatSettings сhatSettings;
-  HistoryParser historyParser(this,
-                              сhatSettings.getSettings(m_chatIndex).fileName);
+  HistoryParser historyParser(сhatSettings.getSettings(m_chatIndex).fileName);
   historyParser.deleteMessage(m_item->getIndex());
   deleteLater();
-  emit selfDelete();
+  emit selfDelete(true);
+}
+
+void MessageWidget::actionDeleteCurrentClicked()
+{
+  if (m_currentIndex - 1 == -1)
+  {
+    actionDeleteAllClicked();
+    return;
+  }
+
+  ChatSettings сhatSettings;
+  HistoryParser historyParser(сhatSettings.getSettings(m_chatIndex).fileName);
+  historyParser.deleteMessage(m_item->getIndex(), m_currentIndex);
+  newText(true);
+  m_currentIndex = m_message.selected;
+  m_allMessage = m_message.content.size();
+  setPages();
+  emit selfDelete(false);
 }
 
 void MessageWidget::actionEditClicked()
@@ -489,35 +584,57 @@ void MessageWidget::actionEditClicked()
 
   connect(m_editDialog.get(), &EditMessageDialog::accepted, this, [=]()
   {
-    editMessage(m_editDialog->getMessageWidget()->getMessage().content);
+    quint8 index = m_editDialog->getIndex();
+    editMessage(m_editDialog->getMessageWidget()->
+                getMessages().content[index], index);
     m_editDialog.clear();
   });
 
   m_editDialog->show();
 }
 
-void MessageWidget::changeLanguage(QString language)
+void MessageWidget::changeLanguage(QString language, quint8 index)
 {
   CodeWidget *sender = qobject_cast<CodeWidget*>(QObject::sender());
-  quint16 i = m_message.content.indexOf("```\n" + sender->getCode() + "\n```");
+  quint16 i = m_message.content[index].indexOf(
+              "```\n" + sender->getCode() + "\n```");
   quint16 j = i;
+  QString message = m_message.getMessage();
 
-  for (;j < m_message.content.length(); ++j)
+  for (; j < message.length(); ++j)
   {
-    if (m_message.content[j] == '\n')
+    if (message[j] == '\n')
     {
       break;
     }
   }
 
-  m_message.content.insert(j, language);
-  editMessage(m_message.content);
+  QString newMessage = m_message.content[index];
+  newMessage.insert(j, language);
+  editMessage(newMessage);
+}
+
+void MessageWidget::nextClicked()
+{
+  ++m_currentIndex;
+  setPages(true);
+}
+
+void MessageWidget::backClicked()
+{
+  --m_currentIndex;
+  setPages(true);
 }
 
 void MessageWidget::resizeEvent(QResizeEvent *event)
 {
   QWidget::resizeEvent(event);
   resize();
+}
+
+quint8 MessageWidget::getCurrentIndex() const
+{
+  return m_currentIndex;
 }
 
 bool MessageWidget::isTimerResize() const
@@ -540,22 +657,17 @@ void MessageWidget::setItem(NewListWidgetItem *item)
   m_item = item;
 }
 
-void MessageWidget::editMessage(QString newText)
+void MessageWidget::editMessage(QString newContent, quint8 index)
 {
-  if (m_message.content == newText)
+  if (m_message.content[index] == newContent)
   {
     return;
   }
 
   ChatSettings сhatSettings;
-  HistoryParser historyParser(this,
-                              сhatSettings.getSettings(m_chatIndex).fileName);
-  historyParser.editMessage(m_item->getIndex(), newText);
-  m_message.content = newText;
-  m_widgetList.clear();
-  m_textEdit.clear();
-  m_codeWidgets.clear();
-  createText();
+  HistoryParser historyParser(сhatSettings.getSettings(m_chatIndex).fileName);
+  historyParser.editMessage(m_item->getIndex(), index, newContent);
+  newText(true);
   emit selfEdit();
 }
 
@@ -592,12 +704,12 @@ void MessageWidget::selection(QString pattern)
   }
 }
 
-HistoryParser::Message MessageWidget::getMessage() const
+HistoryParser::Messages MessageWidget::getMessages() const
 {
   return m_message;
 }
 
 void MessageWidget::updateMessage()
 {
-  m_message.content = m_textEdit[0]->toPlainText();
+  m_message.setMessage(m_textEdit[0]->toPlainText());
 }

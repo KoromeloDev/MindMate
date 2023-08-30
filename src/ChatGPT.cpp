@@ -1,17 +1,12 @@
 #include "ChatGPT.h"
 
-ChatGPT::ChatGPT(QObject *parent, QString key) : QObject(parent)
+ChatGPT::ChatGPT(QString key)
 {
   m_key = key;
 }
 
-ChatGPT::~ChatGPT()
-{
-
-}
-
-void ChatGPT::send(QVector<HistoryParser::Message> message,
-                      ChatSettings chatSettings, quint8 index)
+void ChatGPT::send(QVector<HistoryParser::Messages> message,
+                   ChatSettings chatSettings, quint8 index)
 {
   if (message.empty())
   {
@@ -39,7 +34,7 @@ void ChatGPT::send(QVector<HistoryParser::Message> message,
   {
     messageObject.insert("role", QVariant::fromValue(message.role).
                    toString().toLower());
-    messageObject.insert("content", message.content);
+    messageObject.insert("content", message.getMessage());
     messages.append(messageObject);
   }
 
@@ -68,7 +63,7 @@ void ChatGPT::send(QString message, ChatSettings chatSettings)
   json.insert("model", m_chatSettings.model);
   messageObject.insert("role", QVariant::fromValue(m_message[0].role).
                  toString().toLower());
-  messageObject.insert("content", m_message[0].content);
+  messageObject.insert("content", m_message[0].getMessage());
   messages.append(messageObject);
   json.insert("messages", messages);
   sendJson(json);
@@ -94,13 +89,20 @@ void ChatGPT::onFinished(QNetworkReply *reply)
     QJsonObject usage = json.value("usage").toObject();
     m_usedToken = usage["total_tokens"].toInt();
     QJsonArray choices =  json.value("choices").toArray();
-    QJsonObject message = choices[0].toObject().value("message").toObject();
-    QString content = message["content"].toString();
+    QVector<QString> content;
+    QString role;
+
+    for (quint8 i = 0; i < choices.count(); ++i)
+    {
+      QJsonObject message = choices[i].toObject().value("message").toObject();
+      role =  message["role"].toString();
+      content.append(message["content"].toString());
+    }
 
     if (!content.isEmpty())
     {
-      QString role = message["role"].toString();
       role = role.at(0).toUpper() + role.mid(1);
+      m_answerMessage.selected = 0;
       m_answerMessage.content = content;
       m_answerMessage.role = static_cast<HistoryParser::Role>(
                              QMetaEnum::fromType<HistoryParser::Role>().
@@ -157,7 +159,7 @@ quint32 ChatGPT::getUsedToken() const
   return m_usedToken - 1;
 }
 
-HistoryParser::Message ChatGPT::getAnswerMessage() const
+HistoryParser::Messages ChatGPT::getAnswerMessage() const
 {
   return m_answerMessage;
 }

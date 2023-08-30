@@ -303,9 +303,6 @@
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QLabel" name="labelN">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <property name="text">
         <string>Number of responses</string>
        </property>
@@ -316,9 +313,6 @@
      </item>
      <item>
       <widget class="QLabel" name="nValue">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <property name="font">
         <font>
          <pointsize>10</pointsize>
@@ -334,9 +328,6 @@
      </item>
      <item>
       <widget class="QSlider" name="nSlider">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;How many chat completion choices to generate for each input message.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>

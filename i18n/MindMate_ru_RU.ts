@@ -4,7 +4,7 @@
 <context>
     <name>ChatGPT</name>
     <message>
-        <location filename="../src/ChatGPT.cpp" line="+86"/>
+        <location filename="../src/ChatGPT.cpp" line="+81"/>
         <source>Connection failed</source>
         <translation>Сбой подключения</translation>
     </message>
@@ -42,17 +42,17 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Более высокие значения, такие как 0.8, сделают режим вывода случайным, в то время как более низкое значение, такое как 0.2, сделает его более целенаправленным и детерминированным.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+36"/>
         <source>Number of responses</source>
         <translation>Количество ответов</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+54"/>
         <source>Stop words</source>
         <translation>Стоп-слова</translation>
     </message>
     <message>
-        <location line="-319"/>
+        <location line="-310"/>
         <source>Presence penalty</source>
         <translation>Штраф за присутствие</translation>
     </message>
@@ -62,7 +62,7 @@
         <translation>Штраф за частоту</translation>
     </message>
     <message>
-        <location line="+156"/>
+        <location line="+147"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;How many chat completion choices to generate for each input message.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Сколько вариантов завершения чата необходимо сгенерировать для каждого входного сообщения.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -72,7 +72,7 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;До 4 последовательностей, в которых API перестанет генерировать дальнейшие токены.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="-291"/>
+        <location line="-282"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Positive values penalize new tokens based on whether they appear in the text so far, increasing the model&apos;s likelihood to talk about new topics.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Положительные значения наказывают за новые токены в зависимости от того, появляются ли они в тексте на данный момент, увеличивая вероятность того, что модель заговорит на новые темы.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -91,7 +91,7 @@
     <name>CodeWidget</name>
     <message>
         <location filename="../ui/CodeWidget.ui" line="+100"/>
-        <location filename="../src/CodeWidget.cpp" line="+291"/>
+        <location filename="../src/CodeWidget.cpp" line="+297"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -186,14 +186,23 @@
 <context>
     <name>MessageWidget</name>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="+385"/>
         <source>Delete</source>
-        <translation>Удалить</translation>
+        <translation type="vanished">Удалить</translation>
+    </message>
+    <message>
+        <location filename="../src/MessageWidget.cpp" line="+446"/>
+        <source>Edit</source>
+        <translation>Редактировать</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Delete current</source>
+        <translation>Удалить текущее</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Edit</source>
-        <translation>Редактировать</translation>
+        <source>Delete all</source>
+        <translation>Удалить всё</translation>
     </message>
 </context>
 <context>

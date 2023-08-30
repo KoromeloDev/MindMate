@@ -12,8 +12,9 @@ EditMessageDialog::EditMessageDialog(QWidget *parent,
 
   m_ui->setupUi(this);
   QSize size = messageWidget->getSize();
-  minSize = minimumSize();
-  maxSize = maximumSize();
+  m_minSize = minimumSize();
+  m_maxSize = maximumSize();
+  m_index = messageWidget->getCurrentIndex();
   resize(size);
   m_messageWidget = new MessageWidget(messageWidget, true);
 
@@ -41,19 +42,24 @@ void EditMessageDialog::changeEvent(QEvent *e)
   }
 }
 
+quint8 EditMessageDialog::getIndex() const
+{
+  return m_index;
+}
+
 void EditMessageDialog::resize(QSize size)
 {
   size += QSize(12, 70);
 
-  if (size.height() > maxSize.height())
+  if (size.height() > m_maxSize.height())
   {
-    setMaximumHeight(maxSize.height());
-    setMinimumHeight(maxSize.height());
+    setMaximumHeight(m_maxSize.height());
+    setMinimumHeight(m_maxSize.height());
   }
-  else if (size.height() < minSize.height())
+  else if (size.height() < m_minSize.height())
   {
-    setMaximumHeight(minSize.height());
-    setMinimumHeight(minSize.height());
+    setMaximumHeight(m_minSize.height());
+    setMinimumHeight(m_minSize.height());
   }
   else
   {
