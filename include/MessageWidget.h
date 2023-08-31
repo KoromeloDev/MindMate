@@ -32,11 +32,12 @@ public:
   void updateMessage();
   qint8 getChatIndex() const;
   NewListWidgetItem *getItem();
-  void setItem(NewListWidgetItem *item);
   void editMessage(QString newContent, quint8 index = 0);
   QSize getSize() const;
   bool isTimerResize() const;
   quint8 getCurrentIndex() const;
+  void hideGenerate();
+  void newMessage();
 
 protected:
   void resizeEvent(QResizeEvent *event) override;
@@ -64,6 +65,8 @@ private:
   bool m_isTimerResize;
   quint8 m_currentIndex;
   quint8 m_allMessage;
+  QAction *m_generateAction;
+  QAction *m_deleteCurrentAction;
 
   void selection(QString pattern);
   QSize getSizeTextEdit(QTextEdit *textEdit, quint8 index) const;
@@ -77,16 +80,19 @@ private:
   void resizeTimer(quint16 interval = 5);
   void setPages(bool changeSelected = false);
   void newText(bool changeSelected = false);
+  void hideDeleteCurrent(bool hide);
 
 signals:
   void selfDelete(bool all);
   void selfEdit();
   void resizeFinished(QSize size);
+  void generate(quint16 index);
 
 private slots:
-  void actionDeleteAllClicked();
-  void actionDeleteCurrentClicked();
-  void actionEditClicked();
+  void deleteAllClicked();
+  void deleteCurrentClicked();
+  void editClicked();
+  void generateClicked();
   void changeLanguage(QString language, quint8 index);
   void nextClicked();
   void backClicked();

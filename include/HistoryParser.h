@@ -32,6 +32,7 @@ public:
 
     QString getMessage() const;
     void setMessage(QString message);
+    void addMessage(QString message);
   };
   struct Message
   {
@@ -49,9 +50,7 @@ public:
   void deleteMessage(quint16 index, quint8 number);
   void setSelected(quint16 index, quint8 selected);
   Messages getMessages(quint16 index);
-  Message getMessage(quint16 index, quint8 number);
   quint16 getCountMessage();
-  quint8 getSelected(quint16 index);
 
 private:
   QFile m_history;

@@ -27,8 +27,7 @@ public:
                     NewListWidgetItem *item = nullptr);
   ~ChatItem();
 
-  bool isNew() const;
-  void setNewMessage(const bool &message);
+  void setNewMessage(const bool &isNewMessage);
   void setName(const QString &name);
   NewListWidgetItem *getItem() const;
 
@@ -36,7 +35,6 @@ private:
   Ui::ChatItem *m_ui;
   QString m_name;
   NewListWidgetItem *m_item;
-  bool m_message;
   QSharedPointer<EditDialog> m_editDialog;
 
   void checkWidth();

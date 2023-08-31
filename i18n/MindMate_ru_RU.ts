@@ -12,7 +12,7 @@
 <context>
     <name>ChatItem</name>
     <message>
-        <location filename="../src/ChatItem.cpp" line="+140"/>
+        <location filename="../src/ChatItem.cpp" line="+133"/>
         <source>Change chat name to</source>
         <translation>Изменить название чата на</translation>
     </message>
@@ -91,7 +91,7 @@
     <name>CodeWidget</name>
     <message>
         <location filename="../ui/CodeWidget.ui" line="+100"/>
-        <location filename="../src/CodeWidget.cpp" line="+297"/>
+        <location filename="../src/CodeWidget.cpp" line="+291"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -173,12 +173,12 @@
     </message>
     <message>
         <location line="+69"/>
-        <location line="+198"/>
+        <location line="+203"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location line="-75"/>
+        <location line="-80"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>
@@ -190,19 +190,24 @@
         <translation type="vanished">Удалить</translation>
     </message>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="+446"/>
+        <location filename="../src/MessageWidget.cpp" line="+458"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-3"/>
         <source>Delete current</source>
         <translation>Удалить текущее</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+6"/>
         <source>Delete all</source>
         <translation>Удалить всё</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>Generate</source>
+        <translation>Сгенерировать</translation>
     </message>
 </context>
 <context>

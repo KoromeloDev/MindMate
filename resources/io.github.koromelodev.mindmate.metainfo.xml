@@ -15,14 +15,17 @@
   <description>
     <p>
       The app supports chat settings, can send system messages, delete and edit messages.
-      <br /> You can see the instructions
-      <a href="https://github.com/KoromeloDev/MindMate#how-to-use">here.</a>
     </p>
   </description>
 
   <url type="homepage">https://github.com/KoromeloDev/MindMate</url>
 
   <releases>
+    <release version="1.5.0-beta" date="2023-08-31">
+      <description>
+        <p>Bug fixes and added generate new messages functionality</p>
+      </description>
+    </release>
     <release version="1.4.0-beta" date="2023-08-30">
       <description>
         <p>Added support for multiple messages</p>

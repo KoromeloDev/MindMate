@@ -30,13 +30,11 @@ void HistoryParser::addContent(quint16 index, QString content)
       QJsonDocument document = QJsonDocument::fromJson(jsonData);
       QJsonObject object = document.object();
       QJsonArray messageArray = object["message"].toArray();
-      QJsonObject userObject;
-      Messages messages = getMessages(index);
-      userObject["role"] = messages.role;
-      QVector<QString> contents = messages.content;
-      contents.append(content);
-      userObject.insert("content", QJsonArray::fromStringList(messages.content));
-      messageArray.append(userObject);
+      QJsonObject userObject = messageArray[index].toObject();
+      QJsonArray contentArray = userObject["content"].toArray();
+      contentArray.append(content);
+      userObject.insert("content", contentArray);
+      messageArray[index] = userObject;
       object.insert("message", messageArray);
       document.setObject(object);
       m_history.write(document.toJson());
@@ -244,29 +242,6 @@ HistoryParser::Messages HistoryParser::getMessages(quint16 index)
   return messagesStruct;
 }
 
-HistoryParser::Message HistoryParser::getMessage(quint16 index, quint8 number)
-{
-  Message messageStruct;
-
-  if (m_history.open(QIODevice::ReadOnly | QIODevice::Text))
-  {
-    QByteArray jsonData = m_history.readAll();
-    m_history.close();
-    QJsonDocument document = QJsonDocument::fromJson(jsonData);
-    QJsonObject object = document.object();
-    QJsonArray message = object["message"].toArray();
-    QJsonObject userObject = message[index].toObject();
-    messageStruct.role = static_cast<Role>(
-                         QMetaEnum::fromType<Role>().keysToValue(
-                         userObject["role"].toString().toUtf8().
-                         constData(), nullptr));
-    QJsonArray content = userObject["content"].toArray();
-    messageStruct.content = content[number].toString();
-  }
-
-  return messageStruct;
-}
-
 quint16 HistoryParser::getCountMessage()
 {
   quint16 countMessage = 0;
@@ -282,28 +257,6 @@ quint16 HistoryParser::getCountMessage()
   }
 
   return countMessage;
-}
-
-quint8 HistoryParser::getSelected(quint16 index)
-{
-  quint8 selected = 0;
-
-  if (m_history.open(QIODevice::ReadOnly | QIODevice::Text))
-  {
-    QByteArray jsonData = m_history.readAll();
-    m_history.close();
-    QJsonDocument document = QJsonDocument::fromJson(jsonData);
-    QJsonObject object = document.object();
-    QJsonArray message = object["message"].toArray();
-    QJsonObject userObject = message[index].toObject();
-
-    if (!userObject["selected"].isNull())
-    {
-      selected = userObject["selected"].toInt();
-    }
-  }
-
-  return selected;
 }
 
 HistoryParser::Message::operator Messages() const
@@ -330,4 +283,9 @@ QString HistoryParser::Messages::getMessage() const
 void HistoryParser::Messages::setMessage(QString message)
 {
   content[selected] = message;
+}
+
+void HistoryParser::Messages::addMessage(QString message)
+{
+  content.append(message);
 }

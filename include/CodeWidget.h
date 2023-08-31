@@ -29,7 +29,6 @@ public:
   void resizeWidget();
   QString getCode() const;
   QSize getSize() const;
-  QString getFullText() const;
   void setEdit(const bool &isEdit);
 
 private:

@@ -100,12 +100,6 @@ QSize CodeWidget::getSize() const
   return m_size;
 }
 
-QString CodeWidget::getFullText() const
-{
-  return "```" + m_ui->languageLabel->text() + "\n" +
-         m_ui->codeEdit->toPlainText() + "\n```";
-}
-
 void CodeWidget::setEdit(const bool &isEdit)
 {
   m_ui->codeEdit->setReadOnly(!isEdit);

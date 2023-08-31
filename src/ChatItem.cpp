@@ -27,11 +27,9 @@ ChatItem::~ChatItem()
   delete m_ui;
 }
 
-void ChatItem::setNewMessage(const bool &message)
+void ChatItem::setNewMessage(const bool &isNewMessage)
 {
-  m_message = message;
-
-  if (message)
+  if (isNewMessage)
   {
     ThemeIcon::setIcon(*m_ui->messageIcon, ":/resources/icons/dot.svg");
   }
@@ -39,11 +37,6 @@ void ChatItem::setNewMessage(const bool &message)
   {
     m_ui->messageIcon->setPixmap({});
   }
-}
-
-bool ChatItem::isNew() const
-{
-  return m_message;
 }
 
 void ChatItem::setName(const QString &name)

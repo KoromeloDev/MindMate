@@ -60,7 +60,7 @@ private:
   void errorState(bool error);
   void tokensLeft();
   void setFileChatSettings(const quint8 &index);
-  void sendMessage();
+  void sendMessage(QVector<HistoryParser::Messages> messages, quint16 index = 0);
   void addMessages(HistoryParser::Messages message, quint8 chatIndex);
   void addChatItem(QString name);
 
@@ -72,11 +72,12 @@ private slots:
   void retryClicked();
   void stopClicked();
   void chatSettingsClicked();
-  void responseReceived();
+  void responseReceived(quint16 index = 0);
   void replyError(QString error);
   void chatItemDeleteClicked();
   void messageDeleteCliked(bool all);
   void messageEdit();
+  void messageGenerate(quint16 index);
   void scrollToBottom();
 
 signals:

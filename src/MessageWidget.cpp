@@ -96,6 +96,7 @@ void MessageWidget::resize()
     m_item->setSizeHint(QSize(width(), m_height + 56));
   }
 
+  m_ui->widgetList->setMaximumWidth(m_width);
   m_ui->horizontalSpacer->changeSize(m_width, 0);
   setMinimumHeight(m_height);
   --m_queueResize;
@@ -335,6 +336,7 @@ void MessageWidget::setPages(bool changeSelected)
     emit selfEdit();
   }
 
+  hideDeleteCurrent(m_allMessage == 1);
   m_ui->nextButton->setDisabled(m_currentIndex + 1 == m_allMessage);
   m_ui->backButton->setDisabled(m_currentIndex == 0);
   m_ui->label->setText(QString("%1/%2").arg(m_currentIndex + 1)
@@ -352,6 +354,7 @@ void MessageWidget::newText(bool changeSelected)
 
   m_widgetList.clear();
   m_textEdit.clear();
+  m_textWidth.clear();
   m_codeWidgets.clear();
   createText();
 
@@ -386,6 +389,8 @@ void MessageWidget::init()
   m_queueResize = 0;
   m_currentIndex = m_message.selected;
   m_allMessage = m_message.content.size();
+  m_generateAction = nullptr;
+  m_deleteCurrentAction = nullptr;
   QString color1;
   QString color2;
   QString color3;
@@ -442,18 +447,30 @@ void MessageWidget::init()
                               "background-color: " + color3 + ";}");
     });
 
+    m_generateAction = new QAction(ThemeIcon::getIcon(
+                                   ":/resources/icons/add.svg"),
+                                   tr("Generate"));
+    m_deleteCurrentAction = new QAction(ThemeIcon::getIcon(
+                                        ":/resources/icons/delete.svg"),
+                                        tr("Delete current"));
+    m_menu->addAction(m_generateAction);
     m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/edit.svg"),
-                      tr("Edit"), this, &MessageWidget::actionEditClicked);
+                      tr("Edit"), this, &MessageWidget::editClicked);
+    m_menu->addAction(m_deleteCurrentAction);
     m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/delete.svg"),
-                      tr("Delete current"), this,
-                      &MessageWidget::actionDeleteCurrentClicked);
-    m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/delete.svg"),
-                      tr("Delete all"), this,
-                      &MessageWidget::actionDeleteAllClicked);
-
+                      tr("Delete all"), this, &MessageWidget::deleteAllClicked);
     t.join();
+    setContextMenuPolicy(Qt::CustomContextMenu);
 
-    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    if (m_item->getIndex() == 0)
+    {
+      hideGenerate();
+    }
+
+    connect(m_generateAction, &QAction::triggered,
+            this, &MessageWidget::generateClicked);
+    connect(m_deleteCurrentAction, &QAction::triggered,
+            this, &MessageWidget::deleteCurrentClicked);
     connect(this, &QWidget::customContextMenuRequested, this, [=]()
     {
       if (m_menu != nullptr)
@@ -545,7 +562,7 @@ void MessageWidget::addTextEdit(QString text, Border border)
   t.join();
 }
 
-void MessageWidget::actionDeleteAllClicked()
+void MessageWidget::deleteAllClicked()
 {
   ChatSettings сhatSettings;
   HistoryParser historyParser(сhatSettings.getSettings(m_chatIndex).fileName);
@@ -554,14 +571,8 @@ void MessageWidget::actionDeleteAllClicked()
   emit selfDelete(true);
 }
 
-void MessageWidget::actionDeleteCurrentClicked()
+void MessageWidget::deleteCurrentClicked()
 {
-  if (m_currentIndex - 1 == -1)
-  {
-    actionDeleteAllClicked();
-    return;
-  }
-
   ChatSettings сhatSettings;
   HistoryParser historyParser(сhatSettings.getSettings(m_chatIndex).fileName);
   historyParser.deleteMessage(m_item->getIndex(), m_currentIndex);
@@ -572,7 +583,7 @@ void MessageWidget::actionDeleteCurrentClicked()
   emit selfDelete(false);
 }
 
-void MessageWidget::actionEditClicked()
+void MessageWidget::editClicked()
 {
   QWidget *parent = m_item->listWidget()->parentWidget()->parentWidget();
   m_editDialog = m_editDialog.create(parent, this);
@@ -591,6 +602,11 @@ void MessageWidget::actionEditClicked()
   });
 
   m_editDialog->show();
+}
+
+void MessageWidget::generateClicked()
+{
+  emit generate(m_item->getIndex());
 }
 
 void MessageWidget::changeLanguage(QString language, quint8 index)
@@ -637,6 +653,30 @@ quint8 MessageWidget::getCurrentIndex() const
   return m_currentIndex;
 }
 
+void MessageWidget::hideGenerate()
+{
+  if (m_generateAction != nullptr)
+  {
+    m_generateAction->setVisible(false);
+  }
+}
+
+void MessageWidget::newMessage()
+{
+  hideDeleteCurrent(false);
+  m_currentIndex = m_allMessage;
+  ++m_allMessage;
+  setPages(true);
+}
+
+void MessageWidget::hideDeleteCurrent(bool hide)
+{
+  if (m_deleteCurrentAction != nullptr)
+  {
+    m_deleteCurrentAction->setVisible(!hide);
+  }
+}
+
 bool MessageWidget::isTimerResize() const
 {
   return m_isTimerResize;
@@ -650,11 +690,6 @@ NewListWidgetItem *MessageWidget::getItem()
 qint8 MessageWidget::getChatIndex() const
 {
   return m_chatIndex;
-}
-
-void MessageWidget::setItem(NewListWidgetItem *item)
-{
-  m_item = item;
 }
 
 void MessageWidget::editMessage(QString newContent, quint8 index)
