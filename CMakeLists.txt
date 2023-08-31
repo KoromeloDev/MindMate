@@ -34,6 +34,8 @@ if(LINUX)
     set(METAINFO_PATH /usr/share/metainfo)
   endif()
 else(WIN32)
+  set(BUILD_PATH ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-Windows)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD_PATH})
   set(CMAKE_RC_COMPILER_INIT windres)
   enable_language(RC)
   set(PROJECT_SOURCES ${PROJECT_SOURCES} resources/icon.rc)
@@ -70,6 +72,13 @@ else()
           BUNDLE DESTINATION .
           LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
           RUNTIME DESTINATION /usr/bin)
+endif()
+
+if(WIN32)
+  configure_file(resources/AppxManifest.xml
+                 ${BUILD_PATH}/AppxManifest.xml COPYONLY)
+  configure_file(resources/icons/io.github.koromelodev.mindmate.png
+                 ${BUILD_PATH}/icon.png COPYONLY)
 endif()
 
 if(LINUX)

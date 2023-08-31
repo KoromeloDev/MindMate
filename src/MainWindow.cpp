@@ -406,7 +406,14 @@ void MainWindow::sendMessage(QVector<HistoryParser::Messages> messages,
   answerState(true);
   errorState(false);
   setChatSettings(m_ui->chatList->currentRow());
-  chatGPT->send(messages, m_chatSettings, m_ui->chatList->currentRow());
+  ChatSettings chatSettings = m_chatSettings;
+
+  if (index != 0)
+  {
+    chatSettings.n = 1;
+  }
+
+  chatGPT->send(messages, chatSettings, m_ui->chatList->currentRow());
 }
 
 void MainWindow::addMessages(HistoryParser::Messages message, quint8 chatIndex)
