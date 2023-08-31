@@ -8,7 +8,7 @@
     <DisplayName>MindMate</DisplayName>
     <PublisherDisplayName>Disoft Game Developers</PublisherDisplayName>
     <Description>MindMate is an unofficial application for ChatGPT</Description>
-    <Logo>iconengines\icon.png</Logo>
+    <Logo>icon.png</Logo>
   </Properties>
   <Resources>
     <Resource Language="en-us" />
@@ -23,8 +23,8 @@
   </Capabilities>
   <Applications>
     <Application Id="MindMate" Executable="MindMate.exe" EntryPoint="windows.fullTrustApplication">
-      <uap:VisualElements DisplayName="MindMate" Description="MindMate is an unofficial application for ChatGPT"	Square150x150Logo="iconengines\icon.png" 
-        Square44x44Logo="iconengines\icon.png" BackgroundColor="transparent" />
+      <uap:VisualElements DisplayName="MindMate" Description="MindMate is an unofficial application for ChatGPT"	Square150x150Logo="icon.png" 
+        Square44x44Logo="icon.png" BackgroundColor="transparent" />
     </Application>
   </Applications>
 </Package>
