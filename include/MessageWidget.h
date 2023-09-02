@@ -69,9 +69,9 @@ private:
   QAction *m_deleteCurrentAction;
 
   void selection(QString pattern);
-  QSize getSizeTextEdit(QTextEdit *textEdit, quint8 index) const;
+  QSize getSizeTextEdit(quint8 index) const;
   void createText();
-  bool isMaxWidth() const;
+  bool isMaxWidth(quint16 width) const;
   void setBorder(QWidget *widget, const Border &border);
   inline void addCodeWidget(const QString &codeText, const Border &border);
   void init();

@@ -91,7 +91,7 @@
     <name>CodeWidget</name>
     <message>
         <location filename="../ui/CodeWidget.ui" line="+100"/>
-        <location filename="../src/CodeWidget.cpp" line="+291"/>
+        <location filename="../src/CodeWidget.cpp" line="+292"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -190,7 +190,7 @@
         <translation type="vanished">Удалить</translation>
     </message>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="+458"/>
+        <location filename="../src/MessageWidget.cpp" line="+447"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>

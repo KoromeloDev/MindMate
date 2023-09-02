@@ -86,7 +86,8 @@ void CodeWidget::resizeWidget()
   }
 
   m_size.setWidth(messageWidget->getSize().width());
-  m_size.setHeight(m_ui->codeEdit->document()->size().toSize().height()+70);
+  m_size.setHeight(m_ui->codeEdit->document()->size().toSize().height() +
+                   m_ui->infoWidget->minimumHeight() + 20);
   setMaximumSize(m_size);
 }
 

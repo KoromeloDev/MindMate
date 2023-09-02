@@ -5,6 +5,10 @@
 #include "ThemeIcon.h"
 #include "EditMessageDialog.h"
 
+#define MAX_RATIO 0.7
+#define MARGIN 20
+#define SPACING 20
+
 QSharedPointer<EditMessageDialog> m_editDialog;
 
 MessageWidget::MessageWidget(NewListWidgetItem *item,
@@ -59,7 +63,7 @@ void MessageWidget::resize()
   {
     for (quint8 i = 0; i < m_textEdit.length(); ++i)
     {
-      QSize textParameter = getSizeTextEdit(m_textEdit[i].get(), i);
+      QSize textParameter = getSizeTextEdit(i);
       m_height += textParameter.height();
 
       if (textParameter.width() > m_width)
@@ -76,12 +80,7 @@ void MessageWidget::resize()
     }
     else
     {
-      m_width = parentWidget()->size().width() * 0.7;
-    }
-
-    if (m_codeWidgets.count() == 1)
-    {
-      m_width -= 42;
+      m_width = parentWidget()->size().width() * MAX_RATIO;
     }
   }
 
@@ -93,11 +92,10 @@ void MessageWidget::resize()
 
   if (m_item != nullptr)
   {
-    m_item->setSizeHint(QSize(width(), m_height + 56));
+    m_item->setSizeHint(QSize(width(), m_height + SPACING +
+                              m_ui->widgetList->minimumHeight()));
   }
 
-  m_ui->widgetList->setMaximumWidth(m_width);
-  m_ui->horizontalSpacer->changeSize(m_width, 0);
   setMinimumHeight(m_height);
   --m_queueResize;
 
@@ -107,8 +105,9 @@ void MessageWidget::resize()
   }
 }
 
-QSize MessageWidget::getSizeTextEdit(QTextEdit *textEdit, quint8 index) const
+QSize MessageWidget::getSizeTextEdit(quint8 index) const
 {
+  QTextEdit *textEdit = m_textEdit[index].get();
   quint16 maxSizeWidth = parentWidget()->size().width();
   quint16 sizeWidth = 32;
   quint16 sizeHeight = textEdit->document()->size().toSize().height() + 14;
@@ -116,32 +115,27 @@ QSize MessageWidget::getSizeTextEdit(QTextEdit *textEdit, quint8 index) const
   if (m_message.role == HistoryParser::Role::System && !m_isEdit)
   {
     textEdit->setAlignment(Qt::AlignCenter);
-    sizeWidth = maxSizeWidth - 42;
+    sizeWidth = maxSizeWidth;
   }
   else if (m_isEdit)
   {
-    sizeWidth = maxSizeWidth - 42;
-
-    if (sizeHeight >= 490)
-    {
-      sizeHeight += 18;
-    }
+    sizeWidth = maxSizeWidth;
   }
   else
   {
-    maxSizeWidth *= 0.7;
+    maxSizeWidth *= MAX_RATIO;
 
-    if (isMaxWidth())
+    if (isMaxWidth(maxSizeWidth))
     {
       sizeWidth = maxSizeWidth;
     }
-    else if (m_textWidth.length() != 0)
+    else if (m_textWidth.count() != 0)
     {
-      sizeWidth += m_textWidth[index] + 10;
+      sizeWidth += m_textWidth[index];
 
-      if (sizeWidth < 120)
+      if (sizeWidth < m_ui->widgetList->minimumWidth())
       {
-        sizeWidth = 120;
+        sizeWidth = m_ui->widgetList->minimumWidth();
       }
     }
   }
@@ -228,29 +222,24 @@ void MessageWidget::createText()
     }
   }
 
-  if (m_message.role != HistoryParser::Role::System)
-  {
-    setContentsMargins(10, 0, 10, 0);
-  }
-}
-
-bool MessageWidget::isMaxWidth() const
-{
-  quint16 maxSize;
+  setContentsMargins(MARGIN, 0, MARGIN, 0);
 
   if (!m_isEdit)
   {
-    maxSize = parentWidget()->size().width() * 0.7;
+    m_ui->verticalLayout->addSpacing(SPACING);
   }
-  else
+}
+
+bool MessageWidget::isMaxWidth(quint16 width) const
+{
+  if (m_codeWidgets.count() != 0)
   {
-    maxSize = 800;
+    return true;
   }
 
   for (const float &textWidth : m_textWidth)
   {
-    if (m_message.role != HistoryParser::Role::System
-        && (textWidth >= maxSize || m_codeWidgets.count() != 0))
+    if (textWidth >= width)
     {
       return true;
     }
@@ -520,22 +509,22 @@ void MessageWidget::addWidgetToLayout(QWidget *widget)
 void MessageWidget::addTextEdit(QString text, Border border)
 {
   QSharedPointer<QTextEdit> textEdit = textEdit.create(this);
+  textEdit->setFont(QFont(":/resources/fonts/Roboto-Regular.ttf", 11));
 
   std::thread t([=]()
   {
     QFontMetrics fontSize(textEdit->font());
-    m_textWidth.append(fontSize.horizontalAdvance(text));
+    m_textWidth.append(fontSize.boundingRect(QRect(), Qt::TextDontClip, text).
+                       width());
   });
   textEdit->setStyleSheet("color: white;"
                           "padding-left:10px;"
                           "padding-right:10px;"
                           "padding-top:5px;"
-                          "padding-bottom:5px;");
-  textEdit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+                          "padding-bottom:5px;"
+                          "border: none;");
   textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  textEdit->setMinimumSize(40, 40);
-  textEdit->setFont(QFont(":/resources/fonts/Roboto-Regular.ttf"));
   textEdit->setText(text);
   textEdit->setContextMenuPolicy(Qt::CustomContextMenu);
 
