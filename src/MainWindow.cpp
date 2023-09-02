@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
   m_ui->setupUi(this);
 
+  answerState(false);
+  errorState(false);
   setChatSettings(0);
   fillChatList();
 
@@ -40,13 +42,11 @@ MainWindow::MainWindow(QWidget *parent)
   connect(m_ui->chatSettingsButton, &QToolButton::clicked,
           this, &MainWindow::chatSettingsClicked);
 
-  m_isWaitAnswer = false;
-  m_isErrorAnswer = false;
+
   m_movie.setFileName(":/resources/icons/eclipse.gif");
   m_movie.setScaledSize(QSize(32, 32));
   m_ui->loading->setMovie(&m_movie);
   m_ui->historyList->verticalScrollBar()->setSingleStep(20);
-
   m_answerEffect.setSource(QUrl::fromLocalFile(":/resources/sounds/message.wav"));
   m_answerEffect.setVolume(0.20f);
   m_errorEffect.setSource(QUrl::fromLocalFile(":/resources/sounds/error.wav"));
@@ -322,8 +322,6 @@ void MainWindow::showChat()
       {
         answerState(!chatGPT->isError());
         errorState(chatGPT->isError());
-        m_chatGPTList.removeOne(chatGPT);
-        chatGPT->deleteLater();
         return;
       }
     }

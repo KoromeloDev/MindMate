@@ -173,12 +173,12 @@
     </message>
     <message>
         <location line="+69"/>
-        <location line="+203"/>
+        <location line="+208"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location line="-80"/>
+        <location line="-87"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>
