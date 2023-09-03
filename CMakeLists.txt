@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
 project(MindMate VERSION 1.5.2 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -15,25 +15,9 @@ file(GLOB HEADERS include/*.h)
 file(GLOB UI ui/*.ui)
 set(PROJECT_SOURCES ${TS} ${SOURCE} ${HEADERS} ${UI} resources.qrc)
 
-if(LINUX)
-  set(APP_ID io.github.koromelodev.mindmate)
-  set(APP_ICON resources/icons/MindMateLogo.svg)
-  set(APP_ICON_PNG resources/icons/${APP_ID}.png)
-  set(METAINFO resources/${APP_ID}.metainfo.xml)
-  set(DESKTOP_FILE resources/${PROJECT_NAME}.desktop)
+set(APP_ID io.github.koromelodev.mindmate)
 
-  if (FLATPAK)
-    set(PATH_ICON /app/share/icons/hicolor/scalable/apps)
-    set(PATH_ICON_PNG /app/share/icons/hicolor/128x128/apps)
-    set(DESKTOP_INSTALL_DIR /app/share/applications)
-    set(METAINFO_PATH /app/share/metainfo)
-  else()
-    set(PATH_ICON /usr/share/icons/hicolor/scalable/apps)
-    set(PATH_ICON_PNG /usr/share/icons/hicolor/128x128/apps)
-    set(DESKTOP_INSTALL_DIR $ENV{HOME}/.local/share/applications)
-    set(METAINFO_PATH /usr/share/metainfo)
-  endif()
-else(WIN32)
+if(WIN32)
   set(BUILD_PATH ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-Windows)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BUILD_PATH})
   set(CMAKE_RC_COMPILER_INIT windres)
@@ -52,6 +36,7 @@ if(FLATPAK)
 endif()
 
 add_subdirectory(import)
+add_subdirectory(dist)
 target_include_directories(${PROJECT_NAME} PUBLIC include src ui i18n)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets LinguistTools Network Svg
@@ -72,31 +57,4 @@ else()
           BUNDLE DESTINATION .
           LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
           RUNTIME DESTINATION /usr/bin)
-endif()
-
-if(WIN32)
-  configure_file(resources/AppxManifest.xml
-                 ${BUILD_PATH}/AppxManifest.xml COPYONLY)
-  configure_file(resources/icons/io.github.koromelodev.mindmate.png
-                 ${BUILD_PATH}/icon.png COPYONLY)
-endif()
-
-if(LINUX)
-  install(FILES ${APP_ICON}
-          DESTINATION ${PATH_ICON}
-          RENAME ${APP_ID}.svg)
-  install(FILES ${APP_ICON_PNG}
-          DESTINATION ${PATH_ICON_PNG})
-
-  if(FLATPAK)
-    install(FILES ${DESKTOP_FILE}
-            DESTINATION ${DESKTOP_INSTALL_DIR}
-            RENAME ${APP_ID}.desktop)
-  else()
-    install(FILES ${DESKTOP_FILE}
-            DESTINATION ${DESKTOP_INSTALL_DIR})
-  endif()
-
-  install(FILES ${METAINFO}
-          DESTINATION ${METAINFO_PATH})
 endif()

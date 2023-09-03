@@ -1,0 +1,11 @@
+install(FILES ${APP_ID}.desktop
+        DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications/
+        COMPONENT data)
+
+install(FILES ${APP_ID}.metainfo.xml
+        DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/metainfo/
+        COMPONENT data)
+
+install(DIRECTORY icons/
+        DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor
+        COMPONENT data)

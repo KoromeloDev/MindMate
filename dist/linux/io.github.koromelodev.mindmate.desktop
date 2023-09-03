@@ -1,0 +1,11 @@
+[Desktop Entry]
+Categories=Network;
+Exec=MindMate
+GenericName=Unofficial application for ChatGPT
+Name=MindMate
+Type=Application
+Icon=io.github.koromelodev.mindmate
+Keywords=ai;chat;chatgpt;
+
+# Translations
+GenericName[ru_RU]=Неофициальное приложение для ChatGPT
