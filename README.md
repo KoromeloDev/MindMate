@@ -5,13 +5,10 @@ MindMate is an unofficial application for ChatGPT. The app supports chat setting
 
 ## How to install
 ### Linux:
-You can install MindMate using flatpak. To do this, you can go to [Flathub](https://flathub.org/apps/io.github.koromelodev.mindmate) or install using the terminal:
-```bash
-flatpak install flathub io.github.koromelodev.mindmate
-```
+<a href="https://flathub.org/apps/io.github.koromelodev.mindmate"><img width="240" alt="Download on Flathub" src="https://dl.flathub.org/assets/badges/flathub-badge-en.svg"/></a>
 
 ### Windows:
-You can install MindMate using the [Microsoft Store.](https://www.microsoft.com/store/apps/9PC99CMCJLNF)
+<a href="https://apps.microsoft.com/store/detail/9PC99CMCJLNF?launch=true&mode=full"><img width="240" src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft"/></a>
 
 ## How to install from source code
 <h3 align="center">
