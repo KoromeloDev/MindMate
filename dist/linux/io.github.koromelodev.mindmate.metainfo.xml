@@ -5,8 +5,8 @@
   <name>MindMate</name>
   <summary>Unofficial application for ChatGPT</summary>
 
-  <metadata_license>CC-BY-SA-4.0</metadata_license>
-  <project_license>CC-BY-SA-4.0</project_license>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
 
   <content_rating type="oars-1.0">
     <content_attribute id="social-chat">intense</content_attribute>
@@ -19,7 +19,28 @@
   </description>
 
   <url type="homepage">https://github.com/KoromeloDev/MindMate</url>
-
+  <url type="help">https://github.com/KoromeloDev/MindMate#how-to-use</url>
+  <url type="bugtracker">https://github.com/KoromeloDev/MindMate/issues</url>
+  
+  <launchable type="desktop-id">io.github.koromelodev.mindmate.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/MainWindow.png?raw=true</image>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/SystemMessage.png?raw=true</image>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/ChatSettingsWindow.png?raw=true</image>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/GlobalSettingsWindow1.png?raw=true</image>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/GlobalSettingsWindow2.png?raw=true</image>
+    </screenshot>
+  </screenshots>
+  
   <releases>
     <release version="1.5.2-beta" date="2023-09-02">
       <description>
@@ -92,23 +113,4 @@
       </description>
     </release>
   </releases>
-
-  <launchable type="desktop-id">io.github.koromelodev.mindmate.desktop</launchable>
-  <screenshots>
-    <screenshot type="default">
-      <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/MainWindow.png?raw=true</image>
-    </screenshot>
-    <screenshot>
-      <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/SystemMessage.png?raw=true</image>
-    </screenshot>
-    <screenshot>
-      <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/ChatSettingsWindow.png?raw=true</image>
-    </screenshot>
-    <screenshot>
-      <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/GlobalSettingsWindow1.png?raw=true</image>
-    </screenshot>
-    <screenshot>
-      <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/GlobalSettingsWindow2.png?raw=true</image>
-    </screenshot>
-  </screenshots>
 </component>
