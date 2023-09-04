@@ -12,7 +12,7 @@
 //Setup the application font
 void setFont()
 {
-  QString fontFileName = ":/resources/fonts/Roboto-Regular.ttf";
+  QString fontFileName = ":/fonts/Roboto-Regular.ttf";
   QFontDatabase::addApplicationFont(fontFileName);
   QApplication::setFont(QFont("Roboto", 11));
 }
@@ -79,7 +79,7 @@ void setPath()
 void setStyle(MainWindow &windows)
 {
   QString mainStyle;
-  QFile style(":/resources/style.css");
+  QFile style(":/style.css");
 
   if (style.open(QIODevice::ReadOnly | QIODevice::Text))
   {

@@ -277,7 +277,12 @@ HistoryParser::Message &HistoryParser::Message::operator=(Messages messages)
 
 QString HistoryParser::Messages::getMessage() const
 {
-  return content[selected];
+  if (selected < content.size())
+  {
+    return content[selected];
+  }
+
+  return 0;
 }
 
 void HistoryParser::Messages::setMessage(QString message)

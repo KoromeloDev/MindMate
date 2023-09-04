@@ -43,6 +43,7 @@ protected:
   void resizeEvent(QResizeEvent *event) override;
 
 private:
+  friend class MessageWidgetTest;
   Ui::MessageWidget *m_ui;
   NewListWidgetItem *m_item;
   HistoryParser::Messages m_message;

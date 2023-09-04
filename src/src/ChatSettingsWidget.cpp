@@ -8,8 +8,8 @@ ChatSettingsWidget::ChatSettingsWidget(QWidget *parent, ChatSettings settings)
 {
   m_ui->setupUi(this);
 
-  ThemeIcon::setIcon(*m_ui->addStopButton, ":/resources/icons/add.svg");
-  ThemeIcon::setIcon(*m_ui->deleteStopButton, ":/resources/icons/delete.svg");
+  ThemeIcon::setIcon(*m_ui->addStopButton, ":/icons/add.svg");
+  ThemeIcon::setIcon(*m_ui->deleteStopButton, ":/icons/delete.svg");
 
   connect(m_ui->modelSelector, &QComboBox::currentTextChanged,
           this, &ChatSettingsWidget::modelChanged);

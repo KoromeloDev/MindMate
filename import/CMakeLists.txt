@@ -1,2 +1,3 @@
 add_subdirectory(QSourceHighliter)
+
 target_include_directories(QSourceHighliter PUBLIC QSourceHighliter)

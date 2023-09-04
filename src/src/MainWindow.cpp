@@ -18,12 +18,12 @@ MainWindow::MainWindow(QWidget *parent)
   setChatSettings(0);
   fillChatList();
 
-  ThemeIcon::setIcon(*m_ui->newChatButton, ":/resources/icons/add.svg");
-  ThemeIcon::setIcon(*m_ui->settingsButton, ":/resources/icons/settings.svg");
-  ThemeIcon::setIcon(*m_ui->retryButton, ":/resources/icons/refresh.svg");
-  ThemeIcon::setIcon(*m_ui->stopButton, ":/resources/icons/stop.svg");
-  ThemeIcon::setIcon(*m_ui->chatSettingsButton, ":/resources/icons/configuration.svg");
-  ThemeIcon::setIcon(*m_ui->sendButton, ":/resources/icons/send.svg");
+  ThemeIcon::setIcon(*m_ui->newChatButton, ":/icons/add.svg");
+  ThemeIcon::setIcon(*m_ui->settingsButton, ":/icons/settings.svg");
+  ThemeIcon::setIcon(*m_ui->retryButton, ":/icons/refresh.svg");
+  ThemeIcon::setIcon(*m_ui->stopButton, ":/icons/stop.svg");
+  ThemeIcon::setIcon(*m_ui->chatSettingsButton, ":/icons/configuration.svg");
+  ThemeIcon::setIcon(*m_ui->sendButton, ":/icons/send.svg");
 
   connect(m_ui->textInput, &NewTextEdit::sendText,
           this, &MainWindow::receivedText);
@@ -43,13 +43,13 @@ MainWindow::MainWindow(QWidget *parent)
           this, &MainWindow::chatSettingsClicked);
 
 
-  m_movie.setFileName(":/resources/icons/eclipse.gif");
+  m_movie.setFileName(":/icons/eclipse.gif");
   m_movie.setScaledSize(QSize(32, 32));
   m_ui->loading->setMovie(&m_movie);
   m_ui->historyList->verticalScrollBar()->setSingleStep(20);
-  m_answerEffect.setSource(QUrl::fromLocalFile(":/resources/sounds/message.wav"));
+  m_answerEffect.setSource(QUrl::fromLocalFile(":/sounds/message.wav"));
   m_answerEffect.setVolume(0.20f);
-  m_errorEffect.setSource(QUrl::fromLocalFile(":/resources/sounds/error.wav"));
+  m_errorEffect.setSource(QUrl::fromLocalFile(":/sounds/error.wav"));
   m_errorEffect.setVolume(0.15f);
 }
 

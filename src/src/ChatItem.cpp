@@ -11,8 +11,8 @@ ChatItem::ChatItem(QWidget *parent, QString name, NewListWidgetItem *item)
 
   std::thread t(&ChatItem::checkWidth, this);
   t.detach();
-  ThemeIcon::setIcon(*m_ui->editButton, ":/resources/icons/edit.svg");
-  ThemeIcon::setIcon(*m_ui->deleteButton, ":/resources/icons/delete.svg");
+  ThemeIcon::setIcon(*m_ui->editButton, ":/icons/edit.svg");
+  ThemeIcon::setIcon(*m_ui->deleteButton, ":/icons/delete.svg");
 
   m_item = item;
 
@@ -31,7 +31,7 @@ void ChatItem::setNewMessage(const bool &isNewMessage)
 {
   if (isNewMessage)
   {
-    ThemeIcon::setIcon(*m_ui->messageIcon, ":/resources/icons/dot.svg");
+    ThemeIcon::setIcon(*m_ui->messageIcon, ":/icons/dot.svg");
   }
   else
   {

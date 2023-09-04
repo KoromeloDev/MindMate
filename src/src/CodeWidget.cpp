@@ -10,7 +10,7 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu, quint8 index)
 {
   m_ui->setupUi(this);
 
-  ThemeIcon::setIcon(*m_ui->copyButton, ":/resources/icons/copy.svg");
+  ThemeIcon::setIcon(*m_ui->copyButton, ":/icons/copy.svg");
 
   m_chatGPT = nullptr;
   quint8 i = 0;
@@ -272,7 +272,7 @@ void CodeWidget::copyClicked()
   if (m_timer == nullptr)
   {
     m_ui->copyButton->setText(tr("Copied") + "!");
-    ThemeIcon::setIcon(*m_ui->copyButton, ":/resources/icons/accept.svg");
+    ThemeIcon::setIcon(*m_ui->copyButton, ":/icons/accept.svg");
     m_timer = m_timer.create(this);
     m_timer->setSingleShot(true);
     m_timer->setInterval(1500);
@@ -290,5 +290,5 @@ void CodeWidget::timerTimeout()
   m_timer->deleteLater();
   m_timer = nullptr;
   m_ui->copyButton->setText(tr("Copy"));
-  ThemeIcon::setIcon(*m_ui->copyButton, ":/resources/icons/copy.svg");
+  ThemeIcon::setIcon(*m_ui->copyButton, ":/icons/copy.svg");
 }

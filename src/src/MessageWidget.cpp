@@ -361,7 +361,7 @@ void MessageWidget::init()
 {
   std::thread t([=]()
   {
-    QIcon backIcon = ThemeIcon::getIcon(":/resources/icons/back.svg");
+    QIcon backIcon = ThemeIcon::getIcon(":/icons/back.svg");
     m_ui->backButton->setIcon(backIcon);
     QPixmap pixmap = backIcon.pixmap(backIcon.actualSize(QSize(32, 32)));
     QTransform transform;
@@ -437,21 +437,21 @@ void MessageWidget::init()
     });
 
     m_generateAction = new QAction(ThemeIcon::getIcon(
-                                   ":/resources/icons/add.svg"),
+                                   ":/icons/add.svg"),
                                    tr("Generate"));
     m_deleteCurrentAction = new QAction(ThemeIcon::getIcon(
-                                        ":/resources/icons/delete.svg"),
+                                        ":/icons/delete.svg"),
                                         tr("Delete current"));
     m_menu->addAction(m_generateAction);
-    m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/edit.svg"),
+    m_menu->addAction(ThemeIcon::getIcon(":/icons/edit.svg"),
                       tr("Edit"), this, &MessageWidget::editClicked);
     m_menu->addAction(m_deleteCurrentAction);
-    m_menu->addAction(ThemeIcon::getIcon(":/resources/icons/delete.svg"),
+    m_menu->addAction(ThemeIcon::getIcon(":/icons/delete.svg"),
                       tr("Delete all"), this, &MessageWidget::deleteAllClicked);
     t.join();
     setContextMenuPolicy(Qt::CustomContextMenu);
 
-    if (m_item->getIndex() == 0)
+    if (m_item != nullptr && m_item->getIndex() == 0)
     {
       hideGenerate();
     }
@@ -509,7 +509,7 @@ void MessageWidget::addWidgetToLayout(QWidget *widget)
 void MessageWidget::addTextEdit(QString text, Border border)
 {
   QSharedPointer<QTextEdit> textEdit = textEdit.create(this);
-  textEdit->setFont(QFont(":/resources/fonts/Roboto-Regular.ttf", 11));
+  textEdit->setFont(QFont(":/fonts/Roboto-Regular.ttf", 11));
 
   std::thread t([=]()
   {
