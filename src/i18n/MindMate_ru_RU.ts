@@ -4,8 +4,14 @@
 <context>
     <name>ChatGPT</name>
     <message>
+        <location filename="../base/src/ChatGPT.cpp" line="81"/>
         <source>Connection failed</source>
-        <translation type="vanished">Сбой подключения</translation>
+        <translation>Сбой подключения</translation>
+    </message>
+    <message>
+        <location filename="../base/src/ChatGPT.cpp" line="129"/>
+        <source>The process is busy</source>
+        <translation>Поцесс занят</translation>
     </message>
 </context>
 <context>

@@ -1,7 +1,5 @@
 project(QSourceHighliter LANGUAGES CXX)
 
-set(CMAKE_AUTOMOC true)
-
 file(GLOB SOURCE src/*.cpp)
 file(GLOB HEADER include/*.h)
 set(PROJECT_SOURCES ${SOURCE} ${HEADER})

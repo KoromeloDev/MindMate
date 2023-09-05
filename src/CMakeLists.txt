@@ -1,16 +1,17 @@
 file(GLOB SOURCE src/*.cpp)
+file(GLOB SOURCE_BASE base/src/*.cpp)
 file(GLOB HEADER include/*.h)
+file(GLOB HEADER_BASE base/include/*.h)
 file(GLOB UI ui/*.ui)
 file(GLOB TS i18n/*.ts)
-set(PROJECT_SOURCES ${SOURCE} ${HEADER} ${UI} ${TS} resources/resources.qrc)
+set(PROJECT_SOURCES ${SOURCE} ${SOURCE_BASE} ${HEADER} ${HEADER_BASE} ${UI}
+                    ${TS} resources/resources.qrc)
 
 if(WIN32)
   set(CMAKE_RC_COMPILER_INIT windres)
   enable_language(RC)
-  set(PROJECT_SOURCES ${GUI_SOURCES} resources/icon.rc)
+  set(PROJECT_SOURCES ${PROJECT_SOURCES} resources/icon.rc)
 endif()
-
-add_subdirectory(base)
 
 if(TESTING)
   add_library(${PROJECT_NAME} ${PROJECT_SOURCES})
@@ -18,12 +19,11 @@ else()
   add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 endif()
 
-
 find_package(Qt6 REQUIRED COMPONENTS LinguistTools Widgets Svg Multimedia)
 target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Widgets Qt6::Svg
-                      Qt6::Multimedia QSourceHighliter base)
+                      Qt6::Multimedia Qt6::Network QSourceHighliter)
 
-target_include_directories(${PROJECT_NAME} PUBLIC include)
+target_include_directories(${PROJECT_NAME} PUBLIC include base/include)
 
 qt_add_translations(${PROJECT_NAME} TS_FILES ${TS})
 

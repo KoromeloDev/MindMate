@@ -27,6 +27,7 @@ public:
   bool isError() const;
 
 private:
+  friend class ChatGPTTest;
   QSharedPointer<QNetworkAccessManager> m_networkManager;
   QString m_key;
   QVector<HistoryParser::Messages> m_message;

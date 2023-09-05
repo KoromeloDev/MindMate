@@ -126,7 +126,7 @@ void ChatGPT::sendJson(QJsonObject json)
   if (m_networkManager != nullptr)
   {
     m_error = true;
-    emit replyError("");
+    emit replyError(tr("The process is busy"));
     return;
   }
 
