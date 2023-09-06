@@ -88,8 +88,8 @@ padding-bottom:10px;</string>
          <string notr="true">...</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources.qrc">
-          <normaloff>:/resources/icons/back.svg</normaloff>:/resources/icons/back.svg</iconset>
+         <iconset resource="../resources/resources.qrc">
+          <normaloff>:/icons/back.svg</normaloff>:/icons/back.svg</iconset>
         </property>
        </widget>
       </item>
@@ -122,8 +122,8 @@ background-color: none;</string>
          <string notr="true">...</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources.qrc">
-          <normaloff>:/resources/icons/back.svg</normaloff>:/resources/icons/back.svg</iconset>
+         <iconset resource="../resources/resources.qrc">
+          <normaloff>:/icons/back.svg</normaloff>:/icons/back.svg</iconset>
         </property>
        </widget>
       </item>
@@ -133,7 +133,7 @@ background-color: none;</string>
   </layout>
  </widget>
  <resources>
-  <include location="../resources.qrc"/>
+  <include location="../resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

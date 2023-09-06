@@ -14,8 +14,8 @@
    <string notr="true">MindMate</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../resources.qrc">
-    <normaloff>:/resources/icons/MindMateLogo.svg</normaloff>:/resources/icons/MindMateLogo.svg</iconset>
+   <iconset resource="../resources/resources.qrc">
+    <normaloff>:/icons/MindMateLogo.svg</normaloff>:/icons/MindMateLogo.svg</iconset>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
@@ -495,7 +495,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../resources.qrc"/>
+  <include location="../resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>
