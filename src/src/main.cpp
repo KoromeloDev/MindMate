@@ -65,12 +65,20 @@ void setPath()
   path.append(PROJECT_NAME);
   #endif
   #elif defined(Q_OS_WIN)
-  path.append(qgetenv("HOMEPATH"));
-  path.append("\\AppData\\Local\\");
-  path.append(PROJECT_NAME);
+  path.append(qgetenv("LOCALAPPDATA"));
+
+  if (!path.contains(PROJECT_NAME))
+  {
+    path.append("\\");
+    path.append(PROJECT_NAME);
+  }
   #endif
 
-  createPath({path});
+  if(!QDir(path).exists())
+  {
+    QDir(path).mkdir(path);
+  }
+
   QDir::setCurrent(path);
   createPath({"Chat"});
 }
