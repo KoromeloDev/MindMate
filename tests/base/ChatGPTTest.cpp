@@ -6,7 +6,7 @@
 class ChatGPTTest : public QObject
 {
   Q_OBJECT
-  ChatGPT *chatGPT = new ChatGPT();
+  ChatGPT chatGPT;
 
 private slots:
   void getError();
@@ -17,7 +17,7 @@ void ChatGPTTest::getError()
 {
   bool result = false;
 
-  connect(chatGPT, &ChatGPT::replyError, this, [&result](QString message)
+  connect(&chatGPT, &ChatGPT::replyError, this, [&result](QString message)
   {
     result = true;
     QCOMPARE(message, "You didn't provide an API key. You need to provide your "
@@ -28,7 +28,7 @@ void ChatGPTTest::getError()
     "https://platform.openai.com/account/api-keys.");
   });
 
-  chatGPT->sendJson({});
+  chatGPT.sendJson({});
 
   result = QTest::qWaitFor([&result]()
   {
@@ -36,6 +36,7 @@ void ChatGPTTest::getError()
   }, 5000);
 
   QVERIFY(result);
+  QVERIFY(chatGPT.isError());
 }
 
 
