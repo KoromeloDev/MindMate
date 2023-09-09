@@ -7,6 +7,7 @@
 #include "ChatItem.h"
 #include "Settings.h"
 #include "NewListWidgetItem.h"
+#include "APIKey.h"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent), m_ui(new Ui::MainWindow)
@@ -51,6 +52,20 @@ MainWindow::MainWindow(QWidget *parent)
   m_answerEffect.setVolume(0.20f);
   m_errorEffect.setSource(QUrl::fromLocalFile(":/sounds/error.wav"));
   m_errorEffect.setVolume(0.15f);
+
+  APIKey key;
+
+  if (key.isNeedKey())
+  {
+    m_setupDialog = m_setupDialog.create(this);
+
+    connect(m_setupDialog.get(), &SetupDialog::finished, this, [=]()
+    {
+      m_setupDialog.clear();
+    });
+
+    m_setupDialog->show();
+  }
 }
 
 MainWindow::~MainWindow()

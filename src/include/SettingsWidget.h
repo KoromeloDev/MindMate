@@ -3,10 +3,10 @@
 
 #include <QDialog>
 #include <QSettings>
-#include <QMessageBox>
 
 #include "ChatSettingsWidget.h"
 #include "Settings.h"
+#include "APIKeyWidget.h"
 
 namespace Ui
 {
@@ -26,12 +26,11 @@ protected:
 
 private:
   Ui::SettingsWidget *m_ui;
+  QSharedPointer<APIKeyWidget> m_keyWidget;
   QSharedPointer<ChatSettingsWidget> m_chatSettingsWidget;
   Settings m_settings;
 
 private slots:
-  void editKeyClicked();
-
   void languageRecognizeStateChanged(quint8 state);
   void autoNamingStateChanged(quint8 state);
 

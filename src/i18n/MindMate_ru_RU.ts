@@ -2,14 +2,51 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU" sourcelanguage="en_US">
 <context>
+    <name>APIKeyWidget</name>
+    <message>
+        <source>API key:</source>
+        <translation type="obsolete">API ключ:</translation>
+    </message>
+    <message>
+        <source>API key</source>
+        <translation type="obsolete">API ключ</translation>
+    </message>
+    <message>
+        <location filename="../ui/APIKeyWidget.ui" line="36"/>
+        <location filename="../src/APIKeyWidget.cpp" line="37"/>
+        <source>API key: </source>
+        <translation>API ключ: </translation>
+    </message>
+    <message>
+        <location filename="../src/APIKeyWidget.cpp" line="45"/>
+        <source>Enter your key from the &lt;a href=https://platform.openai.com/account/api-keys&gt;OpenAI site&lt;/a&gt;:</source>
+        <translation>Введите свой ключ с &lt;a href=https://platform.openai.com/account/api-keys&gt;сайта OpenAI&lt;/a&gt;:</translation>
+    </message>
+    <message>
+        <location filename="../src/APIKeyWidget.cpp" line="49"/>
+        <source>Set OpenAI API key</source>
+        <translation>Установить OpenAI API ключ</translation>
+    </message>
+    <message>
+        <location filename="../src/APIKeyWidget.cpp" line="59"/>
+        <source>Wrong key</source>
+        <translation>Неправильный ключ</translation>
+    </message>
+    <message>
+        <location filename="../src/APIKeyWidget.cpp" line="60"/>
+        <source>You entered the wrong key</source>
+        <translation>Вы ввели неправильный ключ</translation>
+    </message>
+</context>
+<context>
     <name>ChatGPT</name>
     <message>
-        <location filename="../base/src/ChatGPT.cpp" line="81"/>
+        <location filename="../base/src/ChatGPT.cpp" line="77"/>
         <source>Connection failed</source>
         <translation>Сбой подключения</translation>
     </message>
     <message>
-        <location filename="../base/src/ChatGPT.cpp" line="129"/>
+        <location filename="../base/src/ChatGPT.cpp" line="125"/>
         <source>The process is busy</source>
         <translation>Поцесс занят</translation>
     </message>
@@ -172,18 +209,18 @@
         <translation type="vanished">Ссылка на скачивание приложения</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="163"/>
+        <location filename="../src/MainWindow.cpp" line="178"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="232"/>
-        <location filename="../src/MainWindow.cpp" line="440"/>
+        <location filename="../src/MainWindow.cpp" line="247"/>
+        <location filename="../src/MainWindow.cpp" line="455"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="353"/>
+        <location filename="../src/MainWindow.cpp" line="368"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>
@@ -263,44 +300,67 @@
         <translation>Настройки по умолчанию для всех чатов</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="200"/>
         <source>API key:</source>
-        <translation>API ключ:</translation>
+        <translation type="vanished">API ключ:</translation>
     </message>
     <message>
         <source>Check updates</source>
         <translation type="vanished">Проверять обновления</translation>
     </message>
     <message>
-        <location filename="../src/SettingsWidget.cpp" line="12"/>
+        <location filename="../src/SettingsWidget.cpp" line="9"/>
         <source>Version</source>
         <translation>Версия</translation>
     </message>
     <message>
-        <location filename="../src/SettingsWidget.cpp" line="25"/>
-        <location filename="../src/SettingsWidget.cpp" line="70"/>
         <source>API key</source>
-        <translation>API ключ</translation>
+        <translation type="vanished">API ключ</translation>
     </message>
     <message>
-        <location filename="../src/SettingsWidget.cpp" line="52"/>
         <source>Enter your key from the &lt;a href=https://platform.openai.com/account/api-keys&gt;OpenAI site&lt;/a&gt;:</source>
-        <translation>Введите свой ключ с &lt;a href=https://platform.openai.com/account/api-keys&gt;сайта OpenAI&lt;/a&gt;:</translation>
+        <translation type="vanished">Введите свой ключ с &lt;a href=https://platform.openai.com/account/api-keys&gt;сайта OpenAI&lt;/a&gt;:</translation>
     </message>
     <message>
-        <location filename="../src/SettingsWidget.cpp" line="56"/>
         <source>Set OpenAI API key</source>
-        <translation>Установить OpenAI API ключ</translation>
+        <translation type="vanished">Установить OpenAI API ключ</translation>
     </message>
     <message>
-        <location filename="../src/SettingsWidget.cpp" line="74"/>
         <source>Wrong key</source>
-        <translation>Неверный ключ</translation>
+        <translation type="vanished">Неверный ключ</translation>
     </message>
     <message>
-        <location filename="../src/SettingsWidget.cpp" line="75"/>
         <source>You entered the wrong key</source>
-        <translation>Вы ввели неправильный ключ</translation>
+        <translation type="vanished">Вы ввели неправильный ключ</translation>
+    </message>
+</context>
+<context>
+    <name>SetupDialog</name>
+    <message>
+        <location filename="../ui/SetupDialog.ui" line="14"/>
+        <source>Initial setup</source>
+        <translation>Начальная настройка</translation>
+    </message>
+    <message>
+        <location filename="../ui/SetupDialog.ui" line="69"/>
+        <source>Done</source>
+        <translation>Готово</translation>
+    </message>
+    <message>
+        <location filename="../src/SetupDialog.cpp" line="53"/>
+        <location filename="../src/SetupDialog.cpp" line="58"/>
+        <location filename="../src/SetupDialog.cpp" line="63"/>
+        <source>Wrong key</source>
+        <translation>Неправильный ключ</translation>
+    </message>
+    <message>
+        <location filename="../src/SetupDialog.cpp" line="54"/>
+        <source>You didn&apos;t provide an API key</source>
+        <translation>Вы не предоставили ключ API</translation>
+    </message>
+    <message>
+        <location filename="../src/SetupDialog.cpp" line="59"/>
+        <source>Incorrect API key provided</source>
+        <translation>Предоставлен неправильный ключ API</translation>
     </message>
 </context>
 </TS>

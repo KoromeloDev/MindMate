@@ -42,6 +42,11 @@
   </screenshots>
   
   <releases>
+    <release version="1.6.0-beta" date="2023-09-09">
+      <description>
+        <p>Added initial setup</p>
+      </description>
+    </release>
     <release version="1.5.3-beta" date="2023-09-07">
       <description>
         <p>Fixed problem with creation of configuration catalog</p>

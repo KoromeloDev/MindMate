@@ -18,6 +18,7 @@
 #include "ChatSettings.h"
 #include "ChatSettingsDialog.h"
 #include "SettingsWidget.h"
+#include "SetupDialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -49,6 +50,7 @@ private:
   QSoundEffect m_errorEffect;
   QSharedPointer<ChatSettingsDialog> m_chatSettingsDialog;
   QSharedPointer<SettingsWidget> m_settingsWidget;
+  QSharedPointer<SetupDialog> m_setupDialog;
 
   void setChatSettings(const quint8 &index);
   void receivedText(QString text);

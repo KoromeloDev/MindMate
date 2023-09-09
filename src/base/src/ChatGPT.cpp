@@ -51,19 +51,15 @@ void ChatGPT::send(QString message, ChatSettings chatSettings)
     return;
   }
 
-  HistoryParser::Message messageStruct;
-  messageStruct.content = message;
-  messageStruct.role = HistoryParser::Role::User;
-  m_message.append(messageStruct);
   m_chatSettings.model = chatSettings.model;
 
   QJsonObject json;
   QJsonArray messages;
   QJsonObject messageObject;
   json.insert("model", m_chatSettings.model);
-  messageObject.insert("role", QVariant::fromValue(m_message[0].role).
+  messageObject.insert("role", QVariant::fromValue(HistoryParser::Role::User).
                  toString().toLower());
-  messageObject.insert("content", m_message[0].getMessage());
+  messageObject.insert("content", message);
   messages.append(messageObject);
   json.insert("messages", messages);
   sendJson(json);
