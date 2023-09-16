@@ -9,7 +9,7 @@ jobs:
       with:
         version: 6.5.0
         configure-args: -opensource -opengl desktop
-        submodules: qtbase,qtsvg,qtshadertools,qtdeclarative,qtmultimedia,qttranslations
+        submodules: qtbase,qtsvg,qtshadertools,qtdeclarative,qtmultimedia,qttools,qttranslations
   Build:
     needs: Install-Qt
     runs-on: ubuntu-latest
