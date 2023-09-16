@@ -22,5 +22,13 @@ jobs:
       with:
         build-type: Release
         configure-options: -DTESTING=ON
-    - name: Run tests
-      run: find ${{ runner.workspace }}/build/ -type f -name "*Test" -exec {} \;
+    - name: Get today's date
+      uses: mathiasvr/command-output@v2.0.0
+      id: tests
+      with:
+        run: find ${{ runner.workspace }}/build/ -type f -name"*Test"   
+    - name: Echo
+      run: echo ${{ steps.tests.outputs.stdout }}
+#- run: echo Today is ${{ steps.today.outputs.stdout }}
+ #   - name: Run tests
+ #     run: find ${{ runner.workspace }}/build/ -type f -name "*Test" -exec {} \;
