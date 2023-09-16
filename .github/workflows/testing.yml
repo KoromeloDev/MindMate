@@ -1,0 +1,29 @@
+name: Unit testing
+on: workflow_dispatch
+jobs:
+  Install-Qt:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Qt static
+      uses: anthepro/install-qt-static@v1
+      with:
+        version: 6.5.0
+        configure-args: -opensource -opengl desktop
+        submodules: qtbase,qtsvg,qtmultimedia,qttranslations
+  Install-CMake:
+    runs-on: ubuntu-latest
+    steps:  
+    - name: Install CMake
+      uses: Symbitic/install-cmake@v0.1.0
+  Build:
+    needs: Install-Qt
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Get repository code
+      uses: actions/checkout@v4.0.0
+    - name: Build
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-type: MinSizeRel
+        configure-options: -DTESTING=ON
+        
