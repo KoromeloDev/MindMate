@@ -26,7 +26,7 @@ jobs:
       uses: GenesisSam/get-simple-file-action@v1.0.5
       id: openFile
       with:
-        file-name: ${{ 'build/' }}
+        file-name: ${{ runner.workspace }}/build/*
     - name: result
       if: success() && steps.openFile.outputs.data
       run: echo "build/> ${ steps.openFile.outputs.data }"
