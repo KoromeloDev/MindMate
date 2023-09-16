@@ -1,7 +1,13 @@
 name: Unit testing
 on: workflow_dispatch
 jobs:
+  Install-LLVM_Clang:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install LLVM and Clang
+      uses: KyleMayes/install-llvm-action@v1.8.3
   Install-Qt:
+    needs: Install-LLVM_Clang
     runs-on: ubuntu-latest
     steps:
     - name: Install Qt static
