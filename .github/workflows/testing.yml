@@ -22,24 +22,6 @@ jobs:
       with:
         build-type: Release
         configure-options: -DTESTING=ON
-    - name: Find tests
-      uses: GenesisSam/get-simple-file-action@v1.0.5
-      id: openFile
-      with:
-        file-name: ${{ runner.workspace }}/build/*
-    - name: result
-      if: success() && steps.openFile.outputs.data
-      run: echo "build/> ${ steps.openFile.outputs.data }"
-    # - name: Find tests
-      
-    #   id: tests
-    #   with:
-    #     args: "build/*Test"
-    # - name: Run tests
-    #   run: |
-    #     echo "${{ steps.tests.outputs.files }}"
-    #     for i in ${{ steps.tests.outputs.files }}; do
-    #     echo $i
-        # done
-      
-        
+    - name: Run tests
+      run: |
+        find ./build -type f -name "*Test" -exec echo {}
