@@ -1,7 +1,7 @@
 name: Unit testing
 on: workflow_dispatch
 jobs:
-  Install-Qt:
+  Testing:
     runs-on: ubuntu-latest
     steps:
     - name: Install Qt
@@ -13,8 +13,6 @@ jobs:
         target: desktop
         arch: gcc_64
         modules: qtmultimedia
-        cache: true
-        cache-key-prefix: install-qt
     - name: Get repository code
       uses: actions/checkout@v4.0.0
     - name: Build
@@ -22,4 +20,7 @@ jobs:
       with:
         build-type: MinSizeRel
         configure-options: -DTESTING=ON
+    - name: Run tests
+      run: sh ${{ runner.workspace }}/build/*Test
+      
         
