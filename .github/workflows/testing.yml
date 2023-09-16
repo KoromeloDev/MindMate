@@ -24,4 +24,4 @@ jobs:
         configure-options: -DTESTING=ON
     - name: Run tests
       run: |
-        find ./build -type f -name "*Test" -exec echo {}
+        find ./build -type f -name "*Test" | xargs -I {} echo {}
