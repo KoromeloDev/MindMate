@@ -23,7 +23,7 @@ jobs:
         build-type: Release
         configure-options: -DTESTING=ON
     - name: Find tests
-      uses: jeertmans/filesfinder@latest
+      uses: jeertmans/filesfinder@v0.4.12
       id: tests
       with:
         args: "build/*Test"
