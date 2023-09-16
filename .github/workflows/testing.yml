@@ -3,11 +3,14 @@ on: workflow_dispatch
 jobs:
   Install-LLVM_Clang:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        LLVM_version: ['14', '13', '12']
     steps:
     - name: Install LLVM and Clang
       uses: KyleMayes/install-llvm-action@v1.8.3
       with:
-        version: "13.0"
+        version: ${{ matrix.LLVM_version }}
   Install-Qt:
     needs: Install-LLVM_Clang
     runs-on: ubuntu-latest
