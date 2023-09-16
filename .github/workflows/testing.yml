@@ -9,12 +9,7 @@ jobs:
       with:
         version: 6.5.0
         configure-args: -opensource -opengl desktop
-        submodules: qtbase,qtsvg,qtmultimedia,qttranslations
-  Install-CMake:
-    runs-on: ubuntu-latest
-    steps:  
-    - name: Install CMake
-      uses: Symbitic/install-cmake@v0.1.0
+        submodules: qtbase,qtsvg,qtshadertools,qtdeclarative,qtmultimedia,qttranslations
   Build:
     needs: Install-Qt
     runs-on: ubuntu-latest
