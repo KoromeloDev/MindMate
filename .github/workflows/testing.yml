@@ -7,12 +7,14 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
-        aqtversion: '==3.1.*'
-        version: '6.5.0'
-        host: 'linux'
-        target: 'desktop'
-        arch: 'gcc_64'
-        modules: 'qtmultimedia'
+        aqtversion: ==3.1.*
+        version: 6.5.0
+        host: linux
+        target: desktop
+        arch: gcc_64
+        modules: qtmultimedia
+        cache: true
+        cache-key-prefix: install-qt
   Build:
     needs: Install-Qt
     runs-on: ubuntu-latest
