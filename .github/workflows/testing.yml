@@ -1,26 +1,18 @@
 name: Unit testing
 on: workflow_dispatch
 jobs:
-  Install-LLVM_Clang:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        LLVM_version: ['14', '13', '12']
-    steps:
-    - name: Install LLVM and Clang
-      uses: KyleMayes/install-llvm-action@v1.8.3
-      with:
-        version: ${{ matrix.LLVM_version }}
   Install-Qt:
-    needs: Install-LLVM_Clang
     runs-on: ubuntu-latest
     steps:
-    - name: Install Qt static
-      uses: anthepro/install-qt-static@v1
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
       with:
-        version: 6.5.0
-        configure-args: -opensource -opengl desktop
-        submodules: qtbase,qtsvg,qtshadertools,qtdeclarative,qtmultimedia,qttools,qttranslations
+        aqtversion: '==3.1.*'
+        version: '6.5.0'
+        host: 'linux'
+        target: 'desktop'
+        arch: 'gcc_64'
+        modules: 'qtmultimedia'
   Build:
     needs: Install-Qt
     runs-on: ubuntu-latest
