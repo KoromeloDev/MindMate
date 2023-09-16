@@ -15,10 +15,6 @@ jobs:
         modules: qtmultimedia
         cache: true
         cache-key-prefix: install-qt
-  Build:
-    needs: Install-Qt
-    runs-on: ubuntu-latest
-    steps: 
     - name: Get repository code
       uses: actions/checkout@v4.0.0
     - name: Build
