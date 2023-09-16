@@ -13,14 +13,31 @@ jobs:
         target: desktop
         arch: gcc_64
         modules: qtmultimedia
+        cache: true
+        cache-key-prefix: install-qt
     - name: Get repository code
       uses: actions/checkout@v4.0.0
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
-        build-type: MinSizeRel
+        build-type: Release
         configure-options: -DTESTING=ON
+    - name: Fetch action
+      id: pl
+      uses: Rishabh510/Path-lister-action@master
+      with:
+        path: ${{ runner.workspace }}/build/
+        type: ""
+    - name: Find tests
+      uses: jeertmans/filesfinder@latest
+      id: tests
+      with:
+        args: "*Test"
     - name: Run tests
-      run: sh ${{ runner.workspace }}/build/*Test
+      run: |
+        echo "${{ steps.tests.outputs.files }}"
+        for i in ${{ steps.tests.outputs.files }}; do
+        echo $i
+        done
       
         
