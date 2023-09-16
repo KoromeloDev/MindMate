@@ -23,4 +23,4 @@ jobs:
         build-type: Release
         configure-options: -DTESTING=ON
     - name: Run tests
-      run: find ${{ runner.workspace }}/build/  -type f -name "*Test" | xargs -I {} sh {}
+      run: find ${{ runner.workspace }}/build/  -type f -name "*Test" | xargs -I {} {}
