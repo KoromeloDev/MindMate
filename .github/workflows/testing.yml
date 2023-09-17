@@ -13,9 +13,9 @@ jobs:
       with:
         aqtversion: '==3.1.*'
         version: '6.5.0'
-        host: 'windows'
+        host: 'linux'
         target: 'desktop'
-        arch: 'win64_mingw'
+        arch: 'gcc_64'
         modules: 'qtmultimedia'
         tools: 'tools_cmake tools_mingw90 tools_opensslv3_src tools_openssl_src'
     # - name: Install Qt
