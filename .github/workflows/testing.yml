@@ -8,7 +8,14 @@ jobs:
         # os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
+    - name: Cache Qt
+      id: cache-qt
+      uses: actions/cache@v3
+      with:
+        path: qt
+        key: ${{ runner.os }}-qt
     - name: Install Qt
+      if: steps.cache.outputs.cache-hit != 'true'
       uses: anthepro/install-qt-static@v1
       with:
         version: 6.5.0
