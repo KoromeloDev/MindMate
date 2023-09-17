@@ -1,11 +1,8 @@
 name: Unit testing
 on: [workflow_dispatch, push]
 jobs:
-  Testing:
-    strategy:
-      matrix: 
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+  Testing-on-linux:
+    runs-on: ubuntu-latest
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
@@ -20,7 +17,35 @@ jobs:
     - name: Get repository code
       uses: actions/checkout@v4.0.0
     - name: Build
-      continue-on-error: true
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-type: Release
+        configure-options: -DTESTING=ON
+    - name: Find tests
+      uses: mathiasvr/command-output@v2.0.0
+      id: tests
+      with:
+        run: find ${{ runner.workspace }}/build/ -type f -name "*Test"   
+    - name: Run tests
+      run: |
+        export QT_QPA_PLATFORM=offscreen
+        ${{ steps.tests.outputs.stdout }}
+  Testing-on-windows:
+    runs-on: windows-latest
+    steps:
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: 6.5.0
+        host: linux
+        target: desktop
+        arch: gcc_64
+        cache: true
+        cache-key-prefix: install-qt
+        modules: 'qtmultimedia'
+    - name: Get repository code
+      uses: actions/checkout@v4.0.0
+    - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-type: Release
