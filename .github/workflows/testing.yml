@@ -6,11 +6,7 @@ jobs:
     steps:
     - name: Setup display
       run: |
-        sudo apt-get install libxcb-xinerama0
-        sudo apt-get install libxcb-xinput0
-        sudo apt-get install libxcb* 
-        Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-        export DISPLAY=:99
+        export QT_QPA_PLATFORM=linuxfb
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
@@ -28,7 +24,7 @@ jobs:
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-type: Release
-        configure-options: -DTESTING=ON -DQT_DEBUG_PLUGINS=1
+        configure-options: -DTESTING=ON
     - name: Find tests
       uses: mathiasvr/command-output@v2.0.0
       id: tests
@@ -36,6 +32,3 @@ jobs:
         run: find ${{ runner.workspace }}/build/ -type f -name "*Test"   
     - name: Run tests
       run: ${{ steps.tests.outputs.stdout }}
-#- run: echo Today is ${{ steps.today.outputs.stdout }}
- #   - name: Run tests
- #     run: find ${{ runner.workspace }}/build/ -type f -name "*Test" -exec {} \;
