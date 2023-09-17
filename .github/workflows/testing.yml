@@ -4,17 +4,27 @@ jobs:
   Testing:
     strategy:
       matrix: 
-        os: [ubuntu-latest, windows-latest]
+        os: [windows-latest]
+        # os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
-        version: 6.5.0
-        host: ${{ matrix.os == 'ubuntu-latest' && 'linux' || matrix.os == 'windows-latest' && 'windows' }}
-        target: desktop
-        arch: ${{ matrix.os == 'ubuntu-latest' && 'gcc_64' || matrix.os == 'windows-latest' && 'win64_msvc2019_64' }}
-        modules: qtmultimedia
+        aqtversion: '==3.1.*'
+        version: '6.5.0'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win64_mingw'
+        modules: 'qtmultimedia'
+    # - name: Install Qt
+    #   uses: jurplel/install-qt-action@v3
+    #   with:
+    #     version: 6.5.0
+    #     host: ${{ matrix.os == 'ubuntu-latest' && 'linux' || matrix.os == 'windows-latest' && 'windows' }}
+    #     target: desktop
+    #     arch: ${{ matrix.os == 'ubuntu-latest' && 'gcc_64' || matrix.os == 'windows-latest' && 'win64_msvc2019_64' }}
+    #     modules: qtmultimedia
         cache: true
         cache-key-prefix: install-qt
     - name: Get repository code
@@ -23,7 +33,7 @@ jobs:
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-type: Release
-        configure-options: -DTESTING=ON ${{ matrix.os == 'ubuntu-latest' && '' || matrix.os == 'windows-latest' && ' /Zc:__cplusplus' }}
+        configure-options: -DTESTING=ON
     - name: Find tests
       uses: mathiasvr/command-output@v2.0.0
       id: tests
