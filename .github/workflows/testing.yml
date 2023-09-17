@@ -6,7 +6,10 @@ jobs:
     steps:
     - name: Setup display
       run: |
-        sudo apt-get install xvfb
+        sudo apt-get install libxcb-xinerama0
+        sudo apt-get install libxcb-xinput0
+        sudo apt-get install libxcb-xfixes0
+        sudo apt-get install libxcb* 
         Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
         export DISPLAY=:99
     - name: Install Qt
