@@ -23,7 +23,7 @@ jobs:
       run: |
         cmake -B build -S .
         cd build
-        if [ "${{ matrix.os }}" == "windows-latest" ]; then
+        if [[ "${{ matrix.os }}" == "windows-latest" ]];; then
           cmake --build . --config Release -- /Zc:__cplusplus
         else
           cmake --build . --config Release
