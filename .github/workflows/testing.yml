@@ -1,5 +1,5 @@
 name: Unit testing
-on: workflow_dispatch
+on: [workflow_dispatch, push]
 jobs:
   Testing:
     strategy:
@@ -20,19 +20,10 @@ jobs:
     - name: Get repository code
       uses: actions/checkout@v4.0.0
     - name: Build
-      run: |
-        cmake -B build -S .
-        cd build
-        if [[ "${{ matrix.os }}" == "windows-latest" ]];; then
-          cmake --build . --config Release -- /Zc:__cplusplus
-        else
-          cmake --build . --config Release
-        fi
-    # - name: Build
-    #   uses: ashutoshvarma/action-cmake-build@master
-    #   with:
-    #     build-type: Release
-    #     configure-options: -DTESTING=ON
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-type: Release
+        configure-options: -DTESTING=ON ${{ matrix.os == 'ubuntu-latest' && '' || matrix.os == 'windows-latest' && ' /Zc:__cplusplus' }}
     - name: Find tests
       uses: mathiasvr/command-output@v2.0.0
       id: tests
