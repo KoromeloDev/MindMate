@@ -39,7 +39,7 @@ jobs:
         version: 6.5.0
         host: windows
         target: desktop
-        arch: win64_mingw
+        arch: wasm_multithread
         cache: true
         cache-key-prefix: install-qt
         modules: 'qtmultimedia'
