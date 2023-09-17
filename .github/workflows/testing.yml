@@ -1,7 +1,7 @@
 name: Unit testing
 on: [workflow_dispatch, push]
 jobs:
-  Testing-on-linux:
+  Testing-on-Linux:
     runs-on: ubuntu-latest
     steps:
     - name: Install Qt
@@ -30,16 +30,16 @@ jobs:
       run: |
         export QT_QPA_PLATFORM=offscreen
         ${{ steps.tests.outputs.stdout }}
-  Testing-on-windows:
+  Testing-on-Windows:
     runs-on: windows-latest
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
         version: 6.5.0
-        host: linux
+        host: windows
         target: desktop
-        arch: gcc_64
+        arch: win64_mingw
         cache: true
         cache-key-prefix: install-qt
         modules: 'qtmultimedia'
