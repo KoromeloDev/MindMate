@@ -4,6 +4,10 @@ jobs:
   Testing:
     runs-on: ubuntu-latest
     steps:
+    - name: Install LLVM and Clang
+      uses: KyleMayes/install-llvm-action@v1
+      with:
+        version: 13
     - name: Install Qt
       uses: anthepro/install-qt-static@v1
       with:
