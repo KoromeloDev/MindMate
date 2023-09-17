@@ -4,8 +4,11 @@ jobs:
   Testing:
     runs-on: ubuntu-latest
     steps:
-    - name: Install xcb
-      run: sudo apt-get install libxcb*
+    - name: Setup display
+      run: |
+        sudo apt-get install xvfb
+        Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+        export DISPLAY=:99
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
