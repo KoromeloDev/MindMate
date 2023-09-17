@@ -14,10 +14,10 @@ jobs:
         version: 6.5.0
         host: ${{ matrix.os == 'ubuntu-latest' && 'linux' || matrix.os == 'windows-latest' && 'windows' }}
         target: desktop
-        arch: ${{ matrix.os == 'ubuntu-latest' && 'gcc_64' || matrix.os == 'windows-latest' && 'win64_mingw' }}
+        arch: ${{ matrix.os == 'ubuntu-latest' && 'gcc_64' || matrix.os == 'windows-latest' && 'win64_msvc2019_64' }}
         modules: qtmultimedia
-        # cache: true
-        # cache-key-prefix: install-qt
+        cache: true
+        cache-key-prefix: install-qt
     - name: Get repository code
       uses: actions/checkout@v4.0.0
     - name: Build
