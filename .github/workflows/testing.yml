@@ -4,9 +4,6 @@ jobs:
   Testing:
     runs-on: ubuntu-latest
     steps:
-    - name: Setup display
-      run: |
-        export QT_QPA_PLATFORM=linuxfb
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
@@ -31,4 +28,6 @@ jobs:
       with:
         run: find ${{ runner.workspace }}/build/ -type f -name "*Test"   
     - name: Run tests
-      run: ${{ steps.tests.outputs.stdout }}
+      run: |
+        export QT_QPA_PLATFORM=offscreen
+        ${{ steps.tests.outputs.stdout }}
