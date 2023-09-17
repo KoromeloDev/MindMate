@@ -13,7 +13,7 @@ jobs:
       with:
         version: 6.5.0
         configure-args: -opensource -opengl desktop
-        submodules: qtbase,qtshadertools,qtdeclarative,qtmultimedia,qttools,qttranslation,qtsvg
+        submodules: qtbase,qtshadertools,qtdeclarative,qtmultimedia,qttools,qttranslations,qtsvg
     # - name: Install Qt
     #   uses: jurplel/install-qt-action@v3
     #   with:
