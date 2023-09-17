@@ -2,7 +2,10 @@ name: Unit testing
 on: workflow_dispatch
 jobs:
   Testing:
-    runs-on: [ubuntu-latest, windows-latest]
+    strategy:
+      matrix: 
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
