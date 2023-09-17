@@ -11,7 +11,7 @@ jobs:
     - name: Install Qt
       uses: anthepro/install-qt-static@v1
       with:
-        version: 6.4.2
+        version: 6.5.0
         configure-args: -opensource -opengl desktop
         submodules: qtbase,qtshadertools,qtdeclarative,qtmultimedia,qttools,qttranslation,qtsvg
     # - name: Install Qt
