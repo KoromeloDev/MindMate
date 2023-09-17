@@ -9,15 +9,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3
+      uses: anthepro/install-qt-static@v1
       with:
-        aqtversion: '==3.1.*'
-        version: '6.5.0'
-        host: 'linux'
-        target: 'desktop'
-        arch: 'gcc_64'
-        modules: 'qtmultimedia'
-        # tools: 'tools_cmake tools_mingw90 tools_opensslv3_src tools_openssl_src'
+        version: 6.4.2
+        configure-args: -opensource -opengl desktop
+        submodules: qtbase,qtshadertools,qtdeclarative,qtmultimedia,qttools,qttranslation,qtsvg
     # - name: Install Qt
     #   uses: jurplel/install-qt-action@v3
     #   with:
@@ -26,8 +22,8 @@ jobs:
     #     target: desktop
     #     arch: ${{ matrix.os == 'ubuntu-latest' && 'gcc_64' || matrix.os == 'windows-latest' && 'win64_msvc2019_64' }}
     #     modules: qtmultimedia
-        cache: true
-        cache-key-prefix: install-qt
+        # cache: true
+        # cache-key-prefix: install-qt
     - name: Get repository code
       uses: actions/checkout@v4.0.0
     - name: Build
