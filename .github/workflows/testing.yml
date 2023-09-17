@@ -5,16 +5,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3
+      uses: anthepro/install-qt-static@v1
       with:
-        aqtversion: ==3.1.*
         version: 6.5.0
-        host: linux
-        target: desktop
-        arch: gcc_64
-        modules: qtmultimedia
-        cache: true
-        cache-key-prefix: install-qt
+        configure-args: -opensource -opengl desktop
+        submodules: qtbase,qtshadertools,qtdeclarative,qtmultimedia,qttools,qttranslations,qtsvg
+    #  uses: jurplel/install-qt-action@v3
+     # with:
+       # aqtversion: ==3.1.*
+       # version: 6.5.0
+       # host: linux
+       # target: desktop
+       # arch: gcc_64
+      #  modules: qtmultimedia
+     #   cache: true
+    #    cache-key-prefix: install-qt
     - name: Get repository code
       uses: actions/checkout@v4.0.0
     - name: Build
