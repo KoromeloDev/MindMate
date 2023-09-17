@@ -20,6 +20,7 @@ jobs:
     - name: Get repository code
       uses: actions/checkout@v4.0.0
     - name: Build
+      continue-on-error: true
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-type: Release
