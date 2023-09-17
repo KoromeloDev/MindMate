@@ -21,7 +21,7 @@ void ChatSettingsTest::getMaxToken_data()
 
   QTest::newRow("invalid") << "invalid" << 0;
 
-  QTest::newRow("gpt-3.5 - 4k") << "gpt-3.5-turbo" << 40960;
+  QTest::newRow("gpt-3.5 - 4k") << "gpt-3.5-turbo" << 4096;
   QTest::newRow("gpt-3.5-new - 4k") << "gpt-3.5-turbo-0613" << 4096;
 
   QTest::newRow("gpt-3.5 - 16k") << "gpt-3.5-turbo-16k" << 16384;
