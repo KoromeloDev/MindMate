@@ -4,8 +4,7 @@ jobs:
   Testing:
     strategy:
       matrix: 
-        os: [windows-latest]
-        # os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Cache Qt
@@ -15,22 +14,12 @@ jobs:
         path: qt
         key: ${{ runner.os }}-qt
     - name: Install Qt
-      if: steps.cache.outputs.cache-hit != 'true'
-      uses: anthepro/install-qt-static@v1
+      uses: jurplel/install-qt-action@v3
       with:
         version: 6.5.0
-        configure-args: -opensource -opengl desktop
-        submodules: qtbase,qtshadertools,qtdeclarative,qtmultimedia,qttools,qttranslations,qtsvg
-    # - name: Install Qt
-    #   uses: jurplel/install-qt-action@v3
-    #   with:
-    #     version: 6.5.0
-    #     host: ${{ matrix.os == 'ubuntu-latest' && 'linux' || matrix.os == 'windows-latest' && 'windows' }}
-    #     target: desktop
-    #     arch: ${{ matrix.os == 'ubuntu-latest' && 'gcc_64' || matrix.os == 'windows-latest' && 'win64_msvc2019_64' }}
-    #     modules: qtmultimedia
-        # cache: true
-        # cache-key-prefix: install-qt
+        host: linux
+        target: desktop
+        arch: gcc_64
     - name: Get repository code
       uses: actions/checkout@v4.0.0
     - name: Build
