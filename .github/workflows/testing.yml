@@ -4,26 +4,19 @@ jobs:
   Testing:
     runs-on: ubuntu-latest
     steps:
-    - name: Install LLVM and Clang
-      uses: KyleMayes/install-llvm-action@v1
-      with:
-        version: 13
+    - name: Install xcb
+      run: sudo apt-get install libxcb*
     - name: Install Qt
-      uses: anthepro/install-qt-static@v1
+      uses: jurplel/install-qt-action@v3
       with:
+        aqtversion: ==3.1.*
         version: 6.5.0
-        configure-args: -opensource -opengl desktop
-        submodules: qtbase,qtshadertools,qtdeclarative,qtmultimedia,qttools,qttranslations,qtsvg
-    #  uses: jurplel/install-qt-action@v3
-     # with:
-       # aqtversion: ==3.1.*
-       # version: 6.5.0
-       # host: linux
-       # target: desktop
-       # arch: gcc_64
-      #  modules: qtmultimedia
-     #   cache: true
-    #    cache-key-prefix: install-qt
+        host: linux
+        target: desktop
+        arch: gcc_64
+        modules: qtmultimedia
+        cache: true
+        cache-key-prefix: install-qt
     - name: Get repository code
       uses: actions/checkout@v4.0.0
     - name: Build
