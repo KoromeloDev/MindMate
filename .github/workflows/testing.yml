@@ -16,7 +16,6 @@ jobs:
         cache-key-prefix: install-qt
     - name: Get repository code
       uses: actions/checkout@v4.0.0
-    - run: cmake --version
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
@@ -42,11 +41,12 @@ jobs:
         target: desktop
         arch: win64_msvc2019_64
         modules: qtmultimedia
-        tools: 'tools_vcredist,qt.tools.vcredist_msvc2019_x64 tools_vcredist,qt.tools.vcredist_msvc2019_x86'
+        tools: 'tools_vcredist,qt.tools.vcredist_msvc2017_x64 tools_vcredist,qt.tools.vcredist_msvc2017_x86 tools_vcredist,qt.tools.vcredist_msvc2019_x64 tools_vcredist,qt.tools.vcredist_msvc2019_x86'
         cache: true
         cache-key-prefix: install-qt
     - name: Get repository code
       uses: actions/checkout@v4.0.0
+    - run: cmake --version
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
