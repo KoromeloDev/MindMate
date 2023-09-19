@@ -30,5 +30,4 @@ jobs:
         run: WHERE /r ${{github.workspace}}\build *Test.exe  
     - name: Run tests
       run: |
-          ${{ steps.ftf.outputs.paths }}
-#         ${{ steps.tests.outputs.stdout }}
+        ${{ steps.tests.outputs.stdout }}
