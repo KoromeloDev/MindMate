@@ -32,8 +32,9 @@ jobs:
       uses: mathiasvr/command-output@v2.0.0
       id: tests
       with:
-        run: find ${{ runner.workspace }}/build/ -type f -name "*Test"   
+        run: |
+          cd ${{ runner.workspace }}/build/
+          dir *Test.exe  
     - name: Run tests
       run: |
-        export QT_QPA_PLATFORM=offscreen
         ${{ steps.tests.outputs.stdout }}
