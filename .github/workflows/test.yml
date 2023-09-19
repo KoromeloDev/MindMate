@@ -23,10 +23,10 @@ jobs:
       working-directory: ${{github.workspace}}\build
       run: mingw32-make.exe
     - name: Find tests
-     uses: jeertmans/filesfinder@latest
-     id: ff # Any id, to be used later to reference to files output
-     with:
-       args: "*Test.exe"
+      uses: jeertmans/filesfinder@latest
+      id: ff # Any id, to be used later to reference to files output
+      with:
+        args: "*Test.exe"
       # uses: mathiasvr/command-output@v2.0.0
       # id: tests
       # with:
