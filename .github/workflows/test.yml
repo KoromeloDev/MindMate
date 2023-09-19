@@ -1,11 +1,5 @@
 name: Compile and Release Qt6 Project
 on: push
-
-env:
-  QT_VERSION:      6.5.0
-  MINGW_VERSION:   win64_mingw
-  BUILD_TYPE:      Release
-
 jobs:
   build:
     runs-on: windows-latest
@@ -16,23 +10,28 @@ jobs:
       with:
         host: windows
         target: desktop
-        version: ${{ env.QT_VERSION }}
-        arch: ${{ env.MINGW_VERSION }}
+        version: 6.5.0
+        arch: win64_mingw
         dir: ${{github.workspace}}/qt
         modules: qtmultimedia
         cache: true
         cache-key-prefix: install-qt
     - name: Configure CMake Project
       working-directory: ${{github.workspace}}
-      run: cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DTESTING=ON -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}\build
+      run: cmake -DCMAKE_BUILD_TYPE=Release -DTESTING=ON -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}\build
     - name: Build project
       working-directory: ${{github.workspace}}\build
       run: mingw32-make.exe
     - name: Find tests
-      uses: mathiasvr/command-output@v2.0.0
-      id: tests
-      with:
-        run: WHERE /r ${{github.workspace}}\build *Test.exe  
+     uses: jeertmans/filesfinder@latest
+     id: ff # Any id, to be used later to reference to files output
+     with:
+       args: "*Test.exe"
+      # uses: mathiasvr/command-output@v2.0.0
+      # id: tests
+      # with:
+      #   run: WHERE /r ${{github.workspace}}\build *Test.exe  
     - name: Run tests
       run: |
-        ${{ steps.tests.outputs.stdout }}
+        ${{ steps.ff.outputs.files }}
+#         ${{ steps.tests.outputs.stdout }}
