@@ -23,10 +23,5 @@ jobs:
     - name: Build project
       working-directory: ${{github.workspace}}\build
       run: mingw32-make.exe
-    - name: Find tests
-      uses: mathiasvr/command-output@v2.0.0
-      id: tests
-      with:
-        run: Get-ChildItem -Path "${{github.workspace}}" -Recurse -Filter "*Test.exe" | % { $_.FullName }
-    - name: Run tests
-      run: ${{ steps.tests.outputs.stdout }}
+    - name: Find and Run tests
+      run: $files = Get-ChildItem -Path "{{github.workspace}}" -Recurse -Filter "*Test.exe"; foreach ($file in $files) { Start-Process -FilePath $file.FullName }
