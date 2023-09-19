@@ -27,6 +27,6 @@ jobs:
       uses: mathiasvr/command-output@v2.0.0
       id: tests
       with:
-        run: (Get-ChildItem -Path "${{github.workspace}}\build\MindMate-Windows" -Filter "*Test.exe").FullName  
+        run: Get-ChildItem -Path "${{github.workspace}}" -Recurse -Filter "*Test.exe" | % { $_.FullName }
     - name: Run tests
       run: ${{ steps.tests.outputs.stdout }}
