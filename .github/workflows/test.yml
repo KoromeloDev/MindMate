@@ -3,34 +3,31 @@ name: Compile and Release Qt6 Project
 on: push
 
 env:
-  QT_VERSION:     "6.2.0"
-  MINGW_VERSION:  "win64_mingw81"
-  MINGW_PATH:     "mingw81_64"
+  QT_VERSION:     "6.5.0"
+  MINGW_VERSION:  "win64_mingw"
+  MINGW_PATH:     "win64_mingw"
   BUILD_TYPE:      Release
 
 jobs:
   build:
     runs-on: windows-latest
     steps:
-    -
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v4.0.0
 #    -
 #      name: Check mingw g++ version
 #      run: |
 #        Write-Output (Get-Command g++.exe).Path
 #        g++.exe --version
-    -
-      name: Install correct version of mingw
-      uses: crazy-max/ghaction-chocolatey@v1
+    - name: Install correct version of mingw
+      uses: crazy-max/ghaction-chocolatey@v3.0.0
       with:
-        args: install mingw --version=8.1.0  -y
+        args: install mingw --version=11.2.0 -y
 #    -
 #      name: Check mingw directory
 #      run: |
 #        ls C:\ProgramData\chocolatey\lib\mingw\tools\install\mingw64\bin
-    -
-      name: Install Qt
-      uses: jurplel/install-qt-action@v2
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3.3.0
       with:
         host: windows
         target: "desktop"
@@ -38,8 +35,8 @@ jobs:
         arch: ${{ env.MINGW_VERSION }}
         dir: "${{github.workspace}}/qt"
         install-deps: "true"
-    -
-      name: Set Qt path and refresh
+        modules: 'qtmultimedia'
+    - name: Set Qt path and refresh
       run: |
         echo "${{github.workspace}}/qt/Qt/${{ env.QT_VERSION }}/${{ env.MINGW_PATH }}/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         refreshenv
@@ -65,19 +62,16 @@ jobs:
 #        cmake.exe -version
 #        Write-Output (Get-Command mingw32-make.exe).Path
 #        mingw32-make.exe -version  
-    -
-      name: Configure CMake Proyect
+    - name: Configure CMake Proyect
       working-directory: ${{github.workspace}}
       env:
         CMAKE_PREFIX_PATH: ${{env.Qt5_Dir}}
       run: cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
-    -
-      name: Build proyect
+    - name: Build proyect
       working-directory: ${{github.workspace}}/build
       run: |
         mingw32-make.exe
-    -
-      name: Compress portable program
+    - name: Compress portable program
       run: |
         mkdir ${{github.workspace}}\build\all\
         cp ${{github.workspace}}/build/RePr.exe ${{github.workspace}}\build\all\
@@ -85,11 +79,11 @@ jobs:
         windeployqt.exe RePr.exe --release
         ls
         Compress-Archive -Path ${{github.workspace}}\build\all\ -DestinationPath ${{github.workspace}}\build\final.zip
-    -
-      name: Release
-      uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        files: ${{github.workspace}}/build/final.zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # -
+    #   name: Release
+    #   uses: softprops/action-gh-release@v1
+    #   if: startsWith(github.ref, 'refs/tags/')
+    #   with:
+    #     files: ${{github.workspace}}/build/final.zip
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
