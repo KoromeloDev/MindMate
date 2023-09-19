@@ -5,7 +5,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4.0.0
-    - run: dir /S /B ${{github.workspace}}\*.cpp  
+    - run: Get-ChildItem -Path "${{github.workspace}}" -Recurse -Filter "*.cpp" | Select-Object FullName  
     - name: Install Qt
       uses: jurplel/install-qt-action@v3.3.0
       with:
