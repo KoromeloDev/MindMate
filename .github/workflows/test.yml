@@ -23,15 +23,16 @@ jobs:
       working-directory: ${{github.workspace}}\build
       run: mingw32-make.exe
     - name: Find tests
-      uses: jeertmans/filesfinder@latest
-      id: ff # Any id, to be used later to reference to files output
+      id: ftf
+      uses: ab185508/file-type-finder@main
       with:
-        args: "*Test.exe"
+        path: "\build"
+        type: ".yml"
       # uses: mathiasvr/command-output@v2.0.0
       # id: tests
       # with:
       #   run: WHERE /r ${{github.workspace}}\build *Test.exe  
     - name: Run tests
       run: |
-        ${{ steps.ff.outputs.files }}
+          ${{ steps.ftf.outputs.paths }}
 #         ${{ steps.tests.outputs.stdout }}
