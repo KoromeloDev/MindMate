@@ -2,46 +2,38 @@ name: Compile and Release Qt6 Project
 on: push
 
 env:
-  QT_VERSION:     "6.5.0"
-  MINGW_VERSION:  "win64_mingw"
+  QT_VERSION:      6.5.0
+  MINGW_VERSION:   win64_mingw
   BUILD_TYPE:      Release
 
 jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4.0.0
     - name: Install Qt
       uses: jurplel/install-qt-action@v3.3.0
       with:
         host: windows
-        target: "desktop"
+        target: desktop
         version: ${{ env.QT_VERSION }}
         arch: ${{ env.MINGW_VERSION }}
-        dir: "${{github.workspace}}/qt"
-        modules: 'qtmultimedia'
-        cache: 'true'
-        cache-key-prefix: 'install-qt'
+        dir: ${{github.workspace}}/qt
+        modules: qtmultimedia
+        cache: true
+        cache-key-prefix: install-qt
+    - uses: actions/checkout@v4.0.0
     - name: Configure CMake Project
       working-directory: ${{github.workspace}}
-      run: cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
-    - name: Build proyect
+      run: cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DTESTING=ON -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
+    - name: Build project
       working-directory: ${{github.workspace}}/build
+      run: mingw32-make.exe
+    - name: Find tests
+      uses: mathiasvr/command-output@v2.0.0
+      id: tests
+      with:
+        run: find ${{ runner.workspace }}/build/ -type f -name "*Test"   
+    - name: Run tests
       run: |
-        mingw32-make.exe
-    - name: Compress portable program
-      run: |
-        mkdir ${{github.workspace}}\build\all\
-        cp ${{github.workspace}}/build/RePr.exe ${{github.workspace}}\build\all\
-        cd ${{github.workspace}}\build\all\
-        windeployqt.exe RePr.exe --release
-        ls
-        Compress-Archive -Path ${{github.workspace}}\build\all\ -DestinationPath ${{github.workspace}}\build\final.zip
-    # -
-    #   name: Release
-    #   uses: softprops/action-gh-release@v1
-    #   if: startsWith(github.ref, 'refs/tags/')
-    #   with:
-    #     files: ${{github.workspace}}/build/final.zip
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        export QT_QPA_PLATFORM=offscreen
+        ${{ steps.tests.outputs.stdout }}
