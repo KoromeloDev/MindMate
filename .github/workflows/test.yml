@@ -24,4 +24,4 @@ jobs:
       working-directory: ${{github.workspace}}\build
       run: mingw32-make.exe
     - name: Find and Run tests
-      run: $files = Get-ChildItem -Path "{{github.workspace}}" -Recurse -Filter "*Test.exe"; foreach ($file in $files) { Start-Process -FilePath $file.FullName }
+      run: $files = Get-ChildItem -Path "${{github.workspace}}" -Recurse -Filter "*Test.exe"; foreach ($file in $files) { Invoke-Expression -Command $file.FullName }
