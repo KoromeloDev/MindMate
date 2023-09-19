@@ -29,7 +29,5 @@ jobs:
       with:
         shell: powershell
         run: dir "${{github.workspace}}" -Recurse -Filter "*Test.exe" | Select-Object -ExpandProperty FullName
-    - name: Find tests
-      uses: mathiasvr/command-output@v2.0.0
-      with:
-        run: ${{ steps.tests.outputs.stdout }}
+    - name: Run tests
+      run: ${{ steps.tests.outputs.stdout }}
