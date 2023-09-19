@@ -5,6 +5,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4.0.0
+    - run: WHERE /r ${{github.workspace}} *.cpp  
     - name: Install Qt
       uses: jurplel/install-qt-action@v3.3.0
       with:
@@ -23,15 +24,10 @@ jobs:
       working-directory: ${{github.workspace}}\build
       run: mingw32-make.exe
     - name: Find tests
-      id: ftf
-      uses: ab185508/file-type-finder@main
+      uses: mathiasvr/command-output@v2.0.0
+      id: tests
       with:
-        path: "\build"
-        type: ".yml"
-      # uses: mathiasvr/command-output@v2.0.0
-      # id: tests
-      # with:
-      #   run: WHERE /r ${{github.workspace}}\build *Test.exe  
+        run: WHERE /r ${{github.workspace}}\build *Test.exe  
     - name: Run tests
       run: |
           ${{ steps.ftf.outputs.paths }}
