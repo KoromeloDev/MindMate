@@ -1,5 +1,4 @@
 name: Compile and Release Qt6 Project
-
 on: push
 
 env:
