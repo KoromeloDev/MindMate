@@ -11,8 +11,6 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4.0.0
-    - run: dir *Test.exe
-    - run: dir *src*
     - name: Install Qt
       uses: jurplel/install-qt-action@v3.3.0
       with:
@@ -34,7 +32,7 @@ jobs:
       uses: mathiasvr/command-output@v2.0.0
       id: tests
       with:
-        run: dir *Test.exe  
+        run: WHERE /r ${{github.workspace}}\build *Test.exe  
     - name: Run tests
       run: |
         ${{ steps.tests.outputs.stdout }}
