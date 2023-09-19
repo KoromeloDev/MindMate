@@ -4,8 +4,7 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4.0.0
-    - run: Get-ChildItem -Path "${{github.workspace}}" -Recurse -Filter "*.cpp" | Select-Object FullName  
+    - uses: actions/checkout@v4.0.0  
     - name: Install Qt
       uses: jurplel/install-qt-action@v3.3.0
       with:
@@ -27,7 +26,6 @@ jobs:
       uses: mathiasvr/command-output@v2.0.0
       id: tests
       with:
-        run: WHERE /r ${{github.workspace}}\build *Test.exe  
+        run: (Get-ChildItem -Path "${{github.workspace}}" -Filter "*Test.exe").FullName  
     - name: Run tests
-      run: |
-        ${{ steps.tests.outputs.stdout }}
+      run: ${{ steps.tests.outputs.stdout }}
