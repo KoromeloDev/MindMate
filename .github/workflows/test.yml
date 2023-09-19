@@ -33,7 +33,7 @@ jobs:
       id: tests
       with:
         run: |
-          cd ${{ runner.workspace }}/build/
+          cd ${{github.workspace}}/build
           dir *Test.exe  
     - name: Run tests
       run: |
