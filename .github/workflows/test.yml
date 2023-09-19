@@ -10,6 +10,7 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
+    - uses: actions/checkout@v4.0.0
     - name: Install Qt
       uses: jurplel/install-qt-action@v3.3.0
       with:
@@ -21,7 +22,6 @@ jobs:
         modules: qtmultimedia
         cache: true
         cache-key-prefix: install-qt
-    - uses: actions/checkout@v4.0.0
     - name: Configure CMake Project
       working-directory: ${{github.workspace}}
       run: cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DTESTING=ON -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}/build
