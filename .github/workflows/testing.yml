@@ -1,5 +1,5 @@
 name: Unit testing
-on: [workflow_dispatch, push]
+on: workflow_dispatch
 jobs:
   Testing-on-Linux:
     runs-on: ubuntu-latest
