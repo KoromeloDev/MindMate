@@ -1,4 +1,4 @@
-0#include <QObject>
+#include <QObject>
 #include <QTest>
 
 #include "ChatSettings.h"
