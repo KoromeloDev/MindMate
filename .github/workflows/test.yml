@@ -36,5 +36,5 @@ jobs:
         run: ${{ steps.tests.outputs.stdout }}
     - name: Echo result
       run: |
-        ${{ steps.result.outputs.stdout }}
-        ${{ steps.result.outputs.stderr }}
+        echo ${{ steps.result.outputs.stdout }}
+        echo ${{ steps.result.outputs.stderr }}
