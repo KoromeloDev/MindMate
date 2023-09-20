@@ -30,5 +30,5 @@ jobs:
         run: dir "${{github.workspace}}/build/MindMate-Windows" -Filter "*Test.exe" | Select-Object -ExpandProperty FullName
     - name: Run tests
       run: |
-        $filesList = "${{ steps.tests.outputs.stdout }}" -split [Environment]::NewLine
-        foreach ($file in $filesList) { echo "$file"; Start-Process "$file" -NoNewWindow -Wait }    
+        $filesList = "${{steps.tests.outputs.stdout}}" -split [Environment]::NewLine
+        foreach ($file in $filesList) { Invoke-Expression -Command "$file" }    
