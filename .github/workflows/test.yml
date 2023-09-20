@@ -29,4 +29,5 @@ jobs:
         shell: powershell
         run: dir "${{github.workspace}}/build/MindMate-Windows" -Filter "*Test.exe" | Select-Object -ExpandProperty FullName
     - name: Run tests
-      run:  Start-Process -FilePath ${{ steps.tests.outputs.stdout }} -NoNewWindow -Wait
+      run: |
+        foreach ($file in "${{ steps.tests.outputs.stdout }}") { Start-Process -FilePath $file -NoNewWindow -Wait }
