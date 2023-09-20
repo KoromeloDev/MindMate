@@ -23,13 +23,7 @@ jobs:
       working-directory: ${{github.workspace}}\build
       run: mingw32-make.exe
     - name: Find and run tests
-      uses: mathiasvr/command-output@v2.0.0
-      id: result
-      with:
-        shell: powershell
-        run: (dir "${{github.workspace}}/build/MindMate-Windows" -Filter "*Test.exe" | Select-Object -ExpandProperty FullName) | ForEach-Object { Start-Process -FilePath $_ -NoNewWindow -Wait }
-    - run: ${{steps.result.outputs.stdout}}
-    - run: ${{steps.result.outputs.stderr}}
+      run: (dir "${{github.workspace}}/build/MindMate-Windows" -Filter "*Test.exe" | Select-Object -ExpandProperty FullName) | ForEach-Object { Start-Process -FilePath $_ -NoNewWindow -Wait }
     # - name: Find tests
     #   uses: mathiasvr/command-output@v2.0.0
     #   id: tests
