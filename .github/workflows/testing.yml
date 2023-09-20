@@ -1,13 +1,12 @@
 name: Unit testing
 on: workflow_dispatch
 jobs:
-  Install-Qt:
+  Testing-on-Linux:
     runs-on: ubuntu-latest
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
-        aqtversion: ==3.1.*
         version: 6.5.0
         host: linux
         target: desktop
@@ -20,6 +19,45 @@ jobs:
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
-        build-type: MinSizeRel
+        build-type: Release
         configure-options: -DTESTING=ON
-        
+    - name: Find tests
+      uses: mathiasvr/command-output@v2.0.0
+      id: tests
+      with:
+        run: find ${{ runner.workspace }}/build/ -type f -name "*Test"   
+    - name: Run tests
+      run: |
+        export QT_QPA_PLATFORM=offscreen
+        ${{ steps.tests.outputs.stdout }}
+  Testing-on-Windows:
+    runs-on: windows-latest
+    steps:
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: 6.5.0
+        host: windows
+        target: desktop
+        arch: win64_msvc2019_64
+        modules: qtmultimedia
+        tools: 'tools_vcredist,qt.tools.vcredist_msvc2017_x64 tools_vcredist,qt.tools.vcredist_msvc2017_x86 tools_vcredist,qt.tools.vcredist_msvc2019_x64 tools_vcredist,qt.tools.vcredist_msvc2019_x86'
+        cache: true
+        cache-key-prefix: install-qt
+    - name: Get repository code
+      uses: actions/checkout@v4.0.0
+    - run: cmake --version
+    - name: Build
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-type: Release
+        configure-options: -DTESTING=ON
+    - name: Find tests
+      uses: mathiasvr/command-output@v2.0.0
+      id: tests
+      with:
+        run: find ${{ runner.workspace }}/build/ -type f -name "*Test"   
+    - name: Run tests
+      run: |
+        export QT_QPA_PLATFORM=offscreen
+        ${{ steps.tests.outputs.stdout }}
