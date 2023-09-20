@@ -30,6 +30,11 @@ jobs:
         run: dir "${{github.workspace}}/build/MindMate-Windows" -Filter "*Test.exe" | Select-Object -ExpandProperty FullName
     - name: Run tests
       uses: mathiasvr/command-output@v2.0.0
+      id: result
       with:
-        shell: sh
+        shell: powershell
         run: ${{ steps.tests.outputs.stdout }}
+    - name: Echo result
+      run: |
+        ${{ steps.result.outputs.stdout }}
+        ${{ steps.result.outputs.stderr }}
