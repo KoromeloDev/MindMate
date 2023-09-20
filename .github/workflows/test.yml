@@ -31,5 +31,7 @@ jobs:
     - name: Run tests
       run: |
         $filesList = "${{ steps.tests.outputs.stdout }}" -split "\n"
-        foreach ($file in $filesList) { Start-Process -FilePath $file -NoNewWindow -Wait }
+        foreach ($file in $filesList) {
+            Invoke-Expression -Command $file
+        }
   #        foreach ($file in "${{ steps.tests.outputs.stdout }}") { Start-Process -FilePath $file -NoNewWindow -Wait }
