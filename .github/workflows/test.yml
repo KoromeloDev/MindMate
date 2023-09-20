@@ -25,9 +25,9 @@ jobs:
     - name: Find tests
       # run: $files = Get-ChildItem -Path "${{github.workspace}}" -Recurse -Filter "*Test.exe"; foreach ($file in $files) { Invoke-Expression -Command $file.FullName }
       uses: mathiasvr/command-output@v2.0.0
-    #   id: tests
+      id: tests
       with:
         shell: powershell
-        run: $files = dir "${{github.workspace}}" -Recurse -Filter "*Test.exe" | Select-Object -ExpandProperty FullName; foreach ($file in $files) { Invoke-Expression -Command $file }
-    # - name: Run tests
-    #   run: ${{ steps.tests.outputs.stdout }}
+        run: dir "${{github.workspace}}" -Recurse -Filter "*Test.exe" | Select-Object -ExpandProperty FullName
+    - name: Run tests
+      run: Invoke-Expression -Command ${{ steps.tests.outputs.stdout }}
