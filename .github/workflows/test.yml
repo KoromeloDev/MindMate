@@ -31,4 +31,4 @@ jobs:
     - name: Run tests
       run: |
         $filesList = "${{steps.tests.outputs.stdout}}" -split [Environment]::NewLine
-        foreach ($file in $filesList) { Invoke-Expression -Command '$file' }    
+        foreach ($file in $filesList) { Invoke-Expression -Command "& '$file'" }    
