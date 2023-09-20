@@ -17,9 +17,10 @@ if(WIN32)
 endif()
 
 add_subdirectory(import)
-add_subdirectory(dist)
 add_subdirectory(src)
 
 if(TESTING)
   add_subdirectory(tests)
+elseif()
+  add_subdirectory(dist)
 endif()
