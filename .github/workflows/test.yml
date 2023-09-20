@@ -31,6 +31,5 @@ jobs:
     - name: Run tests
       run: |
         $filesList = "${{ steps.tests.outputs.stdout }}" -split [Environment]::NewLine
-        foreach ($file in $filesList) ^
-        { Start-Process -FilePath $file -NoNewWindow -Wait }
+        foreach ($file in $filesList) { Start-Process -FilePath $file -NoNewWindow -Wait }
   #        foreach ($file in "${{ steps.tests.outputs.stdout }}") { Start-Process -FilePath $file -NoNewWindow -Wait }
