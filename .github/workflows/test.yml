@@ -33,5 +33,6 @@ jobs:
         echo "${{ steps.tests.outputs.stdout }}"
         $filesList = "${{ steps.tests.outputs.stdout }}" -split [Environment]::NewLine
         echo "$filesList"
-        foreach ($file in $filesList) { Start-Process -FilePath $file.Trim() -NoNewWindow -Wait }
+        foreach ($file in $filesList) { echo "$file" }
+#        foreach ($file in $filesList) { Start-Process -FilePath $file.Trim() -NoNewWindow -Wait }
   #        foreach ($file in "${{ steps.tests.outputs.stdout }}") { Start-Process -FilePath $file -NoNewWindow -Wait }
