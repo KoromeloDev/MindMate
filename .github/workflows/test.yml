@@ -27,9 +27,8 @@ jobs:
       id: tests
       with:
         shell: powershell
-        run: dir "${{github.workspace}}" -Recurse -Filter "*Test.exe" | Select-Object -ExpandProperty FullName
+        run: dir "${{github.workspace}}/build/MindMate-Windows" -Filter "*Test.exe" | Select-Object -ExpandProperty FullName
     - name: Run tests
-      run: |
-        cd ${{github.workspace}}/build/MindMate-Windows
-        ls
-        Invoke-Expression -Command ${{ steps.tests.outputs.stdout }}
+      uses: mathiasvr/command-output@v2.0.0
+      with:
+        run: ${{ steps.tests.outputs.stdout }}
