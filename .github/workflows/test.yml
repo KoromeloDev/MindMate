@@ -30,7 +30,7 @@ jobs:
         run: dir "${{github.workspace}}/build/MindMate-Windows" -Filter "*Test.exe" | Select-Object -ExpandProperty FullName
     - name: Run tests
       run: |
- #       $filesList = "${{ steps.tests.outputs.stdout }}" -split [Environment]::NewLine
         foreach ($file in ${{steps.tests.outputs.stdout}}) { echo "$file" }
+  #       $filesList = "${{ steps.tests.outputs.stdout }}" -split [Environment]::NewLine
 #        foreach ($file in $filesList) { Start-Process -FilePath $file.Trim() -NoNewWindow -Wait }
   #        foreach ($file in "${{ steps.tests.outputs.stdout }}") { Start-Process -FilePath $file -NoNewWindow -Wait }
