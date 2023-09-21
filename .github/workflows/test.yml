@@ -5,13 +5,12 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4.0.0  
-    - run: Get-ChildItem -Path "${{github.workspace}}" -Recurse -Filter "*.cpp" | % { $_.FullName }
     - name: Install Qt
       uses: jurplel/install-qt-action@v3.3.0
       with:
         host: windows
         target: desktop
-        version: 6.5.0
+        version: 6.5.2
         arch: win64_mingw
         dir: ${{github.workspace}}/qt
         modules: qtmultimedia
@@ -23,11 +22,15 @@ jobs:
     - name: Build project
       working-directory: ${{github.workspace}}\build
       run: mingw32-make.exe
-    - name: Find tests
-      uses: mathiasvr/command-output@v2.0.0
-      id: tests
-      with:
-        shell: powershell
-        run: dir "${{github.workspace}}" -Recurse -Filter "*Test.exe" | Select-Object -ExpandProperty FullName
-    - name: Run tests
-      run: ${{ steps.tests.outputs.stdout }}
+    - name: Find and run tests
+      run: (dir "${{github.workspace}}/build/MindMate-Windows" -Filter "*Test.exe" | Select-Object -ExpandProperty FullName) | ForEach-Object { Start-Process -FilePath $_ -NoNewWindow -Wait }
+    # - name: Find tests
+    #   uses: mathiasvr/command-output@v2.0.0
+    #   id: tests
+    #   with:
+    #     shell: powershell
+    #     run: dir "${{github.workspace}}/build/MindMate-Windows" -Filter "*Test.exe" | Select-Object -ExpandProperty FullName
+    # - name: Run tests
+    #   run: |
+    #     $filesList = "${{steps.tests.outputs.stdout}}" -split [Environment]::NewLine
+    #     foreach ($file in $filesList) {& cmd /c $file}    
