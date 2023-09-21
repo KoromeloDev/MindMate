@@ -25,7 +25,6 @@ jobs:
     # - name: Run tests
     #   run: Invoke-Expression -Command "${{github.workspace}}\build\MindMate-Windows\Tests.exe"
     # - run: '& "${{github.workspace}}\build\MindMate-Windows\Tests.exe"'
-    - run: cmd /c "${{github.workspace}}\build\MindMate-Windows\Tests.exe"
     - run: PowerShell -Command "& '${{github.workspace}}\build\MindMate-Windows\Tests.exe'"
     - run: Invoke-Expression -Command ${{github.workspace}}\build\MindMate-Windows\Tests.exe
     - run: cmd /c ${{github.workspace}}\build\MindMate-Windows\Tests.exe
