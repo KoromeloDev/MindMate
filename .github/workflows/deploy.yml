@@ -107,10 +107,8 @@ jobs:
         build-type: MinSizeRel
     - name: Compress folder
       run: |
-        ls ..
-        echo "-------"
-        ls ${{github.workspace}}/build/
-        tar -czvf ${{github.workspace}}\MindMate-Linux.tar.gz ${{github.workspace}}/
+        ls ../build/
+        tar -czvf ${{github.workspace}}\MindMate-Linux.tar.gz ${{github.workspace}}/../build/
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.3
       with:
