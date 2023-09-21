@@ -1,7 +1,39 @@
 name: Compile and Release Qt6 Project
-on: push
+on: [workflow_dispatch]
+env:
+  QT_VERSION: 6.5.2
 jobs:
-  build:
+  Testing:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: ${{env.QT_VERSION}}
+        host: linux
+        target: desktop
+        arch: gcc_64
+        modules: qtmultimedia
+        cache: true
+        cache-key-prefix: install-qt
+    - name: Get repository code
+      uses: actions/checkout@v4.0.0
+    - name: Build
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-type: Release
+        configure-options: -DTESTING=ON
+    - name: Find tests
+      uses: mathiasvr/command-output@v2.0.0
+      id: tests
+      with:
+        run: find ${{ runner.workspace }}/build/ -type f -name "*Test"   
+    - name: Run tests
+      run: |
+        export QT_QPA_PLATFORM=offscreen
+        ${{ steps.tests.outputs.stdout }}
+  Build-for-Windows:
+    needs: Testing
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4.0.0  
@@ -10,7 +42,7 @@ jobs:
       with:
         host: windows
         target: desktop
-        version: 6.5.2
+        version: ${{env.QT_VERSION}}
         arch: win64_mingw
         dir: ${{github.workspace}}/qt
         modules: qtmultimedia
@@ -18,24 +50,27 @@ jobs:
         cache-key-prefix: install-qt
     - name: Configure CMake Project
       working-directory: ${{github.workspace}}
-      run: cmake -DCMAKE_BUILD_TYPE=Release -DTESTING=ON -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}\build
+      run: cmake -DCMAKE_BUILD_TYPE=MinSizeRel -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}\build
     - name: Build project
       working-directory: ${{github.workspace}}\build
       run: mingw32-make.exe
-    # - name: Run tests
-    #   run: Invoke-Expression -Command "${{github.workspace}}\build\MindMate-Windows\Tests.exe"
-    # - run: '& "${{github.workspace}}\build\MindMate-Windows\Tests.exe"'
-    - run: PowerShell -Command "& '${{github.workspace}}\build\MindMate-Windows\Tests.exe'"
-    - run: Invoke-Expression -Command ${{github.workspace}}\build\MindMate-Windows\Tests.exe
-    - run: cmd /c ${{github.workspace}}\build\MindMate-Windows\Tests.exe
-    - run: PowerShell -Command & ${{github.workspace}}\build\MindMate-Windows\Tests.exe
-    # - name: Find tests
-    #   uses: mathiasvr/command-output@v2.0.0
-    #   id: tests
-    #   with:
-    #     shell: powershell
-    #     run: dir "${{github.workspace}}/build/MindMate-Windows" -Filter "*Test.exe" | Select-Object -ExpandProperty FullName
-    # - name: Run tests
-    #   run: |
-    #     $filesList = "${{steps.tests.outputs.stdout}}" -split [Environment]::NewLine
-    #     foreach ($file in $filesList) {& cmd /c $file}    
+  Build-for-Linux:
+    needs: Testing
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: ${{env.QT_VERSION}}
+        host: linux
+        target: desktop
+        arch: gcc_64
+        modules: qtmultimedia
+        cache: true
+        cache-key-prefix: install-qt
+    - name: Get repository code
+      uses: actions/checkout@v4.0.0
+    - name: Build
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-type: MinSizeRel
