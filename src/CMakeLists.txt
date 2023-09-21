@@ -17,6 +17,19 @@ if(TESTING)
   add_library(${PROJECT_NAME} ${PROJECT_SOURCES})
 else()
   add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+
+  if(WIN32)
+    find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${QT_BINARIES_DIR}")
+
+    if(WINDEPLOYQT_EXECUTABLE)
+        message(STATUS "Windeployqt found at ${WINDEPLOYQT_EXECUTABLE}")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND
+                           "${WINDEPLOYQT_EXECUTABLE}"
+                           "${BUILD_PATH}/${PROJECT_NAME}.exe")
+    else()
+        message(FATAL_ERROR "Windeployqt not found.")
+    endif()
+  endif()
 endif()
 
 find_package(Qt6 REQUIRED COMPONENTS LinguistTools Widgets Svg Multimedia)

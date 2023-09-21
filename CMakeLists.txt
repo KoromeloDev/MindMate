@@ -21,6 +21,6 @@ add_subdirectory(src)
 
 if(TESTING)
   add_subdirectory(tests)
-elseif()
+else()
   add_subdirectory(dist)
 endif()
