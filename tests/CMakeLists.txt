@@ -20,14 +20,17 @@ foreach(testFile ${SOURCE})
     string(APPEND SOURCE_NAME "${BUILD_PATH}/${testFilename}.exe;")
     add_executable(${testFilename} ${testFile})
     target_link_libraries(${testFilename} PRIVATE Qt6::Test Qt6::Gui MindMate)
-    string(APPEND LAST_FILE ${testFilename})
+    set(LAST_FILE ${testFilename})
 endforeach()
 
-find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${QT_BINARIES_DIR}")
-
 if(WIN32)
+  find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${QT_BINARIES_DIR}")
+
   if(WINDEPLOYQT_EXECUTABLE)
       message(STATUS "Windeployqt found at ${WINDEPLOYQT_EXECUTABLE}")
+      add_executable(${PROJECT_NAME} main.cpp)
+      find_package(Qt6 REQUIRED COMPONENTS Core)
+      target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core)
       add_custom_command(TARGET ${LAST_FILE} POST_BUILD COMMAND
                          "${WINDEPLOYQT_EXECUTABLE}" ${SOURCE_NAME})
   else()
