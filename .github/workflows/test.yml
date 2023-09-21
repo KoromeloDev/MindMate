@@ -23,7 +23,15 @@ jobs:
       working-directory: ${{github.workspace}}\build
       run: mingw32-make.exe
     - name: Run tests
-      run: Start-Process -FilePath "${{github.workspace}}\build\MindMate-Windows\Tests.exe" -NoNewWindow -Wait
+      run: |
+        Invoke-Expression -Command "${{github.workspace}}\build\MindMate-Windows\Tests.exe"
+        & "${{github.workspace}}\build\MindMate-Windows\Tests.exe"
+        cmd /c "${{github.workspace}}\build\MindMate-Windows\Tests.exe"
+        PowerShell -Command "& '${{github.workspace}}\build\MindMate-Windows\Tests.exe'"
+        Invoke-Expression -Command ${{github.workspace}}\build\MindMate-Windows\Tests.exe
+        & ${{github.workspace}}\build\MindMate-Windows\Tests.exe
+        cmd /c ${{github.workspace}}\build\MindMate-Windows\Tests.exe
+        PowerShell -Command & ${{github.workspace}}\build\MindMate-Windows\Tests.exe
     # - name: Find tests
     #   uses: mathiasvr/command-output@v2.0.0
     #   id: tests
