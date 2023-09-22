@@ -90,25 +90,25 @@ jobs:
       with:
         build-type: MinSizeRel
     - name: Compress folder
-      run: tar -czvf ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz ${{runner.workspace}}/build/src/${{env.PROJECT_NAME}}
+      run: tar -czvf ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz --transform='s|.*/||' ${{runner.workspace}}/build/src/${{env.PROJECT_NAME}}
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.3
       with:
         name: Linux-build
         path: ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz
-  Deploy-for-Linux:
-    needs: Build-for-Linux
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: Linux-build
-        path: ${{runner.workspace}}/
-    - name: Create Release
-      uses: ncipollo/release-action@v1.13.0
-      with:
-        tag: v1.6.0-beta
-        artifacts: ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz
+  # Deploy-for-Linux:
+  #   needs: Build-for-Linux
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: write
+  #   steps:
+  #   - name: Download a Build Artifact
+  #     uses: actions/download-artifact@v3
+  #     with:
+  #       name: Linux-build
+  #       path: ${{runner.workspace}}/
+  #   - name: Create Release
+  #     uses: ncipollo/release-action@v1.13.0
+  #     with:
+  #       tag: v1.6.0-beta
+  #       artifacts: ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz
