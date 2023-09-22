@@ -11,7 +11,7 @@ jobs:
   Testing:
     runs-on: ubuntu-latest
     steps:
-    - run: echo ${GITHUB_REF#refs/*/}
+    - run: echo ${{github.ref_name}}
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
