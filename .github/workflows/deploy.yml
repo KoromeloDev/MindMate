@@ -99,6 +99,8 @@ jobs:
   Deploy-for-Linux:
     needs: Build-for-Linux
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - name: Download a Build Artifact
       uses: actions/download-artifact@v3
@@ -106,8 +108,7 @@ jobs:
         name: Linux-build
         path: ${{runner.workspace}}/
     - name: Create Release
-      uses: iamkubi/github-release@2.0
+      uses: ncipollo/release-action@v1.13.0
       with:
-        token: ${{secrets.GITHUB_TOKEN}}
         tag: v1.6.0-beta
-        files: ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz
+        artifacts: ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz
