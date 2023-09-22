@@ -1,9 +1,9 @@
 name: Deploy Project
 on: 
-  push:
-    branches: main
-    tags:
-    - v*.*.*-beta
+  create:
+    tags: v[0-9]+.[0-9]+.[0-9]+-beta
+    branches:
+      only: main
   workflow_dispatch:
 env:
   QT_VERSION: 6.5.2
@@ -12,6 +12,7 @@ jobs:
   Testing:
     runs-on: ubuntu-latest
     steps:
+    - run: echo ${{github.ref}}
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
@@ -59,7 +60,7 @@ jobs:
       with:
         build-type: MinSizeRel
     - name: Compress folder
-      run: tar -czvf ${{env.PROJECT_NAME}}-Linux.tar.gz ${{runner.workspace}}/build/src/${{env.PROJECT_NAME}}
+      run: tar -czvf ${{env.PROJECT_NAME}}-Linux.tar.gz -С ${{runner.workspace}}/build/src ${{env.PROJECT_NAME}}
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.3
       with:
