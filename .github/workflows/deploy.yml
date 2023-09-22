@@ -69,25 +69,6 @@ jobs:
       with:
         name: Windows-build
         path: ${{runner.workspace}}\${{env.PROJECT_NAME}}-Windows.zip
-      # - name: Create Release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: ${{ github.ref }}
-      #     release_name: Release ${{ github.ref }}
-      #     draft: false
-      #     prerelease: false
-
-      # - name: Upload Release Asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: x.zip
-      #     asset_name: x.zip
-      #     asset_content_type: application/zip
   Build-for-Linux:
     needs: Testing
     runs-on: ubuntu-latest
@@ -115,3 +96,11 @@ jobs:
       with:
         name: Linux-build
         path: ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz
+  Deploy-for-Linux:
+    needs: Build-for-Linux
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create Release
+      uses: ncipollo/release-action@v1.13.0
+      with:
+        artifacts: ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz
