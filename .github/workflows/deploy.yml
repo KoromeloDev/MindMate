@@ -11,7 +11,7 @@ jobs:
   Testing:
     runs-on: ubuntu-latest
     steps:
-    - run: echo ${{github.ref.split('refs/tags/')[0]}}
+    - run: echo ${{ basename(github.ref) }}
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
