@@ -57,7 +57,7 @@ jobs:
       with:
         build-type: MinSizeRel
     - name: Compress folder
-      run: tar -czvf ${{env.PROJECT_NAME}}-Linux.tar.gz -С ${{runner.workspace}}/build/src ${{env.PROJECT_NAME}}
+      run: tar -czvf ${{env.PROJECT_NAME}}-Linux.tar.gz -C ${{runner.workspace}}/build/src ${{env.PROJECT_NAME}}
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.3
       with:
