@@ -63,7 +63,7 @@ jobs:
     - name: Install zip
       run: choco install zip -y
     - name: Compress folder
-      run: zip -9 -r ${{env.PROJECT_NAME}}-Windows.zip ${{github.workspace}}\build\${{env.PROJECT_NAME}}-Windows
+      run: zip -9 -r -j ${{env.PROJECT_NAME}}-Windows.zip ${{github.workspace}}\build\${{env.PROJECT_NAME}}-Windows
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.3
       with:
