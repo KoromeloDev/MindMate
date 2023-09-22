@@ -3,7 +3,6 @@ on:
   create:
     ref_type: tag
     master_branch : main
-  workflow_dispatch:
 env:
   QT_VERSION: 6.5.2
   PROJECT_NAME: MindMate
@@ -11,7 +10,6 @@ jobs:
   Testing:
     runs-on: ubuntu-latest
     steps:
-    - run: echo ${{github.ref_name}}
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
@@ -115,5 +113,5 @@ jobs:
     - name: Create Release
       uses: ncipollo/release-action@v1.13.0
       with:
-        tag: v1.6.0-beta
+        tag: ${{github.ref_name}}
         artifacts: "${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz, ${{runner.workspace}}/${{env.PROJECT_NAME}}-Windows.zip"
