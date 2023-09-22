@@ -106,7 +106,8 @@ jobs:
         name: Linux-build
         path: ${{runner.workspace}}/
     - name: Create Release
-      uses: ncipollo/release-action@v1.13.0
+      uses: iamkubi/github-release@2.0
       with:
+        token: ${{secrets.GITHUB_TOKEN}}
         tag: v1.6.0-beta
-        artifacts: ${{env.PROJECT_NAME}}-Linux.tar.gz
+        files: ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz
