@@ -38,37 +38,37 @@ jobs:
       run: |
         export QT_QPA_PLATFORM=offscreen
         ${{ steps.tests.outputs.stdout }}
-  # Build-for-Windows:
-  #   needs: Testing
-  #   runs-on: windows-latest
-  #   steps:
-  #   - uses: actions/checkout@v4.0.0  
-  #   - name: Install Qt
-  #     uses: jurplel/install-qt-action@v3.3.0
-  #     with:
-  #       host: windows
-  #       target: desktop
-  #       version: ${{env.QT_VERSION}}
-  #       arch: win64_mingw
-  #       dir: ${{github.workspace}}/qt
-  #       modules: qtmultimedia
-  #       cache: true
-  #       cache-key-prefix: install-qt
-  #   - name: Configure CMake Project
-  #     working-directory: ${{github.workspace}}
-  #     run: cmake -DCMAKE_BUILD_TYPE=MinSizeRel -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}\build
-  #   - name: Build project
-  #     working-directory: ${{github.workspace}}\build
-  #     run: mingw32-make.exe
-  #   - name: Install zip
-  #     run: choco install zip -y
-  #   - name: Compress folder
-  #     run: zip -9 -r ${{runner.workspace}}\${{env.PROJECT_NAME}}-Windows.zip ${{github.workspace}}\build\${{env.PROJECT_NAME}}-Windows
-  #   - name: Upload a Build Artifact
-  #     uses: actions/upload-artifact@v3.1.3
-  #     with:
-  #       name: Windows-build
-  #       path: ${{runner.workspace}}\${{env.PROJECT_NAME}}-Windows.zip
+  Build-for-Windows:
+    needs: Testing
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4.0.0  
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3.3.0
+      with:
+        host: windows
+        target: desktop
+        version: ${{env.QT_VERSION}}
+        arch: win64_mingw
+        dir: ${{github.workspace}}/qt
+        modules: qtmultimedia
+        cache: true
+        cache-key-prefix: install-qt
+    - name: Configure CMake Project
+      working-directory: ${{github.workspace}}
+      run: cmake -DCMAKE_BUILD_TYPE=MinSizeRel -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}\build
+    - name: Build project
+      working-directory: ${{github.workspace}}\build
+      run: mingw32-make.exe
+    - name: Install zip
+      run: choco install zip -y
+    - name: Compress folder
+      run: zip -9 -r ${{env.PROJECT_NAME}}-Windows.zip ${{github.workspace}}\build\${{env.PROJECT_NAME}}-Windows
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.3
+      with:
+        name: Windows-build
+        path: ${{env.PROJECT_NAME}}-Windows.zip
   Build-for-Linux:
     needs: Testing
     runs-on: ubuntu-latest
@@ -90,7 +90,7 @@ jobs:
       with:
         build-type: MinSizeRel
     - name: Compress folder
-      run: tar -czvf ${{env.PROJECT_NAME}}-Linux.tar.gz -C ${{runner.workspace}}/build/src ${{env.PROJECT_NAME}}
+      run: tar -czvf ${{env.PROJECT_NAME}}-Linux.tar.gz ${{runner.workspace}}/build/src/${{env.PROJECT_NAME}}
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.3
       with:
