@@ -3,7 +3,7 @@ on:
   push:
     branches: main
     tags:
-      v*.*.*-beta
+    - v*.*.*-beta
   workflow_dispatch:
 env:
   QT_VERSION: 6.5.2
