@@ -109,4 +109,4 @@ jobs:
       uses: ncipollo/release-action@v1.13.0
       with:
         tag: v1.6.0-beta
-        artifacts: ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz
+        artifacts: ${{runner.workspace}}/Linux-build
