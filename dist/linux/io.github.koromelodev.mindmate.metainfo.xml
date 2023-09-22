@@ -42,6 +42,11 @@
   </screenshots>
   
   <releases>
+    <release version="1.6.1-beta" date="2023-09-22">
+      <description>
+        <p>Fixed bug of message resizing</p>
+      </description>
+    </release>
     <release version="1.6.0-beta" date="2023-09-09">
       <description>
         <p>Added initial setup</p>

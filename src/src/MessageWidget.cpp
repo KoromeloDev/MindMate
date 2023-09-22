@@ -55,7 +55,7 @@ void MessageWidget::resize()
   }
 
   ++m_queueResize;
-  setMaximumWidth(parentWidget()->size().width());
+  setFixedWidth(parentWidget()->size().width());
   m_height = 0;
   m_width = 0;
 
@@ -96,6 +96,7 @@ void MessageWidget::resize()
                               m_ui->widgetList->minimumHeight()));
   }
 
+  m_ui->widgetList->setMaximumWidth(m_width);
   setMinimumHeight(m_height);
   --m_queueResize;
 
@@ -223,11 +224,6 @@ void MessageWidget::createText()
   }
 
   setContentsMargins(MARGIN, 0, MARGIN, 0);
-
-  if (!m_isEdit)
-  {
-    m_ui->verticalLayout->addSpacing(SPACING);
-  }
 }
 
 bool MessageWidget::isMaxWidth(quint16 width) const
