@@ -90,7 +90,7 @@ jobs:
       with:
         build-type: MinSizeRel
     - name: Compress folder
-      run: tar -czf ${{env.PROJECT_NAME}}-Linux.tar.gz --directory=${{runner.workspace}}/build/src ${{env.PROJECT_NAME}}
+      run: tar -czvf ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz --directory=${{runner.workspace}}/build/src ${{env.PROJECT_NAME}}
     - run: |
         ls ${{runner.workspace}}/build/src
         ls ${{runner.workspace}}
