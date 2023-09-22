@@ -152,6 +152,7 @@ bool ChatGPT::isError() const
 
 quint32 ChatGPT::getUsedToken() const
 {
+//  API gives out one more token
   return m_usedToken - 1;
 }
 

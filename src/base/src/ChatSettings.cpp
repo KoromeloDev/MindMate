@@ -51,7 +51,7 @@ quint32 ChatSettings::getMaxTokens(QString model) const
 {
   if (model == "gpt-3.5-turbo" || model == "gpt-3.5-turbo-0613")
   {
-    return 4096;
+    return 4097;
   }
   else if (model == "gpt-4" || model == "gpt-4-0613")
   {
@@ -59,7 +59,7 @@ quint32 ChatSettings::getMaxTokens(QString model) const
   }
   else if (model == "gpt-3.5-turbo-16k" || model == "gpt-3.5-turbo-16k-0613")
   {
-    return 16384;
+    return 16385;
   }
   else if (model == "gpt-4-32k" || model == "gpt-4-32k-0613")
   {

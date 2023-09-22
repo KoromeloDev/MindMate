@@ -21,11 +21,11 @@ void ChatSettingsTest::getMaxToken_data()
 
   QTest::newRow("invalid") << "invalid" << 0;
 
-  QTest::newRow("gpt-3.5 - 4k") << "gpt-3.5-turbo" << 4096;
-  QTest::newRow("gpt-3.5-new - 4k") << "gpt-3.5-turbo-0613" << 4096;
+  QTest::newRow("gpt-3.5 - 4k") << "gpt-3.5-turbo" << 4097;
+  QTest::newRow("gpt-3.5-new - 4k") << "gpt-3.5-turbo-0613" << 4097;
 
-  QTest::newRow("gpt-3.5 - 16k") << "gpt-3.5-turbo-16k" << 16384;
-  QTest::newRow("gpt-3.5-new - 16k") << "gpt-3.5-turbo-16k-0613" << 16384;
+  QTest::newRow("gpt-3.5 - 16k") << "gpt-3.5-turbo-16k" << 16385;
+  QTest::newRow("gpt-3.5-new - 16k") << "gpt-3.5-turbo-16k-0613" << 16385;
 
   QTest::newRow("gpt-4 - 8k") << "gpt-4" << 8192;
   QTest::newRow("gpt-4-new - 8k") << "gpt-4-0613" << 8192;
@@ -40,7 +40,7 @@ void ChatSettingsTest::getMaxToken()
   QFETCH(int, result);
 
   QCOMPARE(chatSettings.getMaxTokens(model), result);
-  QCOMPARE(chatSettings.getMaxTokens(), 4096);
+  QCOMPARE(chatSettings.getMaxTokens(), 4097);
 }
 
 QTEST_GUILESS_MAIN(ChatSettingsTest)

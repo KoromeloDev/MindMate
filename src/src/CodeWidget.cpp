@@ -34,7 +34,7 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu, quint8 index)
   {
     QChar symbol = code[code.length() -1 - j];
 
-    if (symbol == '`')
+    if (symbol == '`' || symbol == '\n' || symbol == ' ' || symbol == '\t')
     {
       ++j;
     }
@@ -44,7 +44,7 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu, quint8 index)
     }
   }
 
-  m_code.chop(j + 1);
+  m_code.chop(j);
   m_code.remove(0, i + 1);
   m_ui->codeEdit->setPlainText(m_code);
 

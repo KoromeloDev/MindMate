@@ -363,8 +363,15 @@ void MainWindow::errorState(bool error)
 
 void MainWindow::tokensLeft()
 {
-  quint32 tokensLeft = m_chatSettings.getMaxTokens() -
-                       m_chatSettings.usedTokens;
+  quint32 maxTokens = m_chatSettings.getMaxTokens();
+  quint32 usedTokens = m_chatSettings.usedTokens;
+  quint32 tokensLeft = maxTokens - usedTokens;
+
+  if (maxTokens < usedTokens)
+  {
+    tokensLeft = 0;
+  }
+
   m_ui->countToken->setText(tr("Tokens left") + ": " +
                             QString::number(tokensLeft));
 }
