@@ -105,6 +105,7 @@ jobs:
       with:
         name: Linux-build
         path: ${{runner.workspace}}/
+    - run: ls ${{runner.workspace}}/
     - name: Create Release
       uses: ncipollo/release-action@v1.13.0
       with:
