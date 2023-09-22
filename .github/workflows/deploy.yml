@@ -38,6 +38,33 @@ jobs:
       run: |
         export QT_QPA_PLATFORM=offscreen
         ${{ steps.tests.outputs.stdout }}
+  Build-for-Linux:
+    needs: Testing
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: ${{env.QT_VERSION}}
+        host: linux
+        target: desktop
+        arch: gcc_64
+        modules: qtmultimedia
+        cache: true
+        cache-key-prefix: install-qt
+    - name: Get repository code
+      uses: actions/checkout@v4.0.0
+    - name: Build
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-type: MinSizeRel
+    - name: Compress folder
+      run: tar -czvf ${{env.PROJECT_NAME}}-Linux.tar.gz ${{runner.workspace}}/build/src/${{env.PROJECT_NAME}}
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.3
+      with:
+        name: Linux-build
+        path: ${{env.PROJECT_NAME}}-Linux.tar.gz
   Build-for-Windows:
     needs: Testing
     runs-on: windows-latest
@@ -69,46 +96,24 @@ jobs:
       with:
         name: Windows-build
         path: ${{env.PROJECT_NAME}}-Windows.zip
-  Build-for-Linux:
-    needs: Testing
+  Deploy:
+    needs: [Build-for-Linux, Build-for-Windows] 
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v3
-      with:
-        version: ${{env.QT_VERSION}}
-        host: linux
-        target: desktop
-        arch: gcc_64
-        modules: qtmultimedia
-        cache: true
-        cache-key-prefix: install-qt
-    - name: Get repository code
-      uses: actions/checkout@v4.0.0
-    - name: Build
-      uses: ashutoshvarma/action-cmake-build@master
-      with:
-        build-type: MinSizeRel
-    - name: Compress folder
-      run: tar -czvf ${{env.PROJECT_NAME}}-Linux.tar.gz ${{runner.workspace}}/build/src/${{env.PROJECT_NAME}}
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3.1.3
+    - name: Download a Linux Build Artifact
+      uses: actions/download-artifact@v3
       with:
         name: Linux-build
-        path: ${{env.PROJECT_NAME}}-Linux.tar.gz
-  # Deploy-for-Linux:
-  #   needs: Build-for-Linux
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: write
-  #   steps:
-  #   - name: Download a Build Artifact
-  #     uses: actions/download-artifact@v3
-  #     with:
-  #       name: Linux-build
-  #       path: ${{runner.workspace}}/
-  #   - name: Create Release
-  #     uses: ncipollo/release-action@v1.13.0
-  #     with:
-  #       tag: v1.6.0-beta
-  #       artifacts: ${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz
+        path: ${{runner.workspace}}
+    - name: Download a Windows Build Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: Windows-build
+        path: ${{runner.workspace}}
+    - name: Create Release
+      uses: ncipollo/release-action@v1.13.0
+      with:
+        tag: v1.6.0-beta
+        artifacts: "${{runner.workspace}}/${{env.PROJECT_NAME}}-Linux.tar.gz, ${{runner.workspace}}/${{env.PROJECT_NAME}}-Windows.zip"
