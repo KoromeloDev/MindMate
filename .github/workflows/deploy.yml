@@ -100,6 +100,11 @@ jobs:
     needs: Build-for-Linux
     runs-on: ubuntu-latest
     steps:
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{env.PROJECT_NAME}}-Linux.tar.gz
+        path: ${{runner.workspace}}/
     - name: Create Release
       uses: ncipollo/release-action@v1.13.0
       with:
