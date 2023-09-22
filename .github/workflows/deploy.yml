@@ -103,7 +103,7 @@ jobs:
     - name: Download a Build Artifact
       uses: actions/download-artifact@v3
       with:
-        name: ${{env.PROJECT_NAME}}-Linux.tar.gz
+        name: Linux-build
         path: ${{runner.workspace}}/
     - name: Create Release
       uses: ncipollo/release-action@v1.13.0
