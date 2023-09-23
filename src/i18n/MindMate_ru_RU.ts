@@ -215,7 +215,7 @@
     </message>
     <message>
         <location filename="../src/MainWindow.cpp" line="238"/>
-        <location filename="../src/MainWindow.cpp" line="453"/>
+        <location filename="../src/MainWindow.cpp" line="454"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>

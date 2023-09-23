@@ -432,6 +432,7 @@ void MainWindow::addMessages(HistoryParser::Messages message, quint8 chatIndex)
   NewListWidgetItem *item = new NewListWidgetItem(m_ui->historyList);
   MessageWidget *messageWidget = new MessageWidget(item, message, chatIndex);
   m_ui->historyList->setItemWidget(item, messageWidget);
+  m_ui->historyList->scrollToBottom();
 
   connect(this, &MainWindow::resized,
           messageWidget, &MessageWidget::resize);
