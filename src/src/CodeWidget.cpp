@@ -108,113 +108,34 @@ void CodeWidget::setEdit(const bool &isEdit)
 
 QSHL CodeWidget::getLanguageEnum(QString language)
 {
-  QSHL languageEnum;
-
-  if (language.contains("assembly"))
-   {
-     languageEnum = QSHL::CodeAsm;
-   }
-  else if (language.contains("bash"))
-  {
-   languageEnum = QSHL::CodeBash;
-  }
-  else if (language.contains("c"))
-  {
-   if (language.contains("cmake"))
-   {
-     languageEnum = QSHL::CodeCMake;
-   }
-   else if (language.contains("css"))
-   {
-     languageEnum = QSHL::CodeCSS;
-   }
-   else if (language.contains("c#"))
-   {
-     languageEnum = QSHL::CodeCSharp;
-   }
-   else if (language.contains("cpp") || language.contains("c++"))
-   {
-     languageEnum = QSHL::CodeCpp;
-   }
-   else
-   {
-     languageEnum = QSHL::CodeC;
-   }
-  }
-  else if (language.contains("go"))
-  {
-   languageEnum = QSHL::CodeGo;
-  }
-  else if (language.contains("ini"))
-  {
-   languageEnum = QSHL::CodeINI;
-  }
-  else if (language.contains("json"))
-  {
-   languageEnum = QSHL::CodeJSON;
-  }
+  if (language.contains("assembly")) return QSHL::CodeAsm;
+  else if (language.contains("bash")) return QSHL::CodeBash;
+  else if (language.contains("cmake")) return QSHL::CodeCMake;
+  else if (language.contains("css")) return QSHL::CodeCSS;
+  else if (language.contains("c#")) return QSHL::CodeCSharp;
+  else if (language.contains("cpp") || language.contains("c++"))
+    return QSHL::CodeCpp;
+  else if (language.contains("c")) return QSHL::CodeC;
+  else if (language.contains("go")) return QSHL::CodeGo;
+  else if (language.contains("ini")) return QSHL::CodeINI;
+  else if (language.contains("json")) return QSHL::CodeJSON;
   else if (language.contains("javascript") || language.contains("js"))
-  {
-   languageEnum = QSHL::CodeJs;
-  }
-  else if (language.contains("java"))
-  {
-   languageEnum = QSHL::CodeJava;
-  }
-  else if (language.contains("lua"))
-  {
-   languageEnum = QSHL::CodeLua;
-  }
-  else if (language.contains("php"))
-  {
-   languageEnum = QSHL::CodePHP;
-  }
-  else if (language.contains("python"))
-  {
-   languageEnum = QSHL::CodePython;
-  }
-  else if (language.contains("qml"))
-  {
-   languageEnum = QSHL::CodeQML;
-  }
-  else if (language.contains("rust"))
-  {
-   languageEnum = QSHL::CodeRust;
-  }
-  else if (language.contains("sql"))
-  {
-   languageEnum = QSHL::CodeSQL;
-  }
-  else if (language.contains("typescript"))
-  {
-   languageEnum = QSHL::CodeTypeScript;
-  }
-  else if (language.contains("v"))
-  {
-   if (language.contains("vex"))
-   {
-     languageEnum = QSHL::CodeVex;
-   }
-   else
-   {
-     languageEnum = QSHL::CodeV;
-   }
-  }
-  else if (language.contains("xml"))
-  {
-   languageEnum = QSHL::CodeXML;
-  }
-  else if (language.contains("yaml"))
-  {
-   languageEnum = QSHL::CodeYAML;
-  }
-  else
-  {
-   languageEnum = QSHL::CodeBash;
-  }
+    return QSHL::CodeJs;
+  else if (language.contains("java")) return QSHL::CodeJava;
+  else if (language.contains("lua")) return QSHL::CodeLua;
+  else if (language.contains("php")) return QSHL::CodePHP;
+  else if (language.contains("python")) return QSHL::CodePython;
+  else if (language.contains("qml")) return QSHL::CodeQML;
+  else if (language.contains("rust")) return QSHL::CodeRust;
+  else if (language.contains("sql")) return QSHL::CodeSQL;
+  else if (language.contains("typescript")) return QSHL::CodeTypeScript;
+  else if (language.contains("vex")) return QSHL::CodeVex;
+  else if (language.contains("v")) return QSHL::CodeV;
+  else if (language.contains("xml")) return QSHL::CodeXML;
+  else if (language.contains("yaml")) return QSHL::CodeYAML;
 
-  return languageEnum;
- }
+  return QSHL::CodeBash;
+}
 
 void CodeWidget::setCodeAutoHighlighter()
 {
