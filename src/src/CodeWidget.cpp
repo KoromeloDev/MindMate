@@ -108,33 +108,34 @@ void CodeWidget::setEdit(const bool &isEdit)
 
 QSHL CodeWidget::getLanguageEnum(QString language)
 {
-  if (language.contains("assembly")) return QSHL::CodeAsm;
-  else if (language.contains("bash")) return QSHL::CodeBash;
-  else if (language.contains("cmake")) return QSHL::CodeCMake;
-  else if (language.contains("css")) return QSHL::CodeCSS;
-  else if (language.contains("c#")) return QSHL::CodeCSharp;
-  else if (language.contains("cpp") || language.contains("c++"))
-    return QSHL::CodeCpp;
-  else if (language.contains("c")) return QSHL::CodeC;
-  else if (language.contains("go")) return QSHL::CodeGo;
-  else if (language.contains("ini")) return QSHL::CodeINI;
-  else if (language.contains("json")) return QSHL::CodeJSON;
-  else if (language.contains("javascript") || language.contains("js"))
-    return QSHL::CodeJs;
-  else if (language.contains("java")) return QSHL::CodeJava;
-  else if (language.contains("lua")) return QSHL::CodeLua;
-  else if (language.contains("php")) return QSHL::CodePHP;
-  else if (language.contains("python")) return QSHL::CodePython;
-  else if (language.contains("qml")) return QSHL::CodeQML;
-  else if (language.contains("rust")) return QSHL::CodeRust;
-  else if (language.contains("sql")) return QSHL::CodeSQL;
-  else if (language.contains("typescript")) return QSHL::CodeTypeScript;
-  else if (language.contains("vex")) return QSHL::CodeVex;
-  else if (language.contains("v")) return QSHL::CodeV;
-  else if (language.contains("xml")) return QSHL::CodeXML;
-  else if (language.contains("yaml")) return QSHL::CodeYAML;
+  QMap<QString, QSHL> languageMap;
+  languageMap["assembly"] = QSHL::CodeAsm;
+  languageMap["bash"] = QSHL::CodeBash;
+  languageMap["cmake"] = QSHL::CodeCMake;
+  languageMap["css"] = QSHL::CodeCSS;
+  languageMap["c#"] = QSHL::CodeCSharp;
+  languageMap["cpp"] = QSHL::CodeCpp;
+  languageMap["c++"] = QSHL::CodeCpp;
+  languageMap["c"] = QSHL::CodeC;
+  languageMap["go"] = QSHL::CodeGo;
+  languageMap["ini"] = QSHL::CodeINI;
+  languageMap["json"] = QSHL::CodeJSON;
+  languageMap["javascript"] = QSHL::CodeJs;
+  languageMap["js"] = QSHL::CodeJs;
+  languageMap["java"] = QSHL::CodeJava;
+  languageMap["lua"] = QSHL::CodeLua;
+  languageMap["php"] = QSHL::CodePHP;
+  languageMap["python"] = QSHL::CodePython;
+  languageMap["qml"] = QSHL::CodeQML;
+  languageMap["rust"] = QSHL::CodeRust;
+  languageMap["sql"] = QSHL::CodeSQL;
+  languageMap["typescript"] = QSHL::CodeTypeScript;
+  languageMap["vex"] = QSHL::CodeVex;
+  languageMap["v"] = QSHL::CodeV;
+  languageMap["xml"] = QSHL::CodeXML;
+  languageMap["yaml"] = QSHL::CodeYAML;
 
-  return QSHL::CodeBash;
+  return languageMap.value(language, QSHL::CodeBash);
 }
 
 void CodeWidget::setCodeAutoHighlighter()

@@ -133,7 +133,7 @@
     <name>CodeWidget</name>
     <message>
         <location filename="../ui/CodeWidget.ui" line="100"/>
-        <location filename="../src/CodeWidget.cpp" line="300"/>
+        <location filename="../src/CodeWidget.cpp" line="222"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -142,7 +142,7 @@
         <translation type="obsolete">Удалить</translation>
     </message>
     <message>
-        <location filename="../src/CodeWidget.cpp" line="282"/>
+        <location filename="../src/CodeWidget.cpp" line="204"/>
         <source>Copied</source>
         <translation>Скопировано</translation>
     </message>
