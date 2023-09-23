@@ -14,12 +14,18 @@ MindMate is an unofficial application for ChatGPT. The app supports chat setting
 <h3 align="center">
   Dependencies
 </h3>
-
 <p align="center">
-  <img src="https://img.shields.io/badge/qt--base-6.5.0-blue" alt="qt-base 6.5.0"/>
-  <img src="https://img.shields.io/badge/qt--svg-6.5.0-blue" alt="qt-svg 6.5.0"/>
-  <img src="https://img.shields.io/badge/qt--multimedia-6.5.0-blue" alt="qt-multimedia 6.5.0"/>
-  <img src="https://img.shields.io/badge/qt--translations-6.5.0-blue" alt="qt-translations 6.5.0"/>
+  <img src="https://img.shields.io/badge/qt--base-6.5.2-blue" alt="qt-base 6.5.2"/>
+  <img src="https://img.shields.io/badge/qt--svg-6.5.2-blue" alt="qt-svg 6.5.2"/>
+  <img src="https://img.shields.io/badge/qt--multimedia-6.5.2-blue" alt="qt-multimedia 6.5.2"/>
+  <img src="https://img.shields.io/badge/qt--translations-6.5.2-blue" alt="qt-translations 6.5.2"/>
+</p>
+
+<h3 align="center">
+  Code
+</h3>
+<p align="center">
+  <a href="https://www.codefactor.io/repository/github/koromelodev/mindmate"><img src="https://www.codefactor.io/repository/github/koromelodev/mindmate/badge" alt="CodeFactor" /></a>
 </p>
 
 ### Linux:
