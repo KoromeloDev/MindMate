@@ -81,9 +81,9 @@ private slots:
   void messageEdit();
   void messageGenerate(quint16 index);
   void scrollToBottom();
+  void setAutoNameChat();
 
 signals:
   void resized();
-
 };
 #endif // MAINWINDOW_H

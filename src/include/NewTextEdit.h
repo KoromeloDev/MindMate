@@ -28,10 +28,12 @@ private:
   Ui::NewTextEdit *m_ui;
 
   void resizeTextInput();
+  void clippingStart(QString &text);
+  void clippingEnd(QString &text);
+  bool isIndent(QChar symbol);
 
 signals:
   void sendText(QString text);
-
 };
 
 #endif // NEWTEXTEDIT_H

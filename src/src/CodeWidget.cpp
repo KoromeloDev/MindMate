@@ -106,9 +106,118 @@ void CodeWidget::setEdit(const bool &isEdit)
   m_ui->codeEdit->setReadOnly(!isEdit);
 }
 
-void CodeWidget::setCodeAutoHighlighter()
+QSHL CodeWidget::getLanguageEnum(QString language)
 {
   QSHL languageEnum;
+
+  if (language.contains("assembly"))
+   {
+     languageEnum = QSHL::CodeAsm;
+   }
+  else if (language.contains("bash"))
+  {
+   languageEnum = QSHL::CodeBash;
+  }
+  else if (language.contains("c"))
+  {
+   if (language.contains("cmake"))
+   {
+     languageEnum = QSHL::CodeCMake;
+   }
+   else if (language.contains("css"))
+   {
+     languageEnum = QSHL::CodeCSS;
+   }
+   else if (language.contains("c#"))
+   {
+     languageEnum = QSHL::CodeCSharp;
+   }
+   else if (language.contains("cpp") || language.contains("c++"))
+   {
+     languageEnum = QSHL::CodeCpp;
+   }
+   else
+   {
+     languageEnum = QSHL::CodeC;
+   }
+  }
+  else if (language.contains("go"))
+  {
+   languageEnum = QSHL::CodeGo;
+  }
+  else if (language.contains("ini"))
+  {
+   languageEnum = QSHL::CodeINI;
+  }
+  else if (language.contains("json"))
+  {
+   languageEnum = QSHL::CodeJSON;
+  }
+  else if (language.contains("javascript") || language.contains("js"))
+  {
+   languageEnum = QSHL::CodeJs;
+  }
+  else if (language.contains("java"))
+  {
+   languageEnum = QSHL::CodeJava;
+  }
+  else if (language.contains("lua"))
+  {
+   languageEnum = QSHL::CodeLua;
+  }
+  else if (language.contains("php"))
+  {
+   languageEnum = QSHL::CodePHP;
+  }
+  else if (language.contains("python"))
+  {
+   languageEnum = QSHL::CodePython;
+  }
+  else if (language.contains("qml"))
+  {
+   languageEnum = QSHL::CodeQML;
+  }
+  else if (language.contains("rust"))
+  {
+   languageEnum = QSHL::CodeRust;
+  }
+  else if (language.contains("sql"))
+  {
+   languageEnum = QSHL::CodeSQL;
+  }
+  else if (language.contains("typescript"))
+  {
+   languageEnum = QSHL::CodeTypeScript;
+  }
+  else if (language.contains("v"))
+  {
+   if (language.contains("vex"))
+   {
+     languageEnum = QSHL::CodeVex;
+   }
+   else
+   {
+     languageEnum = QSHL::CodeV;
+   }
+  }
+  else if (language.contains("xml"))
+  {
+   languageEnum = QSHL::CodeXML;
+  }
+  else if (language.contains("yaml"))
+  {
+   languageEnum = QSHL::CodeYAML;
+  }
+  else
+  {
+   languageEnum = QSHL::CodeBash;
+  }
+
+  return languageEnum;
+ }
+
+void CodeWidget::setCodeAutoHighlighter()
+{
   QString language = m_language.toLower();
   Settings settings;
 
@@ -127,112 +236,12 @@ void CodeWidget::setCodeAutoHighlighter()
                     "You must use only the name of the language in your answer "
                     "and nothing else.", chatSettings);
   }
-  else if (language.contains("assembly"))
+  else if (!language.isEmpty())
   {
-    languageEnum = QSHL::CodeAsm;
+    QTextDocument *document = m_ui->codeEdit->document();
+    m_highlighter = m_highlighter.create(document);
+    m_highlighter->setCurrentLanguage(getLanguageEnum(language));
   }
-  else if (language.contains("bash"))
-  {
-    languageEnum = QSHL::CodeBash;
-  }
-  else if (language.contains("c"))
-  {
-    if (language.contains("cmake"))
-    {
-      languageEnum = QSHL::CodeCMake;
-    }
-    else if (language.contains("css"))
-    {
-      languageEnum = QSHL::CodeCSS;
-    }
-    else if (language.contains("c#"))
-    {
-      languageEnum = QSHL::CodeCSharp;
-    }
-    else if (language.contains("cpp") || language.contains("c++"))
-    {
-      languageEnum = QSHL::CodeCpp;
-    }
-    else
-    {
-      languageEnum = QSHL::CodeC;
-    }
-  }
-  else if (language.contains("go"))
-  {
-    languageEnum = QSHL::CodeGo;
-  }
-  else if (language.contains("ini"))
-  {
-    languageEnum = QSHL::CodeINI;
-  }
-  else if (language.contains("json"))
-  {
-    languageEnum = QSHL::CodeJSON;
-  }
-  else if (language.contains("javascript") || language.contains("js"))
-  {
-    languageEnum = QSHL::CodeJs;
-  }
-  else if (language.contains("java"))
-  {
-    languageEnum = QSHL::CodeJava;
-  }
-  else if (language.contains("lua"))
-  {
-    languageEnum = QSHL::CodeLua;
-  }
-  else if (language.contains("php"))
-  {
-    languageEnum = QSHL::CodePHP;
-  }
-  else if (language.contains("python"))
-  {
-    languageEnum = QSHL::CodePython;
-  }
-  else if (language.contains("qml"))
-  {
-    languageEnum = QSHL::CodeQML;
-  }
-  else if (language.contains("rust"))
-  {
-    languageEnum = QSHL::CodeRust;
-  }
-  else if (language.contains("sql"))
-  {
-    languageEnum = QSHL::CodeSQL;
-  }
-  else if (language.contains("typescript"))
-  {
-    languageEnum = QSHL::CodeTypeScript;
-  }
-  else if (language.contains("v"))
-  {
-    if (language.contains("vex"))
-    {
-      languageEnum = QSHL::CodeVex;
-    }
-    else
-    {
-      languageEnum = QSHL::CodeV;
-    }
-  }
-  else if (language.contains("xml"))
-  {
-    languageEnum = QSHL::CodeXML;
-  }
-  else if (language.contains("yaml"))
-  {
-    languageEnum = QSHL::CodeYAML;
-  }
-  else
-  {
-    languageEnum = QSHL::CodeBash;
-  }
-
-  QTextDocument *document = m_ui->codeEdit->document();
-  m_highlighter = m_highlighter.create(document);
-  m_highlighter->setCurrentLanguage(languageEnum);
 }
 
 void CodeWidget::languageRecognize()
@@ -243,7 +252,6 @@ void CodeWidget::languageRecognize()
   m_language = m_chatGPT->getAnswerMessage().content[0];
   m_chatGPT->deleteLater();
   m_chatGPT = nullptr;
-//  m_chatGPT.clear();
 
   if (!m_language.isEmpty())
   {

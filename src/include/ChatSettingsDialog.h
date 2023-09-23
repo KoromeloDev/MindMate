@@ -28,7 +28,6 @@ private:
 
 public slots:
   void accept() override;
-
 };
 
 #endif // CHATSETTINGSDIALOG_H

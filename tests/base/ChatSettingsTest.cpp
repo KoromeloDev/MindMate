@@ -11,7 +11,6 @@ class ChatSettingsTest : public QObject
 private slots:
   void getMaxToken_data();
   void getMaxToken();
-
 };
 
 void ChatSettingsTest::getMaxToken_data()

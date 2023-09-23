@@ -46,7 +46,6 @@ signals:
 
 private slots:
   void onFinished(QNetworkReply *reply);
-
 };
 
 #endif // CHATGPT_H

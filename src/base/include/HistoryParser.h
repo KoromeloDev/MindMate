@@ -54,7 +54,6 @@ public:
 
 private:
   QFile m_history;
-
 };
 
 #endif // HISTORYPARSER_H

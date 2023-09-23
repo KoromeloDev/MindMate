@@ -89,112 +89,103 @@ void MainWindow::setChatSettings(const quint8 &index)
   m_chatSettings = m_chatSettings.getSettings(index);
 }
 
-void MainWindow::receivedText(QString text)
+void MainWindow::setAutoNameChat()
 {
-  if (!text.isEmpty() && ((!m_isWaitAnswer && !m_isErrorAnswer) ||
-     (m_allMesages.count() != 0 && m_ui->roleBox->currentIndex() != 0)))
+  ChatGPT *chatGPT = qobject_cast<ChatGPT*>(QObject::sender());
+  QString name = chatGPT->getAnswerMessage().content[0];
+  chatGPT->deleteLater();
+
+  if (name.isEmpty())
   {
-    HistoryParser history(m_chatSettings.fileName);
-    HistoryParser::Message message;
-    message.content = text;
+    return;
+  }
 
-    switch (m_ui->roleBox->currentIndex())
+  static QRegularExpression re("\"([\\w\\W]*)\"");
+  QRegularExpressionMatchIterator matchIterator = re.globalMatch(name);
+
+  if (matchIterator.hasNext())
+  {
+    name = matchIterator.next().captured(1);
+  }
+
+  while (!name.isEmpty())
+  {
+    if (name.last(1) == ' ' || name.last(1) == '.'
+        || name.last(1) == '\n')
     {
-      case 0:
-        message.role = HistoryParser::User;
-        break;
-      case 1:
-        message.role = HistoryParser::System;
-        break;
-      case 2:
-        message.role = HistoryParser::Assistant;
-        break;
-      default:
-        message.role = HistoryParser::User;
-        break;
-    }
-
-    addMessages(message, m_ui->chatList->currentRow());
-    history.addMessage(message);
-    m_allMesages.append(message);
-    m_ui->textInput->clear();
-
-    if (message.role ==  HistoryParser::User)
-    {
-      Settings settings;
-
-      if (m_ui->historyList->count() == 1 && settings.autoNaming)
-      {
-        ChatGPT *chatGPT = new ChatGPT(settings.openAIKey);
-        ChatSettings chatSettings;
-        chatSettings.stop = {"\n"};
-
-        connect(chatGPT, &ChatGPT::responseReceived, this, [=]()
-        {
-          QString name = chatGPT->getAnswerMessage().content[0];
-          chatGPT->deleteLater();
-
-          if (!name.isEmpty())
-          {
-            static QRegularExpression re("\"([\\w\\W]*)\"");
-            QRegularExpressionMatchIterator matchIterator = re.globalMatch(name);
-
-            if (matchIterator.hasNext())
-            {
-              name = matchIterator.next().captured(1);
-            }
-
-            while (!name.isEmpty())
-            {
-              if (name.last(1) == ' ' || name.last(1) == '.'
-                  || name.last(1) == '\n')
-              {
-                name.remove(name.length() - 1, 1);
-              }
-              else
-              {
-                break;
-              }
-            }
-
-            if (name.length() < 30 && !name.isEmpty())
-            {
-              QListWidgetItem *item = m_ui->chatList->currentItem();
-              QWidget *itemWidget = m_ui->chatList->itemWidget(item);
-              ChatItem *chatItem = dynamic_cast<ChatItem *>(itemWidget);
-              chatItem->setName(name);
-            }
-          }
-
-          sendMessage(m_allMesages);
-        });
-        connect(chatGPT, &ChatGPT::replyError, this, [=]()
-        {
-          chatGPT->deleteLater();
-          sendMessage(m_allMesages);
-        });
-
-        chatGPT->send("\"" + message.content + "\"" +
-        tr(" - this is the first sentence in the chat, you should understand "
-           "what it's about and name the chat according to its topic. "
-           "Name it as briefly as possible, but keep the meaning, and try to "
-           "use signs only where it is really necessary. Also, you should "
-           "not name the chat like \"chat name:\", you should just write the "
-           "name without unnecessary words."), chatSettings);
-        errorState(false);
-        answerState(true);
-      }
-      else
-      {
-        sendMessage(m_allMesages);
-      }
+      name.remove(name.length() - 1, 1);
     }
     else
     {
-      errorState(false);
-      answerState(false);
+      break;
     }
   }
+
+  if (name.length() < 30 && !name.isEmpty())
+  {
+    QListWidgetItem *item = m_ui->chatList->currentItem();
+    QWidget *itemWidget = m_ui->chatList->itemWidget(item);
+    ChatItem *chatItem = dynamic_cast<ChatItem *>(itemWidget);
+    chatItem->setName(name);
+  }
+
+  sendMessage(m_allMesages);
+}
+
+void MainWindow::receivedText(QString text)
+{
+  if (text.isEmpty() || m_isWaitAnswer ||
+     (m_isErrorAnswer && m_ui->roleBox->currentIndex() == 0))
+  {
+    return;
+  }
+
+  HistoryParser history(m_chatSettings.fileName);
+  HistoryParser::Message message;
+  message.content = text;
+  message.role = static_cast<HistoryParser::Role>(
+                 m_ui->roleBox->currentIndex());
+  addMessages(message, m_ui->chatList->currentRow());
+  history.addMessage(message);
+  m_allMesages.append(message);
+  m_ui->textInput->clear();
+
+  if (message.role != HistoryParser::User)
+  {
+    errorState(false);
+    answerState(false);
+    return;
+  }
+
+  Settings settings;
+
+  if (m_ui->historyList->count() != 1 || !settings.autoNaming)
+  {
+    sendMessage(m_allMesages);
+    return;
+  }
+
+  ChatGPT *chatGPT = new ChatGPT(settings.openAIKey);
+  ChatSettings chatSettings;
+  chatSettings.stop = {"\n"};
+
+  connect(chatGPT, &ChatGPT::responseReceived,
+          this, &MainWindow::setAutoNameChat);
+  connect(chatGPT, &ChatGPT::replyError, this, [=]()
+  {
+    chatGPT->deleteLater();
+    sendMessage(m_allMesages);
+  });
+
+  chatGPT->send("\"" + message.content + "\"" +
+  tr(" - this is the first sentence in the chat, you should understand "
+     "what it's about and name the chat according to its topic. "
+     "Name it as briefly as possible, but keep the meaning, and try to "
+     "use signs only where it is really necessary. Also, you should "
+     "not name the chat like \"chat name:\", you should just write the "
+     "name without unnecessary words."), chatSettings);
+  errorState(false);
+  answerState(true);
 }
 
 void MainWindow::fillChatList()

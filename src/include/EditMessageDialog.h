@@ -34,7 +34,6 @@ private:
   quint8 m_index;
 
   void resize(QSize size);
-
 };
 
 #endif // EDITMESSAGEDIALOG_H

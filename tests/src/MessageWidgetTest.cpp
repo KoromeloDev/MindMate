@@ -11,7 +11,6 @@ class MessageWidgetTest : public QObject
 private slots:
   void textDetection_data();
   void textDetection();
-
 };
 
 void MessageWidgetTest::textDetection_data()

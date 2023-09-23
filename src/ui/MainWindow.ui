@@ -384,12 +384,12 @@
             </item>
             <item>
              <property name="text">
-              <string>System</string>
+              <string>Assistant</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Assistant</string>
+              <string>System</string>
              </property>
             </item>
            </widget>

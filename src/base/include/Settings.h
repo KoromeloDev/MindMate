@@ -16,7 +16,6 @@ struct Settings
 
   void readSettings();
   void writeSettings();
-
 };
 
 #endif // SETTINGS_H

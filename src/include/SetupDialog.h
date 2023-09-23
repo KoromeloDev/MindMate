@@ -29,7 +29,6 @@ private slots:
   void keyChanged();
   void replyError(QString error);
   void responseReceived(QString responce);
-
 };
 
 #endif // SETUPDIALOG_H

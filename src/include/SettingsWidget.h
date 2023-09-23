@@ -33,7 +33,6 @@ private:
 private slots:
   void languageRecognizeStateChanged(quint8 state);
   void autoNamingStateChanged(quint8 state);
-
 };
 
 #endif // SETTINGSWIDGET_H

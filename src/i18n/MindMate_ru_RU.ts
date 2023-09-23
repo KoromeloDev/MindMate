@@ -133,7 +133,7 @@
     <name>CodeWidget</name>
     <message>
         <location filename="../ui/CodeWidget.ui" line="100"/>
-        <location filename="../src/CodeWidget.cpp" line="292"/>
+        <location filename="../src/CodeWidget.cpp" line="300"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -142,7 +142,7 @@
         <translation type="obsolete">Удалить</translation>
     </message>
     <message>
-        <location filename="../src/CodeWidget.cpp" line="274"/>
+        <location filename="../src/CodeWidget.cpp" line="282"/>
         <source>Copied</source>
         <translation>Скопировано</translation>
     </message>
@@ -191,12 +191,12 @@
         <translation>Пользователь</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="387"/>
+        <location filename="../ui/MainWindow.ui" line="392"/>
         <source>System</source>
         <translation>Система</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="392"/>
+        <location filename="../ui/MainWindow.ui" line="387"/>
         <source>Assistant</source>
         <translation>Помощник</translation>
     </message>
@@ -209,18 +209,18 @@
         <translation type="vanished">Ссылка на скачивание приложения</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="178"/>
+        <location filename="../src/MainWindow.cpp" line="181"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="247"/>
-        <location filename="../src/MainWindow.cpp" line="462"/>
+        <location filename="../src/MainWindow.cpp" line="238"/>
+        <location filename="../src/MainWindow.cpp" line="453"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="375"/>
+        <location filename="../src/MainWindow.cpp" line="366"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>

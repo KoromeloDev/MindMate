@@ -10,7 +10,6 @@ class ChatGPTTest : public QObject
 
 private slots:
   void getError();
-
 };
 
 void ChatGPTTest::getError()

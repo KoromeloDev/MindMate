@@ -35,58 +35,63 @@ void NewTextEdit::resizeTextInput()
   }
 }
 
+void NewTextEdit::clippingStart(QString &text)
+{
+  quint16 i = 0;
+
+  for (QChar symbol : text)
+  {
+    if (isIndent(symbol))
+    {
+      ++i;
+    }
+    else
+    {
+      break;
+    }
+  }
+
+  text = text.last(text.length() - i);
+}
+
+void NewTextEdit::clippingEnd(QString &text)
+{
+  quint16 i = 0;
+
+  while(true)
+  {
+    quint16 index = text.length() -1 - i;
+    QChar symbol = text[index];
+
+    if (index >= text.length() || !isIndent(symbol))
+    {
+      break;
+    }
+
+    ++i;
+  }
+
+  text = text.first(text.length() - i);
+}
+
+bool NewTextEdit::isIndent(QChar symbol)
+{
+  return symbol == '\n' || symbol.isSpace() || symbol == '\t' || symbol.isNull();
+}
+
 void NewTextEdit::keyPressEvent(QKeyEvent *event)
 {
-  if (event->modifiers() != Qt::ShiftModifier &&
-      (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter))
-  {
-    QString text = toPlainText();
-
-    quint16 i = 0;
-
-    for (QChar symbol : text)
-    {
-      if (symbol == '\n' || symbol == ' ' || symbol == '\t' || symbol.isNull())
-      {
-        ++i;
-      }
-      else
-      {
-        break;
-      }
-    }
-
-    text = text.last(text.length() - i);
-    i = 0;
-
-    while(true)
-    {
-      quint16 index = text.length() -1 - i;
-
-      if (index >= text.length())
-      {
-        break;
-      }
-
-      QChar symbol = text[index];
-
-      if (symbol == '\n' || symbol == ' ' || symbol == '\t' || symbol.isNull())
-      {
-        ++i;
-      }
-      else
-      {
-        break;
-      }
-    }
-
-    text = text.first(text.length() - i);
-    emit sendText(text);
-  }
-  else
+  if (event->modifiers() == Qt::ShiftModifier ||
+     (event->key() != Qt::Key_Return && event->key() != Qt::Key_Enter))
   {
     QTextEdit::keyPressEvent(event);
+    return;
   }
+
+  QString text = toPlainText();
+  clippingStart(text);
+  clippingEnd(text);
+  emit sendText(text);
 }
 
 void NewTextEdit::resizeEvent(QResizeEvent *event)

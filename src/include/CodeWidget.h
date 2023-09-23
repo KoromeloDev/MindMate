@@ -44,6 +44,7 @@ private:
 
   void setCodeAutoHighlighter();
   void languageRecognize();
+  QSHL getLanguageEnum(QString language);
 
 private slots:
   void copyClicked();

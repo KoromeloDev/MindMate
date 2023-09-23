@@ -44,7 +44,6 @@ private slots:
   void addClicked();
   void addStopWord(const QString text);
   void deleteClicked();
-
 };
 
 #endif // CHATSETTINGSWIDGET_H

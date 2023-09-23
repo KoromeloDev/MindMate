@@ -97,7 +97,6 @@ private slots:
   void changeLanguage(QString language, quint8 index);
   void nextClicked();
   void backClicked();
-
 };
 
 #endif // MESSAGEWIDGET_H

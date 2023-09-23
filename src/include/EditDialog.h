@@ -26,7 +26,6 @@ private slots:
 
 signals:
   void textChanged(const QString text);
-
 };
 
 #endif // EDITDIALOG_H

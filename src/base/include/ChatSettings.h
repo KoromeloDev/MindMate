@@ -28,7 +28,6 @@ public:
 
 private:
   quint32 m_maxTokens;
-
 };
 
 #endif // CHATSETTINGS_H
