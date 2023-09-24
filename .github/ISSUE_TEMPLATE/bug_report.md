@@ -24,8 +24,10 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Please complete the following information**
-- OS and version: [e.g. Windows 11 or Ubuntu 22.04.2 LTS]
 - App version: [e.g. 1.0.0]
+- Qt version: [e.g. 6.5.2]
+- OS: [e.g. Windows]
+- OS version: [e.g. 11]
 
 **Additional context**
 Add any other context about the problem here.
