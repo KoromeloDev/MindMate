@@ -34,6 +34,7 @@ private:
 
 signals:
   void sendText(QString text);
+  void resized();
 };
 
 #endif // NEWTEXTEDIT_H

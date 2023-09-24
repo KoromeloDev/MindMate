@@ -33,6 +33,8 @@ void NewTextEdit::resizeTextInput()
     setMaximumHeight(120);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
   }
+
+  emit resized();
 }
 
 void NewTextEdit::clippingStart(QString &text)

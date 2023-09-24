@@ -133,7 +133,7 @@
     <name>CodeWidget</name>
     <message>
         <location filename="../ui/CodeWidget.ui" line="100"/>
-        <location filename="../src/CodeWidget.cpp" line="222"/>
+        <location filename="../src/CodeWidget.cpp" line="221"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -166,37 +166,37 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../ui/MainWindow.ui" line="108"/>
+        <location filename="../ui/MainWindow.ui" line="114"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="47"/>
+        <location filename="../ui/MainWindow.ui" line="53"/>
         <source>Create chat</source>
         <translation>Создать чат</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="181"/>
+        <location filename="../ui/MainWindow.ui" line="187"/>
         <source>Retry</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="232"/>
+        <location filename="../ui/MainWindow.ui" line="238"/>
         <source>Stop</source>
         <translation>Остановить</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="382"/>
+        <location filename="../ui/MainWindow.ui" line="388"/>
         <source>User</source>
         <translation>Пользователь</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="392"/>
+        <location filename="../ui/MainWindow.ui" line="398"/>
         <source>System</source>
         <translation>Система</translation>
     </message>
     <message>
-        <location filename="../ui/MainWindow.ui" line="387"/>
+        <location filename="../ui/MainWindow.ui" line="393"/>
         <source>Assistant</source>
         <translation>Помощник</translation>
     </message>
@@ -209,18 +209,18 @@
         <translation type="vanished">Ссылка на скачивание приложения</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="181"/>
+        <location filename="../src/MainWindow.cpp" line="237"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="238"/>
-        <location filename="../src/MainWindow.cpp" line="454"/>
+        <location filename="../src/MainWindow.cpp" line="296"/>
+        <location filename="../src/MainWindow.cpp" line="516"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="366"/>
+        <location filename="../src/MainWindow.cpp" line="427"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>
@@ -232,22 +232,22 @@
         <translation type="vanished">Удалить</translation>
     </message>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="443"/>
+        <location filename="../src/MessageWidget.cpp" line="450"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="440"/>
+        <location filename="../src/MessageWidget.cpp" line="447"/>
         <source>Delete current</source>
         <translation>Удалить текущее</translation>
     </message>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="446"/>
+        <location filename="../src/MessageWidget.cpp" line="453"/>
         <source>Delete all</source>
         <translation>Удалить всё</translation>
     </message>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="437"/>
+        <location filename="../src/MessageWidget.cpp" line="444"/>
         <source>Generate</source>
         <translation>Сгенерировать</translation>
     </message>
@@ -260,44 +260,70 @@
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="30"/>
+        <location filename="../ui/SettingsWidget.ui" line="42"/>
         <source>General</source>
         <translation>Общие</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="93"/>
+        <location filename="../ui/SettingsWidget.ui" line="105"/>
         <source>Auto language recognize</source>
         <translation>Автоматическое распознание языка</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="51"/>
+        <location filename="../ui/SettingsWidget.ui" line="63"/>
         <source>Auto naming chat</source>
         <translation>Автоматически называть чаты</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="109"/>
+        <location filename="../ui/SettingsWidget.ui" line="121"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the widget with the code does not have a programming language, then it tries to turn to ChatGPT to determine the language (This may take some time).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Если у виджета с кодом нет языка программирования, то он пытается обратиться к ChatGPT для определения языка (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="67"/>
+        <location filename="../ui/SettingsWidget.ui" line="79"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically names the chat by sending a request to ChatGPT (This may take some time).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Автоматически присваивает название чату, отправляя запрос в ChatGPT (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="134"/>
+        <location filename="../ui/SettingsWidget.ui" line="146"/>
         <source>Chat</source>
         <translation>Чат</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="154"/>
+        <location filename="../ui/SettingsWidget.ui" line="166"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;These settings will initially be applied for each new chat&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Данные настройки будут изначально применяться для каждого нового чата&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="157"/>
+        <location filename="../ui/SettingsWidget.ui" line="169"/>
         <source>Default settings for all chats</source>
         <translation>Настройки по умолчанию для всех чатов</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsWidget.ui" line="198"/>
+        <source>Info</source>
+        <translation>Инфо</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsWidget.ui" line="207"/>
+        <source>Found a bug? Please report it :)</source>
+        <translation>Нашли баг? Пожалуйста сообщите об этом :)</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsWidget.ui" line="298"/>
+        <source>Report</source>
+        <translation>Сообщить</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsWidget.ui" line="327"/>
+        <location filename="../src/SettingsWidget.cpp" line="111"/>
+        <source>Copy info</source>
+        <translation>Скопировать инфо</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsWidget.ui" line="233"/>
+        <source>Project Website</source>
+        <translation>Страница проекта</translation>
     </message>
     <message>
         <source>API key:</source>
@@ -308,9 +334,8 @@
         <translation type="vanished">Проверять обновления</translation>
     </message>
     <message>
-        <location filename="../src/SettingsWidget.cpp" line="9"/>
         <source>Version</source>
-        <translation>Версия</translation>
+        <translation type="vanished">Версия</translation>
     </message>
     <message>
         <source>API key</source>
@@ -332,6 +357,20 @@
         <source>You entered the wrong key</source>
         <translation type="vanished">Вы ввели неправильный ключ</translation>
     </message>
+    <message>
+        <location filename="../src/SettingsWidget.cpp" line="18"/>
+        <source>App version</source>
+        <translation>Версия приложения</translation>
+    </message>
+    <message>
+        <location filename="../src/SettingsWidget.cpp" line="92"/>
+        <source>Copied</source>
+        <translation>Скопировано</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="obsolete">Копировать</translation>
+    </message>
 </context>
 <context>
     <name>SetupDialog</name>
@@ -346,19 +385,19 @@
         <translation>Готово</translation>
     </message>
     <message>
-        <location filename="../src/SetupDialog.cpp" line="53"/>
-        <location filename="../src/SetupDialog.cpp" line="58"/>
-        <location filename="../src/SetupDialog.cpp" line="63"/>
+        <location filename="../src/SetupDialog.cpp" line="52"/>
+        <location filename="../src/SetupDialog.cpp" line="57"/>
+        <location filename="../src/SetupDialog.cpp" line="62"/>
         <source>Wrong key</source>
         <translation>Неправильный ключ</translation>
     </message>
     <message>
-        <location filename="../src/SetupDialog.cpp" line="54"/>
+        <location filename="../src/SetupDialog.cpp" line="53"/>
         <source>You didn&apos;t provide an API key</source>
         <translation>Вы не предоставили ключ API</translation>
     </message>
     <message>
-        <location filename="../src/SetupDialog.cpp" line="59"/>
+        <location filename="../src/SetupDialog.cpp" line="58"/>
         <source>Incorrect API key provided</source>
         <translation>Предоставлен неправильный ключ API</translation>
     </message>

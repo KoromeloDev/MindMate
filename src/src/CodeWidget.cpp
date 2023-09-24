@@ -199,7 +199,7 @@ void CodeWidget::copyClicked()
 {
   m_clipboard->setText(m_code);
 
-  if (m_timer == nullptr)
+  if (m_timer.isNull())
   {
     m_ui->copyButton->setText(tr("Copied") + "!");
     ThemeIcon::setIcon(*m_ui->copyButton, ":/icons/accept.svg");
@@ -217,8 +217,7 @@ void CodeWidget::timerTimeout()
 {
   disconnect(m_timer.get(), &QTimer::timeout, this, &CodeWidget::timerTimeout);
 
-  m_timer->deleteLater();
-  m_timer = nullptr;
+  m_timer.clear();
   m_ui->copyButton->setText(tr("Copy"));
   ThemeIcon::setIcon(*m_ui->copyButton, ":/icons/copy.svg");
 }

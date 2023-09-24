@@ -18,5 +18,8 @@
         <file>sounds/error.wav</file>
         <file>sounds/message.wav</file>
         <file>style.css</file>
+        <file>icons/GitHubLogo.svg</file>
+        <file>icons/bug.svg</file>
+        <file>icons/down.svg</file>
     </qresource>
 </RCC>

@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QSettings>
+#include <QClipboard>
+#include <QTimer>
 
 #include "ChatSettingsWidget.h"
 #include "Settings.h"
@@ -29,10 +31,16 @@ private:
   QSharedPointer<APIKeyWidget> m_keyWidget;
   QSharedPointer<ChatSettingsWidget> m_chatSettingsWidget;
   Settings m_settings;
+  QClipboard *m_clipboard;
+  QSharedPointer<QTimer> m_timer;
 
 private slots:
   void languageRecognizeStateChanged(quint8 state);
   void autoNamingStateChanged(quint8 state);
+  void copyClicked();
+  void timerTimeout();
+  void homepageClicked();
+  void reportClicked();
 };
 
 #endif // SETTINGSWIDGET_H

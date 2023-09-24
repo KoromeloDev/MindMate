@@ -42,6 +42,11 @@
   </screenshots>
   
   <releases>
+    <release version="1.7.0-beta" date="2023-09-24">
+      <description>
+        <p>Bug fixes and UI improvements</p>
+      </description>
+    </release>
     <release version="1.6.2-beta" date="2023-09-23">
       <description>
         <p>Fixing bug</p>

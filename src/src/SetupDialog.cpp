@@ -7,7 +7,6 @@ SetupDialog::SetupDialog(QWidget *parent)
 : QDialog(parent), m_ui(new Ui::SetupDialog)
 {
   m_ui->setupUi(this);
-//  this->setWindowFlags(this->windowFlags() & ~Qt::WindowCloseButtonHint);
   m_keyWidget = m_keyWidget.create(this);
   chatGPT = nullptr;
   m_keyWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

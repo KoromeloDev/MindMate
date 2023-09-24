@@ -55,7 +55,14 @@ void MessageWidget::resize()
   }
 
   ++m_queueResize;
-  setFixedWidth(parentWidget()->size().width());
+  quint16 parentWidth = parentWidget()->size().width();
+
+  if (m_isEdit)
+  {
+    parentWidth -= 10;
+  }
+
+  setFixedWidth(parentWidth);
   m_height = 0;
   m_width = 0;
 
@@ -534,6 +541,7 @@ void MessageWidget::addTextEdit(QString text, Border border)
 
   if (m_isEdit)
   {
+    textEdit->setAcceptRichText(false);
     connect(textEdit.get(), &QTextEdit::textChanged, this, &MessageWidget::resize);
   }
   else
