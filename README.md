@@ -49,25 +49,6 @@ cmake --install .
 ## How to use
 To use the program, you will need an [OpenAI account](https://platform.openai.com/signup) to get an API key and enter it into the settings.
 
-### Setup
-1. Go to global settings
-
-![Step1](https://github.com/KoromeloDev/MindMate/blob/main/screenshots/HowToUseSettings1.png?raw=true)
-
-2. Go to the "Chat" tab
-
-![Step2](https://github.com/KoromeloDev/MindMate/blob/main/screenshots/HowToUseSettings2.png?raw=true)
-
-3. Click on the API key edit button
-
-![Step3](https://github.com/KoromeloDev/MindMate/blob/main/screenshots/HowToUseSettings3.png?raw=true)
-
-4. Insert the API key into the input field and click "OK" button
-
-![Step4](https://github.com/KoromeloDev/MindMate/blob/main/screenshots/HowToUseSettings4.png?raw=true)
-
-Done!
-
 ### Configuration
 To configure the application, you can go to global settings. These settings affect the entire application.
 
@@ -76,7 +57,6 @@ To configure the application, you can go to global settings. These settings affe
 
 You can also configure each chat individually.
 
-![ChatSettings](https://github.com/KoromeloDev/MindMate/blob/main/screenshots/HowToUseChatSettings.png?raw=true)
 ![ChatSettings](https://github.com/KoromeloDev/MindMate/blob/main/screenshots/ChatSettingsWindow.png?raw=true)
 
 ### Message role
