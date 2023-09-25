@@ -1,4 +1,10 @@
 # MindMate
+
+<p align="center">
+  <img alt="Flathub Downloads" src="https://img.shields.io/flathub/downloads/io.github.koromelodev.mindmate">
+  <img alt="Flathub Version" src="https://img.shields.io/flathub/v/io.github.koromelodev.mindmate">
+</p>
+
 MindMate is an unofficial application for ChatGPT. The app supports chat settings, can send system messages, delete and edit messages.
 
 ![Main window](https://github.com/KoromeloDev/MindMate/blob/main/screenshots/MainWindow.png?raw=true)
