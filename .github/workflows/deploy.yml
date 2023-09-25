@@ -35,7 +35,7 @@ jobs:
     - name: Run tests
       run: |
         export QT_QPA_PLATFORM=offscreen
-        ${{ steps.tests.outputs.stdout }}
+        ${{steps.tests.outputs.stdout}}
   Build-for-Linux:
     needs: Testing
     runs-on: ubuntu-latest
