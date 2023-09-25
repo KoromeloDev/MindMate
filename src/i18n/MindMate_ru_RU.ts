@@ -315,10 +315,8 @@
         <translation>Сообщить</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="327"/>
-        <location filename="../src/SettingsWidget.cpp" line="111"/>
         <source>Copy info</source>
-        <translation>Скопировать инфо</translation>
+        <translation type="vanished">Скопировать инфо</translation>
     </message>
     <message>
         <location filename="../ui/SettingsWidget.ui" line="233"/>
@@ -368,8 +366,10 @@
         <translation>Скопировано</translation>
     </message>
     <message>
+        <location filename="../ui/SettingsWidget.ui" line="327"/>
+        <location filename="../src/SettingsWidget.cpp" line="111"/>
         <source>Copy</source>
-        <translation type="obsolete">Копировать</translation>
+        <translation>Копировать</translation>
     </message>
 </context>
 <context>

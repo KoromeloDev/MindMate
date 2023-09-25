@@ -324,7 +324,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Copy info</string>
+          <string>Copy</string>
          </property>
          <property name="icon">
           <iconset resource="../resources/resources.qrc">

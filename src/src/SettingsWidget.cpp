@@ -108,7 +108,7 @@ void SettingsWidget::timerTimeout()
              this, &SettingsWidget::timerTimeout);
 
   m_timer.clear();
-  m_ui->copyButton->setText(tr("Copy info"));
+  m_ui->copyButton->setText(tr("Copy"));
   ThemeIcon::setIcon(*m_ui->copyButton, ":/icons/copy.svg");
 }
 
