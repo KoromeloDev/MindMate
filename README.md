@@ -16,6 +16,8 @@ MindMate is an unofficial application for ChatGPT. The app supports chat setting
 ### Windows:
 <a href="https://apps.microsoft.com/store/detail/9PC99CMCJLNF?launch=true&mode=full"><img width="240" src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft"/></a>
 
+**The Microsoft store version is temporarily not updated**
+
 ## How to install from source code
 <h3 align="center">
   Dependencies
