@@ -38,7 +38,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Widgets Qt6::Svg
 
 target_include_directories(${PROJECT_NAME} PUBLIC include base/include)
 
-qt_add_translations(${PROJECT_NAME} TS_FILES ${TS})
+qt_add_translations(${PROJECT_NAME} TS_FILES ${TS} LUPDATE_OPTIONS -noobsolete)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE true)
 

@@ -4,14 +4,6 @@
 <context>
     <name>APIKeyWidget</name>
     <message>
-        <source>API key:</source>
-        <translation type="obsolete">API ключ:</translation>
-    </message>
-    <message>
-        <source>API key</source>
-        <translation type="obsolete">API ключ</translation>
-    </message>
-    <message>
         <location filename="../ui/APIKeyWidget.ui" line="36"/>
         <location filename="../src/APIKeyWidget.cpp" line="37"/>
         <source>API key: </source>
@@ -69,10 +61,6 @@
 </context>
 <context>
     <name>ChatSettingsWidget</name>
-    <message>
-        <source>Chat Settings</source>
-        <translation type="vanished">Настройки Чата</translation>
-    </message>
     <message>
         <location filename="../ui/ChatSettingsWidget.ui" line="246"/>
         <source>Temperature</source>
@@ -138,10 +126,6 @@
         <translation>Копировать</translation>
     </message>
     <message>
-        <source>Delete</source>
-        <translation type="obsolete">Удалить</translation>
-    </message>
-    <message>
         <location filename="../src/CodeWidget.cpp" line="204"/>
         <source>Copied</source>
         <translation>Скопировано</translation>
@@ -201,14 +185,6 @@
         <translation>Помощник</translation>
     </message>
     <message>
-        <source>Update available</source>
-        <translation type="vanished">Доступно обновление</translation>
-    </message>
-    <message>
-        <source>Link to download the application</source>
-        <translation type="vanished">Ссылка на скачивание приложения</translation>
-    </message>
-    <message>
         <location filename="../src/MainWindow.cpp" line="237"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
@@ -227,10 +203,6 @@
 </context>
 <context>
     <name>MessageWidget</name>
-    <message>
-        <source>Delete</source>
-        <translation type="vanished">Удалить</translation>
-    </message>
     <message>
         <location filename="../src/MessageWidget.cpp" line="450"/>
         <source>Edit</source>
@@ -315,45 +287,9 @@
         <translation>Сообщить</translation>
     </message>
     <message>
-        <source>Copy info</source>
-        <translation type="vanished">Скопировать инфо</translation>
-    </message>
-    <message>
         <location filename="../ui/SettingsWidget.ui" line="233"/>
         <source>Project Website</source>
         <translation>Страница проекта</translation>
-    </message>
-    <message>
-        <source>API key:</source>
-        <translation type="vanished">API ключ:</translation>
-    </message>
-    <message>
-        <source>Check updates</source>
-        <translation type="vanished">Проверять обновления</translation>
-    </message>
-    <message>
-        <source>Version</source>
-        <translation type="vanished">Версия</translation>
-    </message>
-    <message>
-        <source>API key</source>
-        <translation type="vanished">API ключ</translation>
-    </message>
-    <message>
-        <source>Enter your key from the &lt;a href=https://platform.openai.com/account/api-keys&gt;OpenAI site&lt;/a&gt;:</source>
-        <translation type="vanished">Введите свой ключ с &lt;a href=https://platform.openai.com/account/api-keys&gt;сайта OpenAI&lt;/a&gt;:</translation>
-    </message>
-    <message>
-        <source>Set OpenAI API key</source>
-        <translation type="vanished">Установить OpenAI API ключ</translation>
-    </message>
-    <message>
-        <source>Wrong key</source>
-        <translation type="vanished">Неверный ключ</translation>
-    </message>
-    <message>
-        <source>You entered the wrong key</source>
-        <translation type="vanished">Вы ввели неправильный ключ</translation>
     </message>
     <message>
         <location filename="../src/SettingsWidget.cpp" line="18"/>
