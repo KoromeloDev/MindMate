@@ -24,7 +24,7 @@ void setTranslation(QTranslator &translator)
 
   for (const QString &locale : uiLanguages)
   {
-    if (translator.load(":/i18n/" + QLocale(locale).name()))
+    if (translator.load(":/i18n/" + QLocale(locale).name().toLower()))
     {
       QApplication::installTranslator(&translator);
       break;
