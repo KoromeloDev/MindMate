@@ -24,9 +24,7 @@ void setTranslation(QTranslator &translator)
 
   for (const QString &locale : uiLanguages)
   {
-    const QString baseName = "MindMate_" + QLocale(locale).name();
-
-    if (translator.load(":/i18n/" + baseName))
+    if (translator.load(":/i18n/" + QLocale(locale).name()))
     {
       QApplication::installTranslator(&translator);
       break;
