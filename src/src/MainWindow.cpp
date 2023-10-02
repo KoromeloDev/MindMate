@@ -9,8 +9,6 @@
 #include "NewListWidgetItem.h"
 #include "APIKey.h"
 
-#define DOWN_BUTTON_INDENT 16
-
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
@@ -68,8 +66,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_setupDialog->show();
   }
-
-  setupDownButton();
 }
 
 MainWindow::~MainWindow()
@@ -80,23 +76,6 @@ MainWindow::~MainWindow()
   {
     chatGPT->deleteLater();
   }
-}
-
-void MainWindow::setupDownButton()
-{
-  m_downButton = m_downButton.create(this);
-  m_downButton->setIconSize(QSize(40, 40));
-  ThemeIcon::setIcon(*m_downButton, ":/icons/down.svg");
-  m_downButton->setFixedSize(48, 48);
-  m_downButton->setAutoRaise(true);
-
-  connect(this, &MainWindow::resized, this, &MainWindow::moveDownButton);
-  connect(m_ui->textInput, &NewTextEdit::resized,
-          this, &MainWindow::moveDownButton);
-  connect(m_downButton.get(), &QToolButton::clicked, this, [=]()
-  {
-    m_ui->historyList->scrollToBottom();
-  });
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -151,41 +130,6 @@ void MainWindow::setAutoNameChat()
   }
 
   sendMessage(m_allMesages);
-}
-
-void MainWindow::moveDownButton()
-{
-  if (m_timer.isNull())
-  {
-    m_timer = m_timer.create();
-    m_timer->setSingleShot(true);
-    m_timer->setInterval(1);
-    m_timer->start();
-  }
-
-  connect(m_timer.get(), &QTimer::timeout, this, [=]()
-  {
-    m_timer.clear();
-
-    if (!m_ui->historyList->verticalScrollBar()->isVisible())
-    {
-      if (!m_downButton.isNull())
-      {
-        m_downButton->setVisible(false);
-      }
-
-      return;
-    }
-
-    m_downButton->setVisible(true);
-    const quint8 sliderSize = 8;
-    QPoint rightCorner = m_ui->historyList->geometry().bottomRight();
-    quint16 widthButton = rightCorner.x() - m_downButton->width() -
-                          DOWN_BUTTON_INDENT - sliderSize;
-    quint16 heightButton = rightCorner.y() - m_downButton->height() -
-                           DOWN_BUTTON_INDENT;
-    m_downButton->move(widthButton, heightButton);
-  });
 }
 
 void MainWindow::receivedText(QString text)
@@ -494,7 +438,6 @@ void MainWindow::addMessages(HistoryParser::Messages message, quint8 chatIndex)
   MessageWidget *messageWidget = new MessageWidget(item, message, chatIndex);
   m_ui->historyList->setItemWidget(item, messageWidget);
   m_ui->historyList->scrollToBottom();
-  moveDownButton();
 
   connect(this, &MainWindow::resized,
           messageWidget, &MessageWidget::resize);
@@ -525,7 +468,6 @@ void MainWindow::chatItemChanged(QListWidgetItem *item)
   {
     chatItem->setNewMessage(false);
     showChat();
-    moveDownButton();
   }
 }
 
@@ -682,7 +624,6 @@ void MainWindow::messageDeleteCliked(bool all)
 {
   MessageWidget *sender = qobject_cast<MessageWidget*>(QObject::sender());
   const quint8 &index = sender->getItem()->getIndex();
-  moveDownButton();
 
   if (all)
   {
@@ -729,7 +670,6 @@ void MainWindow::messageEdit()
 {
   MessageWidget *sender = qobject_cast<MessageWidget*>(QObject::sender());
   m_allMesages[sender->getItem()->getIndex()] = sender->getMessages();
-  moveDownButton();
 }
 
 void MainWindow::messageGenerate(quint16 index)

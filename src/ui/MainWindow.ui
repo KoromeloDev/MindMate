@@ -27,8 +27,8 @@
    <locale language="English" country="UnitedStates"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
-    <item>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
      <layout class="QFormLayout" name="formLayout">
       <property name="horizontalSpacing">
        <number>0</number>
@@ -53,8 +53,7 @@
            <string>Create chat</string>
           </property>
           <property name="icon">
-           <iconset theme="list-add">
-            <normaloff>.</normaloff>.</iconset>
+           <iconset theme="list-add"/>
           </property>
           <property name="toolButtonStyle">
            <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -114,8 +113,7 @@
            <string>Settings</string>
           </property>
           <property name="icon">
-           <iconset theme="preferences-other">
-            <normaloff>.</normaloff>.</iconset>
+           <iconset theme="preferences-other"/>
           </property>
           <property name="toolButtonStyle">
            <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -187,8 +185,7 @@
                <string>Retry</string>
               </property>
               <property name="icon">
-               <iconset theme="view-refresh">
-                <normaloff>.</normaloff>.</iconset>
+               <iconset theme="view-refresh"/>
               </property>
               <property name="iconSize">
                <size>
@@ -238,8 +235,7 @@
                <string>Stop</string>
               </property>
               <property name="icon">
-               <iconset theme="media-playback-stop">
-                <normaloff>.</normaloff>.</iconset>
+               <iconset theme="media-playback-stop"/>
               </property>
               <property name="iconSize">
                <size>
@@ -280,8 +276,7 @@
                </sizepolicy>
               </property>
               <property name="icon">
-               <iconset theme="preferences-desktop">
-                <normaloff>.</normaloff>.</iconset>
+               <iconset theme="preferences-desktop"/>
               </property>
               <property name="iconSize">
                <size>
@@ -299,7 +294,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QListWidget" name="historyList">
+         <widget class="NewQListWidget" name="historyList">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -454,8 +449,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="mail-send">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="mail-send"/>
             </property>
             <property name="iconSize">
              <size>
@@ -498,6 +492,11 @@
    <class>NewTextEdit</class>
    <extends>QWidget</extends>
    <header>NewTextEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>NewQListWidget</class>
+   <extends>QListWidget</extends>
+   <header>NewQListWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>

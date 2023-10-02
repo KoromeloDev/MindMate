@@ -31,9 +31,6 @@
       <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/SystemMessage.png?raw=true</image>
     </screenshot>
     <screenshot>
-      <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/ChatSettingsWindow.png?raw=true</image>
-    </screenshot>
-    <screenshot>
       <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/GlobalSettingsWindow1.png?raw=true</image>
     </screenshot>
     <screenshot>
@@ -42,9 +39,9 @@
   </screenshots>
   
   <releases>
-    <release version="1.7.0-beta" date="2023-09-24">
+    <release version="1.7.1-beta" date="2023-10-02">
       <description>
-        <p>Bug fixes and UI improvements</p>
+        <p>Bug fixes</p>
       </description>
     </release>
   </releases>

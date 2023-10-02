@@ -52,8 +52,6 @@ private:
   QSharedPointer<ChatSettingsDialog> m_chatSettingsDialog;
   QSharedPointer<SettingsWidget> m_settingsWidget;
   QSharedPointer<SetupDialog> m_setupDialog;
-  QSharedPointer<QToolButton> m_downButton;
-  QSharedPointer<QTimer> m_timer;
 
   void setChatSettings(const quint8 &index);
   void receivedText(QString text);
@@ -68,7 +66,6 @@ private:
   void sendMessage(QVector<HistoryParser::Messages> messages, quint16 index = 0);
   void addMessages(HistoryParser::Messages message, quint8 chatIndex);
   void addChatItem(QString name);
-  void setupDownButton();
 
 private slots:
   void sendClicked();
@@ -86,7 +83,6 @@ private slots:
   void messageGenerate(quint16 index);
   void scrollToBottom();
   void setAutoNameChat();
-  void moveDownButton();
 
 signals:
   void resized();
