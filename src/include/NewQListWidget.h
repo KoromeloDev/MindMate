@@ -10,7 +10,7 @@ class NewQListWidget : public QListWidget
 {
   Q_OBJECT
 public:
-  NewQListWidget(QListWidget *parent = nullptr);
+  NewQListWidget(QWidget *parent = nullptr);
 
 private:
   QSharedPointer<QToolButton> m_downButton;

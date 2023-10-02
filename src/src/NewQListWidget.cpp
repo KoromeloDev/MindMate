@@ -6,7 +6,7 @@
 #define DOWN_BUTTON_HIDE 0.95
 #define DOWN_BUTTON_MAX 0.8     // Must be less than DOWN_BUTTON_HIDE
 
-NewQListWidget::NewQListWidget(QListWidget *parent) : QListWidget(parent)
+NewQListWidget::NewQListWidget(QWidget *parent) : QListWidget(parent)
 {
     createDownButton();
 
