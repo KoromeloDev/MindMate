@@ -19,7 +19,8 @@ NewQListWidget::NewQListWidget(QWidget *parent) : QListWidget(parent)
 void NewQListWidget::createDownButton()
 {
   m_downButton = m_downButton.create();
-  m_downButton->setIconSize(QSize(40, 40));
+
+  m_downButton->setIconSize(m_downButton->size() / 8 * 6);
   ThemeIcon::setIcon(*m_downButton, ":/icons/down.svg");
   m_downButton->setFixedSize(DOWN_BUTTON_SIZE, DOWN_BUTTON_SIZE);
   m_downButton->setAutoRaise(true);
