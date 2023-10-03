@@ -185,18 +185,18 @@
         <translation>Помощник</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="181"/>
+        <location filename="../src/MainWindow.cpp" line="180"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="240"/>
-        <location filename="../src/MainWindow.cpp" line="459"/>
+        <location filename="../src/MainWindow.cpp" line="239"/>
+        <location filename="../src/MainWindow.cpp" line="458"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="371"/>
+        <location filename="../src/MainWindow.cpp" line="370"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>

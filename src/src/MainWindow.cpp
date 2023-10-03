@@ -43,7 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
   connect(m_ui->chatSettingsButton, &QToolButton::clicked,
           this, &MainWindow::chatSettingsClicked);
 
-
   m_movie.setFileName(":/icons/eclipse.gif");
   m_movie.setScaledSize(QSize(32, 32));
   m_ui->loading->setMovie(&m_movie);

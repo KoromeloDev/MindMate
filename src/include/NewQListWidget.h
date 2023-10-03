@@ -19,6 +19,7 @@ private:
 
 private slots:
   void resizeDownButton();
+  void downButtonClicked();
 };
 
 #endif // NEWQLISTWIDGET_H

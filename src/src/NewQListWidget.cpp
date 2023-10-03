@@ -1,17 +1,19 @@
 #include "NewQListWidget.h"
 #include "ThemeIcon.h"
 
-#define DOWN_BUTTON_SIZE 48
-#define DOWN_BUTTON_INDENT 16
-#define DOWN_BUTTON_HIDE 0.95
-#define DOWN_BUTTON_MAX 0.8     // Must be less than DOWN_BUTTON_HIDE
+#define DOWN_BUTTON_SIZE 48     // Button size
+#define DOWN_BUTTON_MIN_SIZE 24 // Button minimum size
+#define DOWN_BUTTON_INDENT 16   // Indentation of the button from the edges
+#define DOWN_BUTTON_HIDE 0.95   // Value at which the button disappears
+#define DOWN_BUTTON_MAX 0.85    /* Value at which the button is not resized
+                                   Must be less than DOWN_BUTTON_HIDE */
 
 NewQListWidget::NewQListWidget(QWidget *parent) : QListWidget(parent)
 {
-    createDownButton();
+  createDownButton();
 
-    connect(verticalScrollBar(), &QScrollBar::valueChanged,
-            this, &NewQListWidget::resizeDownButton);
+  connect(verticalScrollBar(), &QScrollBar::valueChanged,
+          this, &NewQListWidget::resizeDownButton);
 }
 
 void NewQListWidget::createDownButton()
@@ -22,7 +24,6 @@ void NewQListWidget::createDownButton()
   m_downButton->setFixedSize(DOWN_BUTTON_SIZE, DOWN_BUTTON_SIZE);
   m_downButton->setAutoRaise(true);
 
-
   QGridLayout *gridLayout = new QGridLayout;
   gridLayout->addWidget(m_downButton.get(), gridLayout->rowCount(),
                         gridLayout->columnCount(),
@@ -30,6 +31,9 @@ void NewQListWidget::createDownButton()
   setLayout(gridLayout);
   gridLayout->setContentsMargins(0, 0, DOWN_BUTTON_INDENT + 4,
                                  DOWN_BUTTON_INDENT - 4);
+
+  connect(m_downButton.get(), &QToolButton::clicked,
+          this, &NewQListWidget::downButtonClicked);
 }
 
 void NewQListWidget::resizeDownButton()
@@ -57,10 +61,16 @@ void NewQListWidget::resizeDownButton()
   }
   else
   {
-    ratio = 1 - ((currentValue - DOWN_BUTTON_MAX * maxValue) /
-                (maxRatio * maxValue));
+    ratio = 1 - (ratio - DOWN_BUTTON_MAX) / maxRatio;
+    float minRatio = (float)DOWN_BUTTON_MIN_SIZE / DOWN_BUTTON_SIZE;
+    ratio = minRatio + (1 - minRatio) * ratio;
   }
 
   m_downButton->setVisible(true);
   m_downButton->setFixedSize(QSize(DOWN_BUTTON_SIZE, DOWN_BUTTON_SIZE) * ratio);
+}
+
+void NewQListWidget::downButtonClicked()
+{
+  scrollToBottom();
 }
