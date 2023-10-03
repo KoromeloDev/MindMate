@@ -1,4 +1,4 @@
-name: Testing Project
+name: Unit Testing
 on:
   workflow_dispatch:
   repository_dispatch:
