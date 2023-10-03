@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
-project(MindMate VERSION 1.7.2 LANGUAGES CXX)
+project(MindMate VERSION 1.7.3 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED true)

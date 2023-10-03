@@ -20,6 +20,19 @@ MessageWidget::MessageWidget(NewListWidgetItem *item,
   m_message = message;
   m_chatIndex = chatIndex;
   m_isEdit = false;
+
+  std::thread t([=]()
+  {
+    QIcon backIcon = ThemeIcon::getIcon(":/icons/back.svg");
+    m_ui->backButton->setIcon(backIcon);
+    QPixmap pixmap = backIcon.pixmap(backIcon.actualSize(QSize(32, 32)));
+    QTransform transform;
+    transform.scale(-1, 1);
+    pixmap = pixmap.transformed(transform);
+    m_ui->nextButton->setIcon(QIcon(pixmap));
+  });
+
+  t.detach();
   init();
 }
 
@@ -311,7 +324,7 @@ void MessageWidget::resizeTimer(quint16 interval)
   m_timer->start();
 }
 
-void MessageWidget::setPages(bool changeSelected)
+void MessageWidget::setPage(bool changeSelected)
 {
   if (m_isEdit)
   {
@@ -331,8 +344,8 @@ void MessageWidget::setPages(bool changeSelected)
   hideDeleteCurrent(m_allMessage == 1);
   m_ui->nextButton->setDisabled(m_currentIndex + 1 == m_allMessage);
   m_ui->backButton->setDisabled(m_currentIndex == 0);
-  m_ui->label->setText(QString("%1/%2").arg(m_currentIndex + 1)
-                       .arg(m_allMessage));
+  m_ui->label->setText(QString("%1/%2").arg(QString::number(m_currentIndex + 1),
+                                            QString::number(m_allMessage)));
 }
 
 void MessageWidget::newText(bool changeSelected)
@@ -362,17 +375,6 @@ void MessageWidget::newText(bool changeSelected)
 
 void MessageWidget::init()
 {
-  std::thread t([=]()
-  {
-    QIcon backIcon = ThemeIcon::getIcon(":/icons/back.svg");
-    m_ui->backButton->setIcon(backIcon);
-    QPixmap pixmap = backIcon.pixmap(backIcon.actualSize(QSize(32, 32)));
-    QTransform transform;
-    transform.scale(-1, 1);
-    pixmap = pixmap.transformed(transform);
-    m_ui->nextButton->setIcon(QIcon(pixmap));
-  });
-
   connect(m_ui->nextButton, &QToolButton::clicked,
           this, &MessageWidget::nextClicked);
   connect(m_ui->backButton, &QToolButton::clicked,
@@ -472,7 +474,7 @@ void MessageWidget::init()
     });
   }
 
-  setPages();
+  setPage();
   newText();
 
   if (m_isEdit)
@@ -482,8 +484,6 @@ void MessageWidget::init()
     border.top = true;
     setBorder(textEdit, border);
   }
-
-  t.join();
 }
 
 void MessageWidget::addWidgetToLayout(QWidget *widget)
@@ -572,7 +572,7 @@ void MessageWidget::deleteCurrentClicked()
   newText(true);
   m_currentIndex = m_message.selected;
   m_allMessage = m_message.content.size();
-  setPages();
+  setPage();
   emit selfDelete(false);
 }
 
@@ -626,13 +626,13 @@ void MessageWidget::changeLanguage(QString language, quint8 index)
 void MessageWidget::nextClicked()
 {
   ++m_currentIndex;
-  setPages(true);
+  setPage(true);
 }
 
 void MessageWidget::backClicked()
 {
   --m_currentIndex;
-  setPages(true);
+  setPage(true);
 }
 
 void MessageWidget::resizeEvent(QResizeEvent *event)
@@ -659,7 +659,7 @@ void MessageWidget::newMessage()
   hideDeleteCurrent(false);
   m_currentIndex = m_allMessage;
   ++m_allMessage;
-  setPages(true);
+  setPage(true);
 }
 
 void MessageWidget::hideDeleteCurrent(bool hide)

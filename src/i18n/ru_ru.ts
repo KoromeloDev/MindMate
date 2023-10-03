@@ -185,18 +185,18 @@
         <translation>Помощник</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="180"/>
+        <location filename="../src/MainWindow.cpp" line="183"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="239"/>
-        <location filename="../src/MainWindow.cpp" line="458"/>
+        <location filename="../src/MainWindow.cpp" line="242"/>
+        <location filename="../src/MainWindow.cpp" line="461"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="370"/>
+        <location filename="../src/MainWindow.cpp" line="373"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>
@@ -204,24 +204,32 @@
 <context>
     <name>MessageWidget</name>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="450"/>
+        <location filename="../src/MessageWidget.cpp" line="452"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="447"/>
+        <location filename="../src/MessageWidget.cpp" line="449"/>
         <source>Delete current</source>
         <translation>Удалить текущее</translation>
     </message>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="453"/>
+        <location filename="../src/MessageWidget.cpp" line="455"/>
         <source>Delete all</source>
         <translation>Удалить всё</translation>
     </message>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="444"/>
+        <location filename="../src/MessageWidget.cpp" line="446"/>
         <source>Generate</source>
         <translation>Сгенерировать</translation>
+    </message>
+</context>
+<context>
+    <name>SearchWidget</name>
+    <message>
+        <location filename="../src/SearchWidget.cpp" line="103"/>
+        <source>Found</source>
+        <translation>Найдено</translation>
     </message>
 </context>
 <context>

@@ -33,8 +33,6 @@ void NewTextEdit::resizeTextInput()
     setMaximumHeight(120);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
   }
-
-  emit resized();
 }
 
 void NewTextEdit::clippingStart(QString &text)
@@ -87,10 +85,17 @@ void NewTextEdit::keyPressEvent(QKeyEvent *event)
      (event->key() != Qt::Key_Return && event->key() != Qt::Key_Enter))
   {
     QTextEdit::keyPressEvent(event);
+    emit keyClicked(toPlainText());
     return;
   }
 
   QString text = toPlainText();
+
+  if (text.isEmpty())
+  {
+    return;
+  }
+
   clippingStart(text);
   clippingEnd(text);
   emit sendText(text);

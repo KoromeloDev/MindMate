@@ -79,7 +79,7 @@ private:
   inline void addWidgetToLayout(QWidget *widget);
   inline void addTextEdit(QString text, Border border);
   void resizeTimer(quint16 interval = 5);
-  void setPages(bool changeSelected = false);
+  void setPage(bool changeSelected = false);
   void newText(bool changeSelected = false);
   void hideDeleteCurrent(bool hide);
 

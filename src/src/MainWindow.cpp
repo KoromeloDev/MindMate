@@ -42,6 +42,10 @@ MainWindow::MainWindow(QWidget *parent)
           this, &MainWindow::stopClicked);
   connect(m_ui->chatSettingsButton, &QToolButton::clicked,
           this, &MainWindow::chatSettingsClicked);
+  connect(m_ui->historyList, &NewQListWidget::changeFocus, this, [=]()
+  {
+    m_ui->textInput->setFocus();
+  });
 
   m_movie.setFileName(":/icons/eclipse.gif");
   m_movie.setScaledSize(QSize(32, 32));
@@ -51,7 +55,6 @@ MainWindow::MainWindow(QWidget *parent)
   m_answerEffect.setVolume(0.20f);
   m_errorEffect.setSource(QUrl::fromLocalFile(":/sounds/error.wav"));
   m_errorEffect.setVolume(0.15f);
-
   APIKey key;
 
   if (key.isNeedKey())

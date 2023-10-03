@@ -34,7 +34,7 @@ private:
 
 signals:
   void sendText(QString text);
-  void resized();
+  void keyClicked(const QString &text);
 };
 
 #endif // NEWTEXTEDIT_H
