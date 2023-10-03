@@ -35,6 +35,7 @@ MindMate is an unofficial application for ChatGPT. The app supports chat setting
 <p align="center">
   <a href="https://www.codefactor.io/repository/github/koromelodev/mindmate"><img src="https://www.codefactor.io/repository/github/koromelodev/mindmate/badge" alt="CodeFactor" /></a>
   <img alt="GitHub issues" src="https://img.shields.io/github/issues/koromeloDev/MindMate">
+  <img alt="Unit Testing" src="https://github.com/KoromeloDev/MindMate/actions/workflows/test.yml/badge.svg?event=push">
 </p>
 
 ### Linux:
