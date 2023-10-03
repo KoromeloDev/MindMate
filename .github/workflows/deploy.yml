@@ -9,33 +9,20 @@ env:
 jobs:
   Testing:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v3
+    - name: Trigger new Testing
+      uses: peter-evans/repository-dispatch@v2
       with:
-        version: ${{env.QT_VERSION}}
-        host: linux
-        target: desktop
-        arch: gcc_64
-        modules: qtmultimedia
-        cache: true
-        cache-key-prefix: install-qt
-    - name: Get repository code
-      uses: actions/checkout@v4.0.0
-    - name: Build
-      uses: ashutoshvarma/action-cmake-build@master
+        event-type: test
+    - name: Wait for Testing action
+      uses: kamilchodola/wait-for-workflow-action@1.1.1
       with:
-        build-type: Release
-        configure-options: -DTESTING=ON
-    - name: Find tests
-      uses: mathiasvr/command-output@v2.0.0
-      id: tests
-      with:
-        run: find ${{runner.workspace}}/build/ -type f -name "*Test"   
-    - name: Run tests
-      run: |
-        export QT_QPA_PLATFORM=offscreen
-        ${{steps.tests.outputs.stdout}}
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        workflow_id: test.yml
+        max_wait_minutes: 3
+        org_name: KoromeloDev
+        repo_name: MindMate
   Build-for-Linux:
     needs: Testing
     runs-on: ubuntu-latest
@@ -78,10 +65,10 @@ jobs:
         dir: ${{github.workspace}}/qt
         modules: qtmultimedia
         cache: true
-        cache-key-prefix: install-qt
+        cache-key-prefix: Qt
     - name: Configure CMake Project
       working-directory: ${{github.workspace}}
-      run: cmake -DCMAKE_BUILD_TYPE=MinSizeRel -G "CodeBlocks - MinGW Makefiles" -B ${{github.workspace}}\build
+      run: cmake -DCMAKE_BUILD_TYPE=MinSizeRel -G "MinGW Makefiles" -B ${{github.workspace}}\build
     - name: Build project
       working-directory: ${{github.workspace}}\build
       run: mingw32-make.exe

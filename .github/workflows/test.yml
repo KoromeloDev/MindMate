@@ -1,0 +1,40 @@
+name: Testing Project
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: test
+  push:
+    branches: main
+env:
+  QT_VERSION: 6.5.2
+  PROJECT_NAME: MindMate
+jobs:
+  Testing:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: ${{env.QT_VERSION}}
+        host: linux
+        target: desktop
+        arch: gcc_64
+        modules: qtmultimedia
+        cache: true
+        cache-key-prefix: Qt
+    - name: Get repository code
+      uses: actions/checkout@v4.0.0
+    - name: Build
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-type: Release
+        configure-options: -DTESTING=ON
+    - name: Find tests
+      uses: mathiasvr/command-output@v2.0.0
+      id: tests
+      with:
+        run: find ${{runner.workspace}}/build/ -type f -name "*Test"
+    - name: Run tests
+      run: |
+        export QT_QPA_PLATFORM=offscreen
+        ${{steps.tests.outputs.stdout}}
