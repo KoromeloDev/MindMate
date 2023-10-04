@@ -37,7 +37,7 @@ private slots:
   void resizeDownButton();
   void downButtonClicked();
   void searchItems();
-  void searchPageChanged(quint16 currentPage);
+  void searchPageChanged(quint16 &page);
 
 signals:
   void changeFocus();

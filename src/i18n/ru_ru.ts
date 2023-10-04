@@ -227,7 +227,7 @@
 <context>
     <name>SearchWidget</name>
     <message>
-        <location filename="../src/SearchWidget.cpp" line="103"/>
+        <location filename="../src/SearchWidget.cpp" line="8"/>
         <source>Found</source>
         <translation>Найдено</translation>
     </message>

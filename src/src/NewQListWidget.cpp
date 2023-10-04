@@ -79,7 +79,7 @@ void NewQListWidget::searchShow()
     }
     else
     {
-      setAllFoundColor();
+      searchItems();
       m_searchWidget->setFocus();
     }
   }
@@ -183,15 +183,25 @@ void NewQListWidget::searchItems()
   setAllFoundColor();
 }
 
-void NewQListWidget::searchPageChanged(quint16 currentPage)
+void NewQListWidget::searchPageChanged(quint16 &page)
 {
-  if ((qint16)currentPage - 1 == -1)
+  if ((qint16)page - 1 == -1)
   {
     return;
   }
 
-  setFoundColor(m_searchSelected);
-  m_searchSelected = currentPage - 1;
-  setSelectedFoundColor(m_searchSelected);
-  scrollToItem(item(m_searchSelected));
+  quint16 selected = page - 1;
+
+  if (selected == m_searchSelected && m_searchSelected != 0)
+  {
+    setFoundColor(m_searchResult[m_searchSelected - 1]);
+  }
+  else
+  {
+    setFoundColor(m_searchResult[m_searchSelected]);
+  }
+
+  m_searchSelected = selected;
+  setSelectedFoundColor(m_searchResult[m_searchSelected]);
+  scrollToItem(item(m_searchResult[m_searchSelected]));
 }

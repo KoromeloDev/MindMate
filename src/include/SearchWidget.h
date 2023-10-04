@@ -2,7 +2,6 @@
 #define SEARCHWIDGET_H
 
 #include <QWidget>
-#include <thread>
 
 namespace Ui
 {
@@ -25,18 +24,15 @@ private:
   Ui::SearchWidget *m_ui;
   QVector<quint16> m_searchResult;
   QString m_text;
-  quint16 m_currentPage;
 
   void setPage();
 
 private slots:
   void keyClicked(const QString &text);
-  void nextButtonClicked();
-  void backButtonClicked();
 
 signals:
   void textEnter();
-  void pageChanged(quint16 currentPage);
+  void pageChanged(quint16 &page);
 };
 
 #endif // SEARCHWIDGET_H
