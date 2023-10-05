@@ -22,6 +22,11 @@
     <height>80</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="focusPolicy">
    <enum>Qt::NoFocus</enum>
   </property>
@@ -45,7 +50,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QWidget" name="widgetList" native="true">
+    <widget class="PageWidget" name="pageWidget" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -59,81 +64,20 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">border-top-left-radius:  15;
-border-top-right-radius:  15;
-padding-left:10px;
-padding-right:10px;
-padding-top:10px;
-padding-bottom:10px;</string>
+      <string notr="true">background-color: transparent;</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QToolButton" name="backButton">
-        <property name="styleSheet">
-         <string notr="true">background-color: none;</string>
-        </property>
-        <property name="text">
-         <string notr="true">...</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/icons/back.svg</normaloff>:/icons/back.svg</iconset>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="styleSheet">
-         <string notr="true">border-radius:  0;
-background-color: none;</string>
-        </property>
-        <property name="text">
-         <string notr="true">1/1</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::PlainText</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="textInteractionFlags">
-         <set>Qt::NoTextInteraction</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="nextButton">
-        <property name="styleSheet">
-         <string notr="true">background-color: none;</string>
-        </property>
-        <property name="text">
-         <string notr="true">...</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/icons/back.svg</normaloff>:/icons/back.svg</iconset>
-        </property>
-       </widget>
-      </item>
-     </layout>
     </widget>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../resources/resources.qrc"/>
- </resources>
+ <customwidgets>
+  <customwidget>
+   <class>PageWidget</class>
+   <extends>QWidget</extends>
+   <header>PageWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
  <connections/>
 </ui>

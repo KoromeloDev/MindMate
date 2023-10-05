@@ -120,13 +120,13 @@
 <context>
     <name>CodeWidget</name>
     <message>
-        <location filename="../ui/CodeWidget.ui" line="100"/>
-        <location filename="../src/CodeWidget.cpp" line="221"/>
+        <location filename="../ui/CodeWidget.ui" line="105"/>
+        <location filename="../src/CodeWidget.cpp" line="224"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../src/CodeWidget.cpp" line="204"/>
+        <location filename="../src/CodeWidget.cpp" line="207"/>
         <source>Copied</source>
         <translation>Скопировано</translation>
     </message>
@@ -204,22 +204,22 @@
 <context>
     <name>MessageWidget</name>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="452"/>
+        <location filename="../src/MessageWidget.cpp" line="429"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="449"/>
+        <location filename="../src/MessageWidget.cpp" line="426"/>
         <source>Delete current</source>
         <translation>Удалить текущее</translation>
     </message>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="455"/>
+        <location filename="../src/MessageWidget.cpp" line="432"/>
         <source>Delete all</source>
         <translation>Удалить всё</translation>
     </message>
     <message>
-        <location filename="../src/MessageWidget.cpp" line="446"/>
+        <location filename="../src/MessageWidget.cpp" line="423"/>
         <source>Generate</source>
         <translation>Сгенерировать</translation>
     </message>

@@ -41,6 +41,7 @@ public:
 
 protected:
   void resizeEvent(QResizeEvent *event) override;
+  void paintEvent(QPaintEvent* event) override;
 
 private:
   friend class MessageWidgetTest;
@@ -52,11 +53,6 @@ private:
   QVector<float> m_textWidth;
   quint16 m_width;
   quint16 m_height;
-  struct Border
-  {
-    bool top = false;
-    bool bottom = false;
-  };
   QSharedPointer<QMenu> m_menu;
   qint8 m_chatIndex;
   bool m_isEdit;
@@ -73,15 +69,17 @@ private:
   QSize getSizeTextEdit(quint8 index) const;
   void createText();
   bool isMaxWidth(quint16 width) const;
-  void setBorder(QWidget *widget, const Border &border);
-  inline void addCodeWidget(const QString &codeText, const Border &border);
+  void setBorder(QWidget *widget);
+  inline void addCodeWidget(const QString &codeText, bool needSetBorder);
   void init();
   inline void addWidgetToLayout(QWidget *widget);
-  inline void addTextEdit(QString text, Border border);
+  inline void addTextEdit(QString text);
   void resizeTimer(quint16 interval = 5);
   void setPage(bool changeSelected = false);
   void newText(bool changeSelected = false);
   void hideDeleteCurrent(bool hide);
+  Qt::AlignmentFlag getAlignment();
+  QVector<QColor> getGradientColors();
 
 signals:
   void selfDelete(bool all);
@@ -95,8 +93,7 @@ private slots:
   void editClicked();
   void generateClicked();
   void changeLanguage(QString language, quint8 index);
-  void nextClicked();
-  void backClicked();
+  void pageChanged(quint16 &page);
 };
 
 #endif // MESSAGEWIDGET_H

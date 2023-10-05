@@ -185,7 +185,7 @@ void NewQListWidget::searchItems()
 
 void NewQListWidget::searchPageChanged(quint16 &page)
 {
-  if ((qint16)page - 1 == -1)
+  if (page == 0)
   {
     return;
   }

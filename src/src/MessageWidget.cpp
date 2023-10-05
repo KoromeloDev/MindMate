@@ -8,6 +8,7 @@
 #define MAX_RATIO 0.7
 #define MARGIN 20
 #define SPACING 20
+#define BORDER 16       // Must be 1 more than the required value
 
 QSharedPointer<EditMessageDialog> m_editDialog;
 
@@ -20,19 +21,10 @@ MessageWidget::MessageWidget(NewListWidgetItem *item,
   m_message = message;
   m_chatIndex = chatIndex;
   m_isEdit = false;
+  m_ui->pageWidget->setCurrentPage(m_message.selected + 1);
 
-  std::thread t([=]()
-  {
-    QIcon backIcon = ThemeIcon::getIcon(":/icons/back.svg");
-    m_ui->backButton->setIcon(backIcon);
-    QPixmap pixmap = backIcon.pixmap(backIcon.actualSize(QSize(32, 32)));
-    QTransform transform;
-    transform.scale(-1, 1);
-    pixmap = pixmap.transformed(transform);
-    m_ui->nextButton->setIcon(QIcon(pixmap));
-  });
-
-  t.detach();
+  connect(m_ui->pageWidget, &PageWidget::pageChanged,
+          this, &MessageWidget::pageChanged);
   init();
 }
 
@@ -113,10 +105,10 @@ void MessageWidget::resize()
   if (m_item != nullptr)
   {
     m_item->setSizeHint(QSize(width(), m_height + SPACING +
-                              m_ui->widgetList->minimumHeight()));
+                              m_ui->pageWidget->minimumHeight()));
   }
 
-  m_ui->widgetList->setMaximumWidth(m_width);
+  m_ui->pageWidget->setMaximumWidth(m_width);
   setMinimumHeight(m_height);
   --m_queueResize;
 
@@ -154,9 +146,9 @@ QSize MessageWidget::getSizeTextEdit(quint8 index) const
     {
       sizeWidth += m_textWidth[index];
 
-      if (sizeWidth < m_ui->widgetList->minimumWidth())
+      if (sizeWidth < m_ui->pageWidget->minimumWidth())
       {
-        sizeWidth = m_ui->widgetList->minimumWidth();
+        sizeWidth = m_ui->pageWidget->minimumWidth();
       }
     }
   }
@@ -228,17 +220,15 @@ void MessageWidget::createText()
   for (quint8 i = 0; i < m_widgetList.count(); ++i)
   {
     bool isCodeWidget = m_widgetList[i];
-    Border border;
-    border.bottom = i + 1 == m_widgetList.count();
 
     if (isCodeWidget && !m_isEdit)
     {
-      addCodeWidget(codeText[indexCode], border);
+      addCodeWidget(codeText[indexCode], i + 1 == m_widgetList.count());
       ++indexCode;
     }
     else
     {
-      addTextEdit(textList[indexText], border);
+      addTextEdit(textList[indexText]);
       ++indexText;
     }
   }
@@ -264,31 +254,24 @@ bool MessageWidget::isMaxWidth(quint16 width) const
   return false;
 }
 
-void MessageWidget::setBorder(QWidget *widget, const Border &border)
+void MessageWidget::setBorder(QWidget *widget)
 {
-  if (border.top)
-  {
-    widget->setStyleSheet(widget->styleSheet() +
-                          "border-top-left-radius: 15;"
-                          "border-top-right-radius: 15;");
-  }
-
-  if(border.bottom)
-  {
-    widget->setStyleSheet(widget->styleSheet() +
-                          "border-bottom-left-radius: 15;"
-                          "border-bottom-right-radius: 15;");
-  }
+  widget->setStyleSheet(widget->styleSheet() + QString(
+                        "border-bottom-left-radius: %1;"
+                        "border-bottom-right-radius: %1;").arg(BORDER-1));
 }
 
-void MessageWidget::addCodeWidget(const QString &codeText, const Border &border)
+void MessageWidget::addCodeWidget(const QString &codeText, bool needSetBorder)
 {
   QSharedPointer<CodeWidget> code = code.create(this, codeText, m_menu.get(),
                                                 m_currentIndex);
 
   std::thread t([&]()
   {
-    setBorder(code.get(), border);
+    if (needSetBorder)
+    {
+      setBorder(code.get());
+    }
   });
 
   connect(code.get(), &CodeWidget::changeLanguage,
@@ -328,7 +311,7 @@ void MessageWidget::setPage(bool changeSelected)
 {
   if (m_isEdit)
   {
-    m_ui->widgetList->setVisible(false);
+    m_ui->pageWidget->setVisible(false);
     return;
   }
 
@@ -342,10 +325,7 @@ void MessageWidget::setPage(bool changeSelected)
   }
 
   hideDeleteCurrent(m_allMessage == 1);
-  m_ui->nextButton->setDisabled(m_currentIndex + 1 == m_allMessage);
-  m_ui->backButton->setDisabled(m_currentIndex == 0);
-  m_ui->label->setText(QString("%1/%2").arg(QString::number(m_currentIndex + 1),
-                                            QString::number(m_allMessage)));
+  m_ui->pageWidget->setAllPage(m_allMessage);
 }
 
 void MessageWidget::newText(bool changeSelected)
@@ -373,13 +353,33 @@ void MessageWidget::newText(bool changeSelected)
   }
 }
 
+QVector<QColor> MessageWidget::getGradientColors()
+{
+  QVector<QColor> colors;
+
+  switch (m_message.role)
+  {
+    case HistoryParser::Role::Assistant:
+      colors.append(QColor(239, 116, 92));
+      colors.append(QColor(110, 58, 213));
+      break;
+
+    case HistoryParser::Role::User:
+      colors.append(QColor(64, 201, 255));
+      colors.append(QColor(232, 28, 255));
+      break;
+
+    case HistoryParser::Role::System:
+      colors.append(QColor(226, 11, 140));
+      colors.append(QColor(248, 75, 0));
+      break;
+  }
+
+  return colors;
+}
+
 void MessageWidget::init()
 {
-  connect(m_ui->nextButton, &QToolButton::clicked,
-          this, &MessageWidget::nextClicked);
-  connect(m_ui->backButton, &QToolButton::clicked,
-          this, &MessageWidget::backClicked);
-
   m_queueResize = 0;
   m_currentIndex = m_message.selected;
   m_allMessage = m_message.content.size();
@@ -388,29 +388,6 @@ void MessageWidget::init()
   QString color1;
   QString color2;
   QString color3;
-
-  switch (m_message.role)
-  {
-    case HistoryParser::Role::Assistant:
-        color1 = "ef745c";
-        color2 = "6E3AD5";
-        break;
-
-    case HistoryParser::Role::User:
-        color1 = "40c9ff";
-        color2 = "e81cff";
-        break;
-
-    case HistoryParser::Role::System:
-        color1 = "e20b8c";
-        color2 = "f84b00";
-        break;
-  }
-
-  setStyleSheet("background: qlineargradient("
-                "x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #" + color1 +", "
-                "stop: 1 #" + color2 +");");
-
 
   if (QPalette().color(QPalette::Window).value() < 128)
   {
@@ -476,40 +453,15 @@ void MessageWidget::init()
 
   setPage();
   newText();
-
-  if (m_isEdit)
-  {
-    QTextEdit *textEdit = m_textEdit[0].get();
-    Border border;
-    border.top = true;
-    setBorder(textEdit, border);
-  }
 }
 
 void MessageWidget::addWidgetToLayout(QWidget *widget)
 {
-  Qt::AlignmentFlag position;
-
-  switch (m_message.role)
-  {
-    case HistoryParser::Role::Assistant:
-      position = Qt::AlignLeft;
-      break;
-    case HistoryParser::Role::System:
-      position = Qt::AlignHCenter;
-      break;
-    case HistoryParser::Role::User:
-      position = Qt::AlignRight;
-      break;
-    default:
-      return;
-  }
-
   m_ui->verticalLayout->addWidget(widget);
-  m_ui->verticalLayout->setAlignment(position);
+  m_ui->verticalLayout->setAlignment(getAlignment());
 }
 
-void MessageWidget::addTextEdit(QString text, Border border)
+void MessageWidget::addTextEdit(QString text)
 {
   QSharedPointer<QTextEdit> textEdit = textEdit.create(this);
   textEdit->setFont(QFont(":/fonts/Roboto-Regular.ttf", 11));
@@ -520,7 +472,8 @@ void MessageWidget::addTextEdit(QString text, Border border)
     m_textWidth.append(fontSize.boundingRect(QRect(), Qt::TextDontClip, text).
                        width());
   });
-  textEdit->setStyleSheet("color: white;"
+  textEdit->setStyleSheet("background-color: transparent;"
+                          "color: white;"
                           "padding-left:10px;"
                           "padding-right:10px;"
                           "padding-top:5px;"
@@ -549,7 +502,7 @@ void MessageWidget::addTextEdit(QString text, Border border)
     textEdit->setReadOnly(true);
   }
 
-  setBorder(textEdit.get(), border);
+  setBorder(textEdit.get());
   m_textEdit.append(textEdit);
   addWidgetToLayout(textEdit.get());
   t.join();
@@ -623,15 +576,14 @@ void MessageWidget::changeLanguage(QString language, quint8 index)
   editMessage(newMessage);
 }
 
-void MessageWidget::nextClicked()
+void MessageWidget::pageChanged(quint16 &page)
 {
-  ++m_currentIndex;
-  setPage(true);
-}
+  if (page == 0)
+  {
+    return;
+  }
 
-void MessageWidget::backClicked()
-{
-  --m_currentIndex;
+  m_currentIndex = page - 1;
   setPage(true);
 }
 
@@ -639,6 +591,22 @@ void MessageWidget::resizeEvent(QResizeEvent *event)
 {
   QWidget::resizeEvent(event);
   resize();
+}
+
+void MessageWidget::paintEvent(QPaintEvent *event)
+{
+  QRect geometry = m_ui->pageWidget->geometry();
+  geometry.setHeight(getSize().height() + geometry.height());
+  QPainter painter(this);
+  QLinearGradient gradient(geometry.left(), 0, geometry.right(), 0);
+  painter.setRenderHint(QPainter::Antialiasing);
+  QVector<QColor> colors = getGradientColors();
+  gradient.setColorAt(0, colors[0]);
+  gradient.setColorAt(1, colors[1]);
+  painter.setBrush(gradient);
+  painter.setPen(Qt::NoPen);
+  painter.drawRoundedRect(geometry, BORDER, BORDER);
+  painter.end();
 }
 
 quint8 MessageWidget::getCurrentIndex() const
@@ -667,6 +635,24 @@ void MessageWidget::hideDeleteCurrent(bool hide)
   if (m_deleteCurrentAction != nullptr)
   {
     m_deleteCurrentAction->setVisible(!hide);
+  }
+}
+
+Qt::AlignmentFlag MessageWidget::getAlignment()
+{
+  switch (m_message.role)
+  {
+    case HistoryParser::Role::Assistant:
+      return Qt::AlignLeft;
+      break;
+    case HistoryParser::Role::System:
+      return Qt::AlignHCenter;
+      break;
+    case HistoryParser::Role::User:
+      return Qt::AlignRight;
+      break;
+    default:
+      return {};
   }
 }
 

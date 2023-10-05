@@ -22,6 +22,11 @@
     <height>50</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="styleSheet">
    <string notr="true">color: rgb(255, 255, 255);</string>
   </property>
@@ -62,8 +67,8 @@
       <string notr="true">QWidget 
 {
 	background-color: rgb(30, 30, 30);
-	border-bottom-left-radius: 0%;
-	border-bottom-right-radius: 0%;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 }
 </string>
      </property>
@@ -100,8 +105,7 @@
          <string>Copy</string>
         </property>
         <property name="icon">
-         <iconset theme="edit-copy">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset theme="edit-copy"/>
         </property>
         <property name="iconSize">
          <size>
@@ -128,8 +132,8 @@ padding-left:10px;
 padding-right:10px;
 padding-top:10px;
 padding-bottom:10px;
-border-top-left-radius: 0%;
-border-top-right-radius: 0%;</string>
+border-top-left-radius: 0;
+border-top-right-radius: 0;</string>
      </property>
      <property name="verticalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOff</enum>

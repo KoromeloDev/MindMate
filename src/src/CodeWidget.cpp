@@ -30,9 +30,12 @@ CodeWidget::CodeWidget(QWidget *parent, QString code, QMenu *menu, quint8 index)
   m_language.append(code.mid(3, i - 3));
   quint8 j = 0;
 
-  while (code.length() != 0)
+  qint16 jIndex = code.length() -1 - j;
+
+  while (jIndex > 0)
   {
-    QChar symbol = code[code.length() -1 - j];
+    jIndex = code.length() -1 - j;
+    QChar symbol = code[jIndex];
 
     if (symbol == '`' || symbol == '\n' || symbol == ' ' || symbol == '\t')
     {
