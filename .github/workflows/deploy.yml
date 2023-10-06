@@ -20,7 +20,7 @@ jobs:
       with:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         workflow_id: test.yml
-        max_wait_minutes: 3
+        max_wait_minutes: 5
         org_name: KoromeloDev
         repo_name: MindMate
   Build-for-Linux:
