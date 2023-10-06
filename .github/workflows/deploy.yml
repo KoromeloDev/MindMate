@@ -9,20 +9,33 @@ env:
 jobs:
   Testing:
     runs-on: ubuntu-latest
-    permissions: write-all
     steps:
-    - name: Trigger new Testing
-      uses: peter-evans/repository-dispatch@v2
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
       with:
-        event-type: test
-    - name: Wait for Testing action
-      uses: kamilchodola/wait-for-workflow-action@1.1.1
+        version: ${{env.QT_VERSION}}
+        host: linux
+        target: desktop
+        arch: gcc_64
+        modules: qtmultimedia
+        cache: true
+        cache-key-prefix: Qt
+    - name: Get repository code
+      uses: actions/checkout@v4.0.0
+    - name: Build
+      uses: ashutoshvarma/action-cmake-build@master
       with:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        workflow_id: test.yml
-        max_wait_minutes: 5
-        org_name: KoromeloDev
-        repo_name: MindMate
+        build-type: Release
+        configure-options: -DTESTING=ON
+    - name: Find tests
+      uses: mathiasvr/command-output@v2.0.0
+      id: tests
+      with:
+        run: find ${{runner.workspace}}/build/ -type f -name "*Test"
+    - name: Run tests
+      run: |
+        export QT_QPA_PLATFORM=offscreen
+        ${{steps.tests.outputs.stdout}}
   Build-for-Linux:
     needs: Testing
     runs-on: ubuntu-latest
