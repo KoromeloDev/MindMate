@@ -93,6 +93,7 @@ void NewTextEdit::keyPressEvent(QKeyEvent *event)
 
   if (text.isEmpty() || m_text == text)
   {
+    emit sendText(text);
     return;
   }
 

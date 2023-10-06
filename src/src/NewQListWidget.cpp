@@ -115,25 +115,33 @@ void NewQListWidget::setAllFoundColor()
 
   m_searchSelected = page - 1;
   setSelectedFoundColor(m_searchResult[m_searchSelected]);
-
 }
 
 void NewQListWidget::resetAllFoundColor()
 {
   for (const quint16 &i : m_searchResult)
   {
-    item(i)->setBackground(QBrush());
+    if (item(i) != nullptr)
+    {
+      item(i)->setBackground(QBrush());
+    }
   }
 }
 
 void NewQListWidget::setFoundColor(quint16 index)
 {
-  item(index)->setBackground(QBrush(QColor(0x6A, 0x9C, 0xEB)));
+  if (item(index) != nullptr)
+  {
+    item(index)->setBackground(QBrush(QColor(0x6A, 0x9C, 0xEB)));
+  }
 }
 
 void NewQListWidget::setSelectedFoundColor(quint16 index)
 {
-  item(index)->setBackground(QBrush(QColor(0xF5, 0xEB, 0x90)));
+  if (item(index) != nullptr)
+  {
+    item(index)->setBackground(QBrush(QColor(0xF5, 0xEB, 0x90)));
+  }
 }
 
 void NewQListWidget::resizeDownButton()

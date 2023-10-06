@@ -595,8 +595,20 @@ void MessageWidget::resizeEvent(QResizeEvent *event)
 
 void MessageWidget::paintEvent(QPaintEvent *event)
 {
-  QRect geometry = m_ui->pageWidget->geometry();
-  geometry.setHeight(getSize().height() + geometry.height());
+  QRect geometry;
+
+  if (m_ui->pageWidget->isHidden())
+  {
+    geometry.setHeight(size().height());
+    geometry.setLeft(MARGIN);
+    geometry.setRight(size().width() - MARGIN);
+  }
+  else
+  {
+    geometry = m_ui->pageWidget->geometry();
+    geometry.setHeight(getSize().height() + geometry.height());
+  }
+
   QPainter painter(this);
   QLinearGradient gradient(geometry.left(), 0, geometry.right(), 0);
   painter.setRenderHint(QPainter::Antialiasing);

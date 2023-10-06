@@ -629,6 +629,7 @@ void MainWindow::messageDeleteCliked(bool all)
 {
   MessageWidget *sender = qobject_cast<MessageWidget*>(QObject::sender());
   const quint8 &index = sender->getItem()->getIndex();
+  m_ui->historyList->resetSeachWidget(false);
 
   if (all)
   {
@@ -675,6 +676,7 @@ void MainWindow::messageEdit()
 {
   MessageWidget *sender = qobject_cast<MessageWidget*>(QObject::sender());
   m_allMesages[sender->getItem()->getIndex()] = sender->getMessages();
+  m_ui->historyList->resetSeachWidget(false);
 }
 
 void MainWindow::messageGenerate(quint16 index)
