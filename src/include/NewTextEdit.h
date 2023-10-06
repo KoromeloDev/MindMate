@@ -26,6 +26,7 @@ protected:
 
 private:
   Ui::NewTextEdit *m_ui;
+  QString m_text;
 
   void resizeTextInput();
   void clippingStart(QString &text);

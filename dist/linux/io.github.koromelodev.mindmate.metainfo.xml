@@ -39,7 +39,7 @@
   </screenshots>
   
   <releases>
-    <release version="1.7.3-beta" date="2023-10-04">
+    <release version="1.8.0-beta" date="2023-10-06">
       <description>
         <p>Bug fixes and adding search</p>
       </description>

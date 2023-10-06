@@ -7,6 +7,8 @@
 #include <QGridLayout>
 #include <QKeyEvent>
 #include <QLineEdit>
+#include <QShortcut>
+#include <QApplication>
 
 #include "SearchWidget.h"
 
@@ -16,8 +18,7 @@ class NewQListWidget : public QListWidget
 public:
   NewQListWidget(QWidget *parent = nullptr);
 
-protected:
-  void keyPressEvent(QKeyEvent *event) override;
+  void resetSeachWidget(bool hide);
 
 private:
   QSharedPointer<QGridLayout> m_layout;
@@ -25,6 +26,7 @@ private:
   QSharedPointer<SearchWidget> m_searchWidget;
   QVector<quint16> m_searchResult;
   quint16 m_searchSelected;
+  QSharedPointer<QShortcut> m_shortcut;
 
   void createDownButton();
   void searchShow();
@@ -38,6 +40,7 @@ private slots:
   void downButtonClicked();
   void searchItems();
   void searchPageChanged(quint16 &page);
+  void focusChanged(QWidget *oldFocus, QWidget *newFocus);
 
 signals:
   void changeFocus();

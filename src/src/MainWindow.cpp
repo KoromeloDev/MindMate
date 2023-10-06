@@ -469,7 +469,10 @@ void MainWindow::chatItemChanged(QListWidgetItem *item)
   if (chatItem != nullptr)
   {
     chatItem->setNewMessage(false);
+
     showChat();
+
+    m_ui->historyList->resetSeachWidget(true);
   }
 }
 

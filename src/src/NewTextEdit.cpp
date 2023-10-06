@@ -91,11 +91,12 @@ void NewTextEdit::keyPressEvent(QKeyEvent *event)
 
   QString text = toPlainText();
 
-  if (text.isEmpty())
+  if (text.isEmpty() || m_text == text)
   {
     return;
   }
 
+  m_text = text;
   clippingStart(text);
   clippingEnd(text);
   emit sendText(text);

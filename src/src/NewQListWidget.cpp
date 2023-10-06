@@ -12,21 +12,42 @@
 NewQListWidget::NewQListWidget(QWidget *parent) : QListWidget(parent)
 {
   m_searchSelected = 0;
+  m_shortcut = m_shortcut.create(QKeySequence::Find, this);
   createDownButton();
 
   connect(verticalScrollBar(), &QScrollBar::valueChanged,
           this, &NewQListWidget::resizeDownButton);
+  connect(m_shortcut.get(), &QShortcut::activated,
+          this, &NewQListWidget::searchShow);
+  QObject::connect(qApp, &QApplication::focusChanged,
+                   this, &NewQListWidget::focusChanged);
 }
 
-void NewQListWidget::keyPressEvent(QKeyEvent *event)
+void NewQListWidget::resetSeachWidget(bool hide)
 {
-  if (event->key() == Qt::Key_F && event->modifiers() == Qt::ControlModifier)
+  if (m_searchWidget.isNull())
   {
-    searchShow();
+    return;
+  }
+
+  if (hide)
+  {
+    m_searchWidget->setHidden(true);
+    m_searchResult.clear();
+    return;
+  }
+
+  m_searchWidget->setHidden(!m_searchWidget->isHidden());
+
+  if (m_searchWidget->isHidden())
+  {
+    resetAllFoundColor();
+    emit changeFocus();
   }
   else
   {
-    QWidget::keyPressEvent(event);
+    searchItems();
+    m_searchWidget->setFocus();
   }
 }
 
@@ -70,18 +91,7 @@ void NewQListWidget::searchShow()
   }
   else
   {
-    m_searchWidget->setHidden(!m_searchWidget->isHidden());
-
-    if (m_searchWidget->isHidden())
-    {
-      resetAllFoundColor();
-      emit changeFocus();
-    }
-    else
-    {
-      searchItems();
-      m_searchWidget->setFocus();
-    }
+    resetSeachWidget(false);
   }
 }
 
@@ -98,12 +108,14 @@ void NewQListWidget::setAllFoundColor()
   }
 
   quint16 page = m_searchWidget->getPage();
-  if ((qint16)page - 1 == -1)
+  if (page == 0)
   {
     return;
   }
 
-  setSelectedFoundColor(m_searchResult[page - 1]);
+  m_searchSelected = page - 1;
+  setSelectedFoundColor(m_searchResult[m_searchSelected]);
+
 }
 
 void NewQListWidget::resetAllFoundColor()
@@ -190,18 +202,20 @@ void NewQListWidget::searchPageChanged(quint16 &page)
     return;
   }
 
-  quint16 selected = page - 1;
-
-  if (selected == m_searchSelected && m_searchSelected != 0)
-  {
-    setFoundColor(m_searchResult[m_searchSelected - 1]);
-  }
-  else
-  {
-    setFoundColor(m_searchResult[m_searchSelected]);
-  }
-
-  m_searchSelected = selected;
+  setFoundColor(m_searchResult[m_searchSelected]);
+  m_searchSelected = page - 1;
   setSelectedFoundColor(m_searchResult[m_searchSelected]);
   scrollToItem(item(m_searchResult[m_searchSelected]));
+}
+
+void NewQListWidget::focusChanged(QWidget *oldFocus, QWidget *newFocus)
+{
+  if (m_searchWidget.isNull() || m_searchWidget->isHidden() ||
+      newFocus->parentWidget() == m_searchWidget)
+  {
+    return;
+  }
+
+  m_searchWidget->setHidden(true);
+  resetAllFoundColor();
 }
