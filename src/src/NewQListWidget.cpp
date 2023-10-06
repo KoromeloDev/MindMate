@@ -53,7 +53,7 @@ void NewQListWidget::resetSeachWidget(bool hide)
 
 void NewQListWidget::createDownButton()
 {
-  m_downButton = m_downButton.create();
+  m_downButton = m_downButton.create(this);
   m_downButton->setIconSize(m_downButton->size() / 8 * 6);
   ThemeIcon::setIcon(*m_downButton, ":/icons/down.svg");
   m_downButton->setFixedSize(DOWN_BUTTON_SIZE, DOWN_BUTTON_SIZE);
@@ -65,6 +65,7 @@ void NewQListWidget::createDownButton()
   setLayout(m_layout.get());
   m_layout->setContentsMargins(0, 0, DOWN_BUTTON_INDENT + 4,
                                DOWN_BUTTON_INDENT - 4);
+  resizeDownButton();
 
   connect(m_downButton.get(), &QToolButton::clicked,
           this, &NewQListWidget::downButtonClicked);
@@ -152,6 +153,7 @@ void NewQListWidget::resizeDownButton()
 
   if (maxValue == 0 || currentValue == 0 || maxRatio <= 0)
   {
+    m_downButton->setVisible(false);
     return;
   }
 
