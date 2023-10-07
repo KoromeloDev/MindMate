@@ -39,9 +39,9 @@
   </screenshots>
   
   <releases>
-    <release version="1.8.0-beta" date="2023-10-06">
+    <release version="1.8.1-beta" date="2023-10-07">
       <description>
-        <p>Bug fixes and adding search</p>
+        <p>Bug fixes</p>
       </description>
     </release>
   </releases>
