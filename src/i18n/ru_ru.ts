@@ -33,12 +33,12 @@
 <context>
     <name>ChatGPT</name>
     <message>
-        <location filename="../base/src/ChatGPT.cpp" line="77"/>
+        <location filename="../base/src/ChatGPT.cpp" line="85"/>
         <source>Connection failed</source>
         <translation>Сбой подключения</translation>
     </message>
     <message>
-        <location filename="../base/src/ChatGPT.cpp" line="125"/>
+        <location filename="../base/src/ChatGPT.cpp" line="133"/>
         <source>The process is busy</source>
         <translation>Поцесс занят</translation>
     </message>
@@ -190,13 +190,13 @@
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="242"/>
-        <location filename="../src/MainWindow.cpp" line="461"/>
+        <location filename="../src/MainWindow.cpp" line="243"/>
+        <location filename="../src/MainWindow.cpp" line="496"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="373"/>
+        <location filename="../src/MainWindow.cpp" line="418"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>

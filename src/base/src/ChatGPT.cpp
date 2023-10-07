@@ -3,10 +3,19 @@
 ChatGPT::ChatGPT(QString key)
 {
   m_key = key;
+  m_networkManager = nullptr;
+}
+
+ChatGPT::~ChatGPT()
+{
+  if (m_networkManager != nullptr)
+  {
+    m_networkManager->deleteLater();
+  }
 }
 
 void ChatGPT::send(QVector<HistoryParser::Messages> message,
-                   ChatSettings chatSettings, quint8 index)
+                   ChatSettings chatSettings)
 {
   if (message.empty())
   {
@@ -15,7 +24,6 @@ void ChatGPT::send(QVector<HistoryParser::Messages> message,
     return;
   }
 
-  m_index = index;
   m_message = message;
   m_chatSettings = chatSettings;
 
@@ -67,7 +75,7 @@ void ChatGPT::send(QString message, ChatSettings chatSettings)
 
 void ChatGPT::onFinished(QNetworkReply *reply)
 {
-  disconnect(m_networkManager.get(), &QNetworkAccessManager::finished,
+  disconnect(m_networkManager, &QNetworkAccessManager::finished,
              this, &ChatGPT::onFinished);
 
   QByteArray data = reply->readAll();
@@ -126,9 +134,9 @@ void ChatGPT::sendJson(QJsonObject json)
     return;
   }
 
-  m_networkManager = m_networkManager.create(this);
+  m_networkManager = new QNetworkAccessManager(this);
 
-  connect(m_networkManager.get(), &QNetworkAccessManager::finished,
+  connect(m_networkManager, &QNetworkAccessManager::finished,
           this, &ChatGPT::onFinished);
 
   QUrl url("https://api.openai.com/v1/chat/completions");
@@ -138,11 +146,6 @@ void ChatGPT::sendJson(QJsonObject json)
   QJsonDocument document(json);
   QByteArray postData = document.toJson(QJsonDocument::Compact);
   m_networkManager->post(request, postData);
-}
-
-quint8 ChatGPT::getIndex() const
-{
-  return m_index;
 }
 
 bool ChatGPT::isError() const

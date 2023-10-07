@@ -18,24 +18,24 @@ class ChatGPT : public QObject
 
 public:
   explicit ChatGPT(QString key = 0);
+  ~ChatGPT();
+
   void send(QVector<HistoryParser::Messages> message,
-            ChatSettings chatSettings, quint8 index);
+            ChatSettings chatSettings);
   void send(QString message, ChatSettings chatSettings);
   HistoryParser::Messages getAnswerMessage() const;
   quint32 getUsedToken() const;
-  quint8 getIndex() const;
   bool isError() const;
 
 private:
   friend class ChatGPTTest;
 
-  QSharedPointer<QNetworkAccessManager> m_networkManager;
+  QNetworkAccessManager *m_networkManager;
   QString m_key;
   QVector<HistoryParser::Messages> m_message;
   ChatSettings m_chatSettings;
   HistoryParser::Messages m_answerMessage;
   quint32 m_usedToken;
-  quint8 m_index;
   bool m_error;
 
   void sendJson(QJsonObject json);

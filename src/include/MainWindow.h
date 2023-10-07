@@ -66,6 +66,9 @@ private:
   void sendMessage(QVector<HistoryParser::Messages> messages, quint16 index = 0);
   void addMessages(HistoryParser::Messages message, quint8 chatIndex);
   void addChatItem(QString name);
+  ChatGPT *addChatGPT(const quint16 &messageIndex);
+  void deleteChatGPT(const quint16 &chatIndex);
+  quint16 getIndexChatGPT(ChatGPT *chatGPT) const;
 
 private slots:
   void sendClicked();
@@ -75,7 +78,7 @@ private slots:
   void retryClicked();
   void stopClicked();
   void chatSettingsClicked();
-  void responseReceived(quint16 index = 0);
+  void responseReceived(const quint16 messageIndex = 0);
   void replyError(QString error);
   void chatItemDeleteClicked();
   void messageDeleteCliked(bool all);
