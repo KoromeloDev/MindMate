@@ -37,9 +37,14 @@ void NewTextEdit::resizeTextInput()
 
 void NewTextEdit::clippingStart(QString &text)
 {
+  if (text.isEmpty())
+  {
+    return;
+  }
+
   quint16 i = 0;
 
-  for (QChar symbol : text)
+  for (const QChar &symbol : text)
   {
     if (isIndent(symbol))
     {
@@ -56,6 +61,11 @@ void NewTextEdit::clippingStart(QString &text)
 
 void NewTextEdit::clippingEnd(QString &text)
 {
+  if (text.isEmpty())
+  {
+    return;
+  }
+
   quint16 i = 0;
 
   while(true)
@@ -81,23 +91,16 @@ bool NewTextEdit::isIndent(QChar symbol)
 
 void NewTextEdit::keyPressEvent(QKeyEvent *event)
 {
+  QString text = toPlainText();
+
   if (event->modifiers() == Qt::ShiftModifier ||
      (event->key() != Qt::Key_Return && event->key() != Qt::Key_Enter))
   {
     QTextEdit::keyPressEvent(event);
-    emit keyClicked(toPlainText());
+    emit keyClicked(text);
     return;
   }
 
-  QString text = toPlainText();
-
-  if (text.isEmpty() || m_text == text)
-  {
-    emit sendText(text);
-    return;
-  }
-
-  m_text = text;
   clippingStart(text);
   clippingEnd(text);
   emit sendText(text);
