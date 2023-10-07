@@ -15,12 +15,14 @@ NewQListWidget::NewQListWidget(QWidget *parent) : QListWidget(parent)
   m_shortcut = m_shortcut.create(QKeySequence::Find, this);
   createDownButton();
 
+  connect(verticalScrollBar(), &QScrollBar::rangeChanged,
+          this, &NewQListWidget::resizeDownButton);
   connect(verticalScrollBar(), &QScrollBar::valueChanged,
           this, &NewQListWidget::resizeDownButton);
   connect(m_shortcut.get(), &QShortcut::activated,
           this, &NewQListWidget::searchShow);
-  QObject::connect(qApp, &QApplication::focusChanged,
-                   this, &NewQListWidget::focusChanged);
+  connect(qApp, &QApplication::focusChanged,
+          this, &NewQListWidget::focusChanged);
 }
 
 void NewQListWidget::resetSeachWidget(bool hide)
