@@ -49,7 +49,7 @@ jobs:
         arch: gcc_64
         modules: qtmultimedia
         cache: true
-        cache-key-prefix: install-qt
+        cache-key-prefix: Qt
     - name: Get repository code
       uses: actions/checkout@v4.0.0
     - name: Build
