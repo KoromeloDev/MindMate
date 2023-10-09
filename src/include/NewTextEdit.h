@@ -26,6 +26,7 @@ protected:
 
 private:
   Ui::NewTextEdit *m_ui;
+  QString m_text;
 
   void resizeTextInput();
   void clippingStart(QString &text);
@@ -34,7 +35,7 @@ private:
 
 signals:
   void sendText(QString text);
-  void keyClicked(const QString &text);
+  void textChanged(const QString &text);
 };
 
 #endif // NEWTEXTEDIT_H

@@ -45,7 +45,6 @@ private:
   bool m_isWaitAnswer;
   bool m_isErrorAnswer;
   QMovie m_movie;
-  QVector<HistoryParser::Messages> m_allMesages;
   ChatSettings m_chatSettings;
   QSoundEffect m_answerEffect;
   QSoundEffect m_errorEffect;
@@ -69,6 +68,7 @@ private:
   ChatGPT *addChatGPT(const quint16 &messageIndex);
   void deleteChatGPT(const quint16 &chatIndex);
   quint16 getIndexChatGPT(ChatGPT *chatGPT) const;
+  QVector<HistoryParser::Messages> getAllMesages();
 
 private slots:
   void sendClicked();
@@ -81,8 +81,7 @@ private slots:
   void responseReceived(const quint16 messageIndex = 0);
   void replyError(QString error);
   void chatItemDeleteClicked();
-  void messageDeleteCliked(bool all);
-  void messageEdit();
+  void messageDelete();
   void messageGenerate(quint16 index);
   void scrollToBottom();
   void setAutoNameChat();

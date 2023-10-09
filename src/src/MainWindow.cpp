@@ -42,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
           this, &MainWindow::stopClicked);
   connect(m_ui->chatSettingsButton, &QToolButton::clicked,
           this, &MainWindow::chatSettingsClicked);
+  connect(m_ui->historyList, &MessageListWidget::messageDelete,
+          this, &MainWindow::messageDelete);
   connect(m_ui->historyList, &NewQListWidget::changeFocus, this, [=]()
   {
     m_ui->textInput->setFocus();
@@ -76,7 +78,10 @@ MainWindow::~MainWindow()
 
   for (ChatGPT *chatGPT : m_chatGPTList)
   {
-    chatGPT->deleteLater();
+    if (chatGPT != nullptr)
+    {
+      chatGPT->deleteLater();
+    }
   }
 }
 
@@ -131,7 +136,7 @@ void MainWindow::setAutoNameChat()
     chatItem->setName(name);
   }
 
-  sendMessage(m_allMesages);
+  sendMessage(getAllMesages());
 }
 
 void MainWindow::receivedText(QString text)
@@ -149,7 +154,6 @@ void MainWindow::receivedText(QString text)
                  m_ui->roleBox->currentIndex());
   addMessages(message, m_ui->chatList->currentRow());
   history.addMessage(message);
-  m_allMesages.append(message);
   m_ui->textInput->clear();
 
   if (message.role != HistoryParser::User)
@@ -160,10 +164,11 @@ void MainWindow::receivedText(QString text)
   }
 
   Settings settings;
+  QVector<HistoryParser::Messages> allMessages = getAllMesages();
 
   if (m_ui->historyList->count() != 1 || !settings.autoNaming)
   {
-    sendMessage(m_allMesages);
+    sendMessage(allMessages);
     return;
   }
 
@@ -176,7 +181,7 @@ void MainWindow::receivedText(QString text)
   connect(chatGPT, &ChatGPT::replyError, this, [=]()
   {
     chatGPT->deleteLater();
-    sendMessage(m_allMesages);
+    sendMessage(allMessages);
   });
 
   chatGPT->send("\"" + message.content + "\"" +
@@ -299,6 +304,23 @@ quint16 MainWindow::getIndexChatGPT(ChatGPT *chatGPT) const
   return i;
 }
 
+QVector<HistoryParser::Messages> MainWindow::getAllMesages()
+{
+  QVector<HistoryParser::Messages> allMessages;
+  quint16 count = m_ui->historyList->count();
+  allMessages.reserve(count);
+
+  for (quint16 i = 0; i < count; ++i)
+  {
+    QListWidgetItem *item = m_ui->historyList->item(i);
+    MessageWidget *messageWidget = static_cast<MessageWidget*>(
+                                   m_ui->historyList->itemWidget(item));
+    allMessages.append(messageWidget->getMessages());
+  }
+
+  return allMessages;
+}
+
 bool MainWindow::createChat(QString name)
 {
   Settings settingsWidget;
@@ -343,8 +365,6 @@ bool MainWindow::createChat(QString name)
 
 void MainWindow::showChat()
 {
-  m_ui->historyList->clear();
-  m_allMesages.clear();
   setChatSettings(m_ui->chatList->currentRow());
 
   if (m_chatSettings.fileName.isEmpty())
@@ -354,13 +374,14 @@ void MainWindow::showChat()
 
   HistoryParser history(m_chatSettings.fileName);
   quint16 count = history.getCountMessage();
+  HistoryParser::Role role;
   tokensLeft();
-  m_allMesages.reserve(count);
 
   for (quint16 i = 0; i < count; ++i)
   {
-    m_allMesages.append(history.getMessages(i));
-    addMessages(m_allMesages[i], m_ui->chatList->currentRow());
+    HistoryParser::Messages messages = history.getMessages(i);
+    addMessages(messages, m_ui->chatList->currentRow());
+    role = messages.role;
   }
 
   if (count > 0)
@@ -386,8 +407,7 @@ void MainWindow::showChat()
   }
 
   answerState(false);
-  errorState(m_allMesages.count() != 0 &&
-             m_allMesages.last().role == HistoryParser::Role::User);
+  errorState(count != 0 && role == HistoryParser::Role::User);
 }
 
 void MainWindow::answerState(bool waitAnswer)
@@ -471,17 +491,11 @@ void MainWindow::sendMessage(QVector<HistoryParser::Messages> messages,
 
 void MainWindow::addMessages(HistoryParser::Messages message, quint8 chatIndex)
 {
-  NewListWidgetItem *item = new NewListWidgetItem(m_ui->historyList);
-  MessageWidget *messageWidget = new MessageWidget(item, message, chatIndex);
-  m_ui->historyList->setItemWidget(item, messageWidget);
-  m_ui->historyList->scrollToBottom();
+  MessageWidget *messageWidget = m_ui->historyList->addMessageWidget(
+                                 message, chatIndex);
 
   connect(this, &MainWindow::resized,
           messageWidget, &MessageWidget::resize);
-  connect(messageWidget, &MessageWidget::selfDelete,
-          this, &MainWindow::messageDeleteCliked);
-  connect(messageWidget, &MessageWidget::selfEdit,
-          this, &MainWindow::messageEdit);
   connect(messageWidget, &MessageWidget::generate,
           this, &MainWindow::messageGenerate);
 }
@@ -507,8 +521,8 @@ void MainWindow::chatItemChanged(QListWidgetItem *item)
   }
 
   chatItem->setNewMessage(false);
+  m_ui->historyList->clear();
   showChat();
-  m_ui->historyList->resetSeachWidget(true);
 }
 
 void MainWindow::settingsClicked()
@@ -519,7 +533,7 @@ void MainWindow::settingsClicked()
 
 void MainWindow::retryClicked()
 {
-  sendMessage(m_allMesages);
+  sendMessage(getAllMesages());
 }
 
 void MainWindow::stopClicked()
@@ -566,14 +580,12 @@ void MainWindow::responseReceived(const quint16 messageIndex)
 
     if (messageIndex == 0)
     {
-      m_allMesages.append(sender->getAnswerMessage());
       addMessages(sender->getAnswerMessage(), m_ui->chatList->currentRow());
       m_chatSettings.usedTokens = sender->getUsedToken();
       tokensLeft();
     }
     else
     {
-      m_allMesages[messageIndex].addMessage(sender->getAnswerMessage().getMessage());
       QListWidgetItem *item = m_ui->historyList->item(messageIndex);
       MessageWidget *nextMessage = dynamic_cast<MessageWidget*>(
                                    m_ui->historyList->itemWidget(item));
@@ -645,57 +657,25 @@ void MainWindow::chatItemDeleteClicked()
   }
 }
 
-void MainWindow::messageDeleteCliked(bool all)
+void MainWindow::messageDelete()
 {
-  MessageWidget *sender = qobject_cast<MessageWidget*>(QObject::sender());
-  const quint8 &index = sender->getItem()->getIndex();
-  m_ui->historyList->resetSeachWidget(false);
+  QVector<HistoryParser::Messages> allMessages = getAllMesages();
 
-  if (all)
+  if (m_chatGPTList[m_ui->chatList->currentRow()] == nullptr)
   {
-    disconnect(sender, &MessageWidget::selfDelete,
-               this, &MainWindow::messageDeleteCliked);
-
-    m_ui->historyList->takeItem(index);
-    m_allMesages.removeAt(index);
-
-    if (m_chatGPTList[m_ui->chatList->currentRow()] == nullptr)
-    {
-      errorState(m_allMesages.count() != 0 &&
-                 m_allMesages.last().role == HistoryParser::Role::User);
-    }
-
-    if (index == 0 && m_ui->historyList->count() > 0)
-    {
-      QListWidgetItem *item = m_ui->historyList->item(0);
-      MessageWidget *nextMessage = dynamic_cast<MessageWidget*>(
-                                   m_ui->historyList->itemWidget(item));
-      if (nextMessage != nullptr)
-      {
-        nextMessage->hideGenerate();
-      }
-    }
+    errorState(allMessages.count() != 0 &&
+               allMessages.last().role == HistoryParser::Role::User);
   }
-  else
-  {
-    m_allMesages[index] = sender->getMessages();
-  }
-}
-
-void MainWindow::messageEdit()
-{
-  MessageWidget *sender = qobject_cast<MessageWidget*>(QObject::sender());
-  m_allMesages[sender->getItem()->getIndex()] = sender->getMessages();
-  m_ui->historyList->resetSeachWidget(false);
 }
 
 void MainWindow::messageGenerate(quint16 index)
 {
   QVector<HistoryParser::Messages> messages;
+  QVector<HistoryParser::Messages> allMessages = getAllMesages();
 
   for (quint16 i = 0; i < index; ++i)
   {
-    messages.append(m_allMesages[i]);
+    messages.append(allMessages[i]);
   }
 
   sendMessage(messages, index);

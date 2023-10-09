@@ -18,7 +18,14 @@ class NewQListWidget : public QListWidget
 public:
   NewQListWidget(QWidget *parent = nullptr);
 
-  void resetSeachWidget(bool hide);
+  void clear();
+
+protected:
+  virtual QVector<QString> searchItems();
+
+protected slots:
+  virtual void itemDelete();
+  virtual void itemEdit();
 
 private:
   QSharedPointer<QGridLayout> m_layout;
@@ -34,11 +41,12 @@ private:
   void resetAllFoundColor();
   void setFoundColor(quint16 index);
   void setSelectedFoundColor(quint16 index);
+  void resetSeachWidget(bool hide);
 
 private slots:
   void resizeDownButton();
   void downButtonClicked();
-  void searchItems();
+  void textEnter();
   void searchPageChanged(quint16 &page);
   void focusChanged(QWidget *oldFocus, QWidget *newFocus);
 

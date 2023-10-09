@@ -5,12 +5,12 @@ NewTextEdit::NewTextEdit(QWidget *parent)
 : QTextEdit(parent), m_ui(new Ui::NewTextEdit)
 {
   m_ui->setupUi(this);
-
-  connect(this, &QTextEdit::textChanged, this, &NewTextEdit::resizeTextInput);
-
+  m_text = "";
   setAcceptRichText(false);
   setFocus();
   verticalScrollBar()->setSingleStep(5);
+
+  connect(this, &QTextEdit::textChanged, this, &NewTextEdit::resizeTextInput);
 }
 
 NewTextEdit::~NewTextEdit()
@@ -91,16 +91,22 @@ bool NewTextEdit::isIndent(QChar symbol)
 
 void NewTextEdit::keyPressEvent(QKeyEvent *event)
 {
-  QString text = toPlainText();
-
   if (event->modifiers() == Qt::ShiftModifier ||
      (event->key() != Qt::Key_Return && event->key() != Qt::Key_Enter))
   {
     QTextEdit::keyPressEvent(event);
-    emit keyClicked(text);
+    QString text = toPlainText();
+
+    if (m_text != text)
+    {
+      m_text = text;
+      emit textChanged(text);
+    }
+
     return;
   }
 
+  QString text = toPlainText();
   clippingStart(text);
   clippingEnd(text);
   emit sendText(text);

@@ -1,6 +1,5 @@
 #include "NewQListWidget.h"
 #include "ThemeIcon.h"
-#include "MessageWidget.h"
 
 #define DOWN_BUTTON_SIZE 48     // Button size
 #define DOWN_BUTTON_MIN_SIZE 24 // Button minimum size
@@ -23,6 +22,12 @@ NewQListWidget::NewQListWidget(QWidget *parent) : QListWidget(parent)
           this, &NewQListWidget::searchShow);
   connect(qApp, &QApplication::focusChanged,
           this, &NewQListWidget::focusChanged);
+}
+
+void NewQListWidget::clear()
+{
+  QListWidget::clear();
+  resetSeachWidget(true);
 }
 
 void NewQListWidget::resetSeachWidget(bool hide)
@@ -48,9 +53,31 @@ void NewQListWidget::resetSeachWidget(bool hide)
   }
   else
   {
-    searchItems();
+    textEnter();
     m_searchWidget->setFocus();
   }
+}
+
+QVector<QString> NewQListWidget::searchItems()
+{
+  QVector<QString> text;
+
+  for (quint16 i = 0; i < count(); ++i)
+  {
+    text.append(item(i)->text());
+  }
+
+  return text;
+}
+
+void NewQListWidget::itemDelete()
+{
+  resetSeachWidget(false);
+}
+
+void NewQListWidget::itemEdit()
+{
+  resetSeachWidget(false);
 }
 
 void NewQListWidget::createDownButton()
@@ -88,7 +115,7 @@ void NewQListWidget::searchShow()
     m_searchWidget->show();
 
     connect(m_searchWidget.get(), &SearchWidget::textEnter,
-            this, &NewQListWidget::searchItems);
+            this, &NewQListWidget::textEnter);
     connect(m_searchWidget.get(), &SearchWidget::pageChanged,
             this, &NewQListWidget::searchPageChanged);
   }
@@ -182,23 +209,12 @@ void NewQListWidget::downButtonClicked()
   scrollToBottom();
 }
 
-void NewQListWidget::searchItems()
+void NewQListWidget::textEnter()
 {
   resetAllFoundColor();
   m_searchResult.clear();
-  QVector<QString> messages;
-
-  for (quint16 i = 0; i < count(); ++i)
-  {
-    MessageWidget *messageWidget = dynamic_cast<MessageWidget*>(
-                                   itemWidget(item(i)));
-    if (messageWidget != nullptr)
-    {
-      messages.append(messageWidget->getMessages().getMessage());
-    }
-  }
-
-  m_searchResult = m_searchWidget->search(messages);
+  QVector<QString> text = searchItems();
+  m_searchResult = m_searchWidget->search(text);
   setAllFoundColor();
 }
 
@@ -217,8 +233,8 @@ void NewQListWidget::searchPageChanged(quint16 &page)
 
 void NewQListWidget::focusChanged(QWidget *oldFocus, QWidget *newFocus)
 {
-  if (m_searchWidget.isNull() || m_searchWidget->isHidden() ||
-      newFocus->parentWidget() == m_searchWidget)
+  if (newFocus == nullptr || m_searchWidget.isNull() ||
+      m_searchWidget->isHidden() || newFocus->parentWidget() == m_searchWidget)
   {
     return;
   }

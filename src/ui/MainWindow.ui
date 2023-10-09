@@ -294,7 +294,7 @@
          </layout>
         </item>
         <item>
-         <widget class="NewQListWidget" name="historyList">
+         <widget class="MessageListWidget" name="historyList">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -494,9 +494,9 @@
    <header>NewTextEdit.h</header>
   </customwidget>
   <customwidget>
-   <class>NewQListWidget</class>
+   <class>MessageListWidget</class>
    <extends>QListWidget</extends>
-   <header>NewQListWidget.h</header>
+   <header>MessageListWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>

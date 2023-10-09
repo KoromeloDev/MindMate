@@ -514,7 +514,7 @@ void MessageWidget::deleteAllClicked()
   HistoryParser historyParser(сhatSettings.getSettings(m_chatIndex).fileName);
   historyParser.deleteMessage(m_item->getIndex());
   deleteLater();
-  emit selfDelete(true);
+  emit selfDelete();
 }
 
 void MessageWidget::deleteCurrentClicked()
@@ -526,7 +526,6 @@ void MessageWidget::deleteCurrentClicked()
   m_currentIndex = m_message.selected;
   m_allMessage = m_message.content.size();
   setPage();
-  emit selfDelete(false);
 }
 
 void MessageWidget::editClicked()
@@ -687,6 +686,20 @@ void MessageWidget::editMessage(QString newContent, quint8 index)
 {
   if (m_message.content[index] == newContent)
   {
+    return;
+  }
+
+  if (newContent.isEmpty())
+  {
+    if (m_allMessage > 1)
+    {
+      deleteCurrentClicked();
+    }
+    else
+    {
+      deleteAllClicked();
+    }
+
     return;
   }
 

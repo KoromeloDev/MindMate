@@ -7,7 +7,7 @@ SearchWidget::SearchWidget(QWidget *parent)
   m_ui->setupUi(this);
   m_ui->pageWidget->setPrefix(QString("%1: ").arg(tr("Found")));
 
-  connect(m_ui->searchEdit, &NewTextEdit::keyClicked,
+  connect(m_ui->searchEdit, &NewTextEdit::textChanged,
           this, &SearchWidget::keyClicked);
   connect(m_ui->searchEdit, &NewTextEdit::sendText, this, [=]()
   {

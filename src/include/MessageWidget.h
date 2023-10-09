@@ -82,7 +82,7 @@ private:
   QVector<QColor> getGradientColors();
 
 signals:
-  void selfDelete(bool all);
+  void selfDelete();
   void selfEdit();
   void resizeFinished(QSize size);
   void generate(quint16 index);
