@@ -62,7 +62,7 @@ private:
   void errorState(bool error);
   void tokensLeft();
   void setFileChatSettings(const quint8 &index);
-  void sendMessage(QVector<HistoryParser::Messages> messages, quint16 index = 0);
+  void sendMessage(quint16 index = 0);
   void addMessages(HistoryParser::Messages message, quint8 chatIndex);
   void addChatItem(QString name);
   ChatGPT *addChatGPT(const quint16 &messageIndex);
@@ -75,14 +75,12 @@ private slots:
   void newChatClicked();
   void chatItemChanged(QListWidgetItem *item);
   void settingsClicked();
-  void retryClicked();
   void stopClicked();
   void chatSettingsClicked();
   void responseReceived(const quint16 messageIndex = 0);
   void replyError(QString error);
   void chatItemDeleteClicked();
   void messageDelete();
-  void messageGenerate(quint16 index);
   void scrollToBottom();
   void setAutoNameChat();
 
