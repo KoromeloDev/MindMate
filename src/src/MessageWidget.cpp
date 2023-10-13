@@ -96,7 +96,7 @@ void MessageWidget::resize()
     }
   }
 
-  for (const auto &code : qAsConst(m_codeWidgets))
+  for (const auto &code : m_codeWidgets)
   {
     qint16 size = code->getSize().height();
     m_height += size;
@@ -723,7 +723,7 @@ void MessageWidget::selection(QString pattern)
   format.setFontWeight(QFont::Bold);
   quint8 i = 0;
 
-  for (const auto &textEdit : qAsConst(m_textEdit))
+  for (const auto &textEdit : m_textEdit)
   {
     QTextCursor cursor(textEdit->document());
     QString text = textEdit->toPlainText();

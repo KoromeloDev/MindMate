@@ -5,9 +5,9 @@
 #include <QMenu>
 #include <QTimer>
 #include <QWidget>
+#include <qsourcehighliter.h>
 
 #include "ChatGPT.h"
-#include "qsourcehighliter.h"
 
 using QSH = QSourceHighlite::QSourceHighliter;
 using QSHL = QSH::Language;

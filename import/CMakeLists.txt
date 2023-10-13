@@ -1,3 +1,6 @@
-add_subdirectory(QSourceHighliter)
+set(subdirectories QSourceHighliter)
 
-target_include_directories(QSourceHighliter PUBLIC QSourceHighliter)
+foreach(subdir ${subdirectories})
+    add_subdirectory(${subdir})
+    target_include_directories(${subdir} PUBLIC ${subdir})
+endforeach()
