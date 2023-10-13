@@ -3,7 +3,6 @@
 
 MessageListWidget::MessageListWidget(QWidget *parent) : NewQListWidget(parent)
 {
-
 }
 
 MessageWidget *MessageListWidget::addMessageWidget(
