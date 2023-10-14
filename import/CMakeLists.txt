@@ -1,3 +1,5 @@
+add_subdirectory(QArchive)
+
 set(subdirectories QSourceHighliter)
 
 foreach(subdir ${subdirectories})

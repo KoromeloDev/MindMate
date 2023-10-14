@@ -34,7 +34,7 @@ endif()
 
 find_package(Qt6 REQUIRED COMPONENTS LinguistTools Widgets Svg Multimedia)
 target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Widgets Qt6::Svg
-                      Qt6::Multimedia Qt6::Network QSourceHighliter)
+                      Qt6::Multimedia Qt6::Network QSourceHighliter QArchive)
 
 target_include_directories(${PROJECT_NAME} PUBLIC include base/include)
 

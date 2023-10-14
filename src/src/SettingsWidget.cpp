@@ -1,8 +1,6 @@
 #include "SettingsWidget.h"
 #include "ui_SettingsWidget.h"
 
-#include <QDesktopServices>
-
 #include "ThemeIcon.h"
 
 SettingsWidget::SettingsWidget(QWidget *parent)
@@ -14,6 +12,14 @@ SettingsWidget::SettingsWidget(QWidget *parent)
   ThemeIcon::setIcon(*m_ui->reportButton, ":/icons/bug.svg");
   m_clipboard = QApplication::clipboard();
   m_timer = nullptr;
+
+  #if FLATPAK
+  m_ui->checkUpdate->setHidden(true);
+  m_ui->checkUpdateLabel->setHidden(true);
+  #else
+  m_ui->checkUpdate->setChecked(m_settings.checkUpdate);
+  #endif
+
   QString version = QApplication::applicationVersion();
   m_ui->version->setText(tr("App version") + ": " + version);
   m_ui->qt->setText(QString("Qt version: %1").arg(qVersion()));
@@ -38,6 +44,8 @@ SettingsWidget::SettingsWidget(QWidget *parent)
   m_ui->langRecognize->setChecked(m_settings.languageRecognize);
   m_ui->autoNamingChat->setChecked(m_settings.autoNaming);
 
+  connect(m_ui->checkUpdate, &QCheckBox::stateChanged,
+          this, &SettingsWidget::checkUpdateStateChanged);
   connect(m_ui->autoNamingChat, &QCheckBox::stateChanged,
           this, &SettingsWidget::autoNamingStateChanged);
   connect(m_ui->langRecognize, &QCheckBox::stateChanged,
@@ -61,6 +69,11 @@ void SettingsWidget::closeEvent(QCloseEvent *event)
   m_settings.chatSettings = m_chatSettingsWidget->getSettings();
   m_settings.writeSettings();
   QWidget::closeEvent(event);
+}
+
+void SettingsWidget::checkUpdateStateChanged(quint8 state)
+{
+  m_settings.checkUpdate = state;
 }
 
 void SettingsWidget::languageRecognizeStateChanged(quint8 state)

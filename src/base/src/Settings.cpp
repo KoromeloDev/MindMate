@@ -2,6 +2,7 @@
 
 Settings::Settings()
 {
+  checkUpdate = true;
   languageRecognize = true;
   autoNaming = true;
   readSettings();
@@ -11,8 +12,14 @@ void Settings::readSettings()
 {
   QSettings settings("settings.ini", QSettings::IniFormat);
   settings.beginGroup("Main");
+  QVariant v_checkUpdate = settings.value("CheckUpdate");
   QVariant v_languageRecognize = settings.value("AutoLanguageRecognize");
   QVariant v_autoNaming = settings.value("AutoNamingChat");
+
+  if (v_checkUpdate.isValid())
+  {
+    checkUpdate = v_checkUpdate.toBool();
+  }
 
   if (v_languageRecognize.isValid())
   {
@@ -86,6 +93,7 @@ void Settings::writeSettings()
   QSettings settings("settings.ini", QSettings::IniFormat);
   settings.beginGroup("Main");
 
+  settings.setValue("CheckUpdate", checkUpdate);
   settings.setValue("AutoLanguageRecognize", languageRecognize);
   settings.setValue("AutoNamingChat", autoNaming);
   settings.endGroup();

@@ -5,6 +5,7 @@
 #include <QSettings>
 #include <QClipboard>
 #include <QTimer>
+#include <QDesktopServices>
 
 #include "ChatSettingsWidget.h"
 #include "Settings.h"
@@ -35,6 +36,7 @@ private:
   QSharedPointer<QTimer> m_timer;
 
 private slots:
+  void checkUpdateStateChanged(quint8 state);
   void languageRecognizeStateChanged(quint8 state);
   void autoNamingStateChanged(quint8 state);
   void copyClicked();

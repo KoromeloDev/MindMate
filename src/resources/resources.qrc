@@ -21,5 +21,6 @@
         <file>icons/GitHubLogo.svg</file>
         <file>icons/bug.svg</file>
         <file>icons/down.svg</file>
+        <file>icons/update.svg</file>
     </qresource>
 </RCC>

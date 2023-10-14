@@ -1,0 +1,3 @@
+ [submodule "import/QArchive"]
+	path = import/QArchive
+	url = https://github.com/antony-jr/QArchive

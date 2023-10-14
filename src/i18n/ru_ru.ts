@@ -185,18 +185,18 @@
         <translation>Помощник</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="207"/>
+        <location filename="../src/MainWindow.cpp" line="187"/>
         <source> - this is the first sentence in the chat, you should understand what it&apos;s about and name the chat according to its topic. Name it as briefly as possible, but keep the meaning, and try to use signs only where it is really necessary. Also, you should not name the chat like &quot;chat name:&quot;, you should just write the name without unnecessary words.</source>
         <translation> - это первое предложение в чате, вы должны понять, о чем идет речь, и назвать чат в соответствии с его темой. Называйте его как можно короче, но сохраняя смысл, и старайтесь использовать знаки только там, где это действительно необходимо. Также не следует называть чат по типу &quot;название чата:&quot;, нужно просто написать название без лишних слов.</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="267"/>
-        <location filename="../src/MainWindow.cpp" line="539"/>
+        <location filename="../src/MainWindow.cpp" line="247"/>
+        <location filename="../src/MainWindow.cpp" line="519"/>
         <source>New chat</source>
         <translation>Новый чат</translation>
     </message>
     <message>
-        <location filename="../src/MainWindow.cpp" line="457"/>
+        <location filename="../src/MainWindow.cpp" line="437"/>
         <source>Tokens left</source>
         <translation>Токенов осталось</translation>
     </message>
@@ -245,73 +245,83 @@
         <translation>Общие</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="105"/>
+        <location filename="../ui/SettingsWidget.ui" line="92"/>
         <source>Auto language recognize</source>
         <translation>Автоматическое распознание языка</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="63"/>
+        <location filename="../ui/SettingsWidget.ui" line="134"/>
         <source>Auto naming chat</source>
         <translation>Автоматически называть чаты</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="121"/>
+        <location filename="../ui/SettingsWidget.ui" line="108"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the widget with the code does not have a programming language, then it tries to turn to ChatGPT to determine the language (This may take some time).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Если у виджета с кодом нет языка программирования, то он пытается обратиться к ChatGPT для определения языка (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="79"/>
+        <location filename="../ui/SettingsWidget.ui" line="50"/>
+        <source>Check update</source>
+        <translation>Проверка обновлений</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsWidget.ui" line="66"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If enabled, it will check for updates when the program starts.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Если включено, то будет выполнятся проверка наличия обновления при запуске программы.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../ui/SettingsWidget.ui" line="150"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically names the chat by sending a request to ChatGPT (This may take some time).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Автоматически присваивает название чату, отправляя запрос в ChatGPT (это может занять некоторое время).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="146"/>
+        <location filename="../ui/SettingsWidget.ui" line="188"/>
         <source>Chat</source>
         <translation>Чат</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="166"/>
+        <location filename="../ui/SettingsWidget.ui" line="208"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;These settings will initially be applied for each new chat&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Данные настройки будут изначально применяться для каждого нового чата&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="169"/>
+        <location filename="../ui/SettingsWidget.ui" line="211"/>
         <source>Default settings for all chats</source>
         <translation>Настройки по умолчанию для всех чатов</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="198"/>
+        <location filename="../ui/SettingsWidget.ui" line="240"/>
         <source>Info</source>
         <translation>Инфо</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="207"/>
+        <location filename="../ui/SettingsWidget.ui" line="249"/>
         <source>Found a bug? Please report it :)</source>
         <translation>Нашли баг? Пожалуйста сообщите об этом :)</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="298"/>
+        <location filename="../ui/SettingsWidget.ui" line="340"/>
         <source>Report</source>
         <translation>Сообщить</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="233"/>
+        <location filename="../ui/SettingsWidget.ui" line="275"/>
         <source>Project Website</source>
         <translation>Страница проекта</translation>
     </message>
     <message>
-        <location filename="../src/SettingsWidget.cpp" line="18"/>
+        <location filename="../src/SettingsWidget.cpp" line="24"/>
         <source>App version</source>
         <translation>Версия приложения</translation>
     </message>
     <message>
-        <location filename="../src/SettingsWidget.cpp" line="92"/>
+        <location filename="../src/SettingsWidget.cpp" line="105"/>
         <source>Copied</source>
         <translation>Скопировано</translation>
     </message>
     <message>
-        <location filename="../ui/SettingsWidget.ui" line="327"/>
-        <location filename="../src/SettingsWidget.cpp" line="111"/>
+        <location filename="../ui/SettingsWidget.ui" line="369"/>
+        <location filename="../src/SettingsWidget.cpp" line="124"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
@@ -344,6 +354,82 @@
         <location filename="../src/SetupDialog.cpp" line="58"/>
         <source>Incorrect API key provided</source>
         <translation>Предоставлен неправильный ключ API</translation>
+    </message>
+</context>
+<context>
+    <name>UpdateChecker</name>
+    <message>
+        <location filename="../base/src/UpdateChecker.cpp" line="98"/>
+        <source>The data is empty</source>
+        <translation>Данные пустые</translation>
+    </message>
+    <message>
+        <location filename="../base/src/UpdateChecker.cpp" line="109"/>
+        <source>No need to update</source>
+        <translation>Обновление не требуется</translation>
+    </message>
+    <message>
+        <location filename="../base/src/UpdateChecker.cpp" line="136"/>
+        <source>Timeout</source>
+        <translation>Время ожидания истекло</translation>
+    </message>
+</context>
+<context>
+    <name>Updater</name>
+    <message>
+        <location filename="../ui/Updater.ui" line="25"/>
+        <source>Update checker</source>
+        <translation>Проверка обновлений</translation>
+    </message>
+    <message>
+        <location filename="../src/Updater.cpp" line="7"/>
+        <source>Search for updates</source>
+        <translation>Поиск обновлений</translation>
+    </message>
+    <message>
+        <location filename="../src/Updater.cpp" line="49"/>
+        <source>No updates found</source>
+        <translation>Обновлений не найдено</translation>
+    </message>
+    <message>
+        <location filename="../src/Updater.cpp" line="55"/>
+        <source>Updates found</source>
+        <translation>Обновления найдены</translation>
+    </message>
+    <message>
+        <location filename="../src/Updater.cpp" line="80"/>
+        <source>Start downloading</source>
+        <translation>Старт загрузки</translation>
+    </message>
+    <message>
+        <location filename="../src/Updater.cpp" line="100"/>
+        <source>Downloads completed</source>
+        <translation>Загрузка завершена</translation>
+    </message>
+    <message>
+        <location filename="../src/Updater.cpp" line="118"/>
+        <source>Extracting the archive</source>
+        <translation>Распаковка архива</translation>
+    </message>
+    <message>
+        <location filename="../src/Updater.cpp" line="125"/>
+        <source>Download failed</source>
+        <translation>Загрузка не удалась</translation>
+    </message>
+    <message>
+        <location filename="../src/Updater.cpp" line="133"/>
+        <source>Downloading</source>
+        <translation>Загрузка</translation>
+    </message>
+    <message>
+        <location filename="../src/Updater.cpp" line="141"/>
+        <source>Extracting failed</source>
+        <translation>Распаковка не удалась</translation>
+    </message>
+    <message>
+        <location filename="../src/Updater.cpp" line="155"/>
+        <source>Extracting</source>
+        <translation>Распаковка</translation>
     </message>
 </context>
 </TS>

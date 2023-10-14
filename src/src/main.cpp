@@ -8,6 +8,10 @@
 #include <QFontDatabase>
 #include <QStyleFactory>
 #include <thread>
+#include <QWindow>
+
+#include "Settings.h"
+#include "Updater.h"
 
 //Setup the application font
 void setFont()
@@ -116,8 +120,31 @@ int main(int argc, char *argv[])
   }
   #endif
 
-  MainWindow windows;
-  setStyle(windows);
-  windows.show();
+  Settings settings;
+
+  if (settings.checkUpdate)
+  {
+    Updater *updater = new Updater();
+    updater->setAttribute(Qt::WA_DeleteOnClose);
+
+    QObject::connect(updater, &Updater::openMainWindow, &application, [updater]()
+    {
+      updater->close();
+      MainWindow *window = new MainWindow();
+      window->setAttribute(Qt::WA_DeleteOnClose);
+      setStyle(*window);
+      window->show();
+    });
+
+    updater->show();
+  }
+  else
+  {
+    MainWindow *window = new MainWindow();
+    window->setAttribute(Qt::WA_DeleteOnClose);
+    setStyle(*window);
+    window->show();
+  }
+
   return application.exec();
 }
