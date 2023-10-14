@@ -2,7 +2,7 @@ name: Deploy Project
 on: 
   create:
     ref_type: tag
-    master_branch : main
+    master_branch: main
 env:
   QT_VERSION: 6.5.2
   PROJECT_NAME: MindMate
