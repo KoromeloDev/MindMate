@@ -101,12 +101,12 @@ jobs:
       contents: write
     steps:
     - name: Download a Linux Build Artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: Linux-build
         path: ${{runner.workspace}}
     - name: Download a Windows Build Artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: Windows-build
         path: ${{runner.workspace}}
