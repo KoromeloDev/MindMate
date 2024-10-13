@@ -18,6 +18,10 @@
     </p>
   </description>
 
+  <developer id="io.github.koromelodev">
+    <name>KoromeloDev</name>
+  </developer>
+
   <url type="homepage">https://github.com/KoromeloDev/MindMate</url>
   <url type="help">https://github.com/KoromeloDev/MindMate#how-to-use</url>
   <url type="bugtracker">https://github.com/KoromeloDev/MindMate/issues</url>
@@ -26,20 +30,24 @@
   <screenshots>
     <screenshot type="default">
       <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/MainWindow.png?raw=true</image>
+      <caption>A main window</caption>
     </screenshot>
     <screenshot>
       <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/SystemMessage.png?raw=true</image>
+      <caption>A system message example</caption>
     </screenshot>
     <screenshot>
       <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/GlobalSettingsWindow1.png?raw=true</image>
+      <caption>A settings example</caption>
     </screenshot>
     <screenshot>
       <image>https://github.com/KoromeloDev/MindMate/blob/main/screenshots/GlobalSettingsWindow2.png?raw=true</image>
+      <caption>A settings example</caption>
     </screenshot>
   </screenshots>
   
   <releases>
-    <release version="1.9.0-beta" date="2024-10-13">
+    <release version="1.9.1-beta" date="2024-10-13">
       <description>
         <p>Update API</p>
       </description>
