@@ -2,7 +2,7 @@
 
 ChatSettings::ChatSettings()
 {
-  model = "gpt-3.5-turbo";
+  model = "gpt-4o-mini";
   temperature = 1;
   n = 1;
   presencePenalty = 0;
@@ -35,7 +35,7 @@ ChatSettings ChatSettings::getSettings(quint8 index) const
     chatSettings.n = object["n"].toInt();
     QJsonArray stops = object["stop"].toArray();
 
-    for (const auto &stop : stops)
+    for (const auto &stop : std::as_const(stops))
     {
       chatSettings.stop.append(stop.toString());
     }
@@ -49,21 +49,18 @@ ChatSettings ChatSettings::getSettings(quint8 index) const
 
 quint32 ChatSettings::getMaxTokens(QString model) const
 {
-  if (model == "gpt-3.5-turbo" || model == "gpt-3.5-turbo-0613")
+  if (model == "gpt-4o-mini" || model == "gpt-4o" || model == "gpt-4-turbo" ||
+      model == "gpt-4-turbo-preview")
   {
-    return 4097;
+    return 128000;
   }
-  else if (model == "gpt-4" || model == "gpt-4-0613")
+  else if (model == "gpt-4")
   {
     return 8192;
   }
-  else if (model == "gpt-3.5-turbo-16k" || model == "gpt-3.5-turbo-16k-0613")
+  else if (model == "gpt-3.5-turbo")
   {
     return 16385;
-  }
-  else if (model == "gpt-4-32k" || model == "gpt-4-32k-0613")
-  {
-    return 32768;
   }
 
   return 0;

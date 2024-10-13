@@ -43,7 +43,7 @@ bool APIKeyWidget::setTextKey(QString key)
 void APIKeyWidget::editKeyClicked()
 {
   QString question = tr("Enter your key from the "
-                        "<a href=https://platform.openai.com/account/api-keys>"
+                        "<a href=https://platform.openai.com/api-keys>"
                         "OpenAI site</a>:");
   m_editDialog = m_editDialog.create(this, question, "");
   m_editDialog->setWindowTitle(tr("Set OpenAI API key"));

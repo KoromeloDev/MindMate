@@ -21,7 +21,7 @@ bool APIKey::isNeedKey() const
 
 bool APIKey::setTextKey(QString key, QString &keyHidden)
 {
-  if (key.left(3) == "sk-" && key.length() == 51)
+  if (key.left(8) == "sk-proj-" && key.length() == 164)
   {
     m_key = key;
     keyHidden = m_key.left(3) + "..." +  m_key.right(4);

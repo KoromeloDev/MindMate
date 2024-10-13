@@ -38,7 +38,7 @@ void ChatGPT::send(QVector<HistoryParser::Messages> message,
   QJsonArray messages;
   QJsonObject messageObject;
 
-  for (const auto &message : m_message)
+  for (const auto &message : std::as_const(m_message))
   {
     messageObject.insert("role", QVariant::fromValue(message.role).
                    toString().toLower());

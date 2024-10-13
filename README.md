@@ -5,7 +5,7 @@
   <img alt="Flathub Version" src="https://img.shields.io/flathub/v/io.github.koromelodev.mindmate">
 </p>
 
-### ❄️The project is temporarily frozen (author of the project is in the army)❄️ 
+### ❄️The project is frozen. I don't see much point in supporting the application as all the functionality is already available on the site❄️
 
 MindMate is an unofficial application for ChatGPT. The app supports chat settings, can send system messages, delete and edit messages.
 
