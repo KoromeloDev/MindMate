@@ -38,6 +38,14 @@ SettingsWidget::SettingsWidget(QWidget *parent)
   m_ui->langRecognize->setChecked(m_settings.languageRecognize);
   m_ui->autoNamingChat->setChecked(m_settings.autoNaming);
 
+  m_ui->uColorEdit1->setText(m_settings.userMessageColor1);
+  m_ui->uColorEdit2->setText(m_settings.userMessageColor2);
+  m_ui->aColorEdit1->setText(m_settings.assistantMessageColor1);
+  m_ui->aColorEdit2->setText(m_settings.assistantMessageColor2);
+  m_ui->sColorEdit1->setText(m_settings.systemMessageColor1);
+  m_ui->sColorEdit2->setText(m_settings.systemMessageColor2);
+  updateColor();
+
   connect(m_ui->autoNamingChat, &QCheckBox::stateChanged,
           this, &SettingsWidget::autoNamingStateChanged);
   connect(m_ui->langRecognize, &QCheckBox::stateChanged,
@@ -48,6 +56,20 @@ SettingsWidget::SettingsWidget(QWidget *parent)
           this, &SettingsWidget::homepageClicked);
   connect(m_ui->reportButton, &QToolButton::clicked,
           this, &SettingsWidget::reportClicked);
+  connect(m_ui->applyThemeButton, &QToolButton::clicked,
+          this, &SettingsWidget::writeColorSettings);
+  connect(m_ui->uColorEdit1, &QLineEdit::textChanged,
+          this, &SettingsWidget::updateColor);
+  connect(m_ui->uColorEdit2, &QLineEdit::textChanged,
+          this, &SettingsWidget::updateColor);
+  connect(m_ui->aColorEdit1, &QLineEdit::textChanged,
+          this, &SettingsWidget::updateColor);
+  connect(m_ui->aColorEdit2, &QLineEdit::textChanged,
+          this, &SettingsWidget::updateColor);
+  connect(m_ui->sColorEdit1, &QLineEdit::textChanged,
+          this, &SettingsWidget::updateColor);
+  connect(m_ui->sColorEdit2, &QLineEdit::textChanged,
+          this, &SettingsWidget::updateColor);
 }
 
 SettingsWidget::~SettingsWidget()
@@ -121,4 +143,87 @@ void SettingsWidget::reportClicked()
 {
   QDesktopServices::openUrl(QUrl(
   "https://github.com/KoromeloDev/MindMate/issues/new?template=bug_report.md"));
+}
+
+void SettingsWidget::updateColor()
+{
+  QColor uColor1 = m_ui->uColorEdit1->text();
+  QColor uColor2 = m_ui->uColorEdit2->text();
+  QColor aColor1 = m_ui->aColorEdit1->text();
+  QColor aColor2 = m_ui->aColorEdit2->text();
+  QColor sColor1 = m_ui->sColorEdit1->text();
+  QColor sColor2 = m_ui->sColorEdit2->text();
+
+  if (uColor1.isValid())
+  {
+    m_ui->uColor1->setStyleSheet("background-color: " + m_ui->uColorEdit1->text());
+  }
+
+  if (uColor2.isValid())
+  {
+    m_ui->uColor2->setStyleSheet("background-color: " + m_ui->uColorEdit2->text());
+  }
+
+  if (aColor1.isValid())
+  {
+    m_ui->aColor1->setStyleSheet("background-color: " + m_ui->aColorEdit1->text());
+  }
+
+  if (aColor2.isValid())
+  {
+    m_ui->aColor2->setStyleSheet("background-color: " + m_ui->aColorEdit2->text());
+  }
+
+  if (sColor1.isValid())
+  {
+    m_ui->sColor1->setStyleSheet("background-color: " + m_ui->sColorEdit1->text());
+  }
+
+  if (sColor2.isValid())
+  {
+    m_ui->sColor2->setStyleSheet("background-color: " + m_ui->sColorEdit2->text());
+  }
+
+}
+
+void SettingsWidget::writeColorSettings()
+{
+  QColor uColor1 = m_ui->uColorEdit1->text();
+  QColor uColor2 = m_ui->uColorEdit2->text();
+  QColor aColor1 = m_ui->aColorEdit1->text();
+  QColor aColor2 = m_ui->aColorEdit2->text();
+  QColor sColor1 = m_ui->sColorEdit1->text();
+  QColor sColor2 = m_ui->sColorEdit2->text();
+
+  if (uColor1.isValid())
+  {
+    m_settings.userMessageColor1 = m_ui->uColorEdit1->text();
+  }
+
+  if (uColor2.isValid())
+  {
+    m_settings.userMessageColor2 = m_ui->uColorEdit2->text();
+  }
+
+  if (aColor1.isValid())
+  {
+    m_settings.assistantMessageColor1 = m_ui->aColorEdit1->text();
+  }
+
+  if (aColor2.isValid())
+  {
+    m_settings.assistantMessageColor2 = m_ui->aColorEdit2->text();
+  }
+
+  if (sColor1.isValid())
+  {
+    m_settings.systemMessageColor1 = m_ui->sColorEdit1->text();
+  }
+
+  if (sColor2.isValid())
+  {
+    m_settings.systemMessageColor2 = m_ui->sColorEdit2->text();
+  }
+
+  m_settings.writeSettings();
 }

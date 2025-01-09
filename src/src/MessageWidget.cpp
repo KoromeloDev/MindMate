@@ -4,6 +4,7 @@
 #include "ChatSettings.h"
 #include "ThemeIcon.h"
 #include "EditMessageDialog.h"
+#include "Settings.h"
 
 #define MAX_RATIO 0.7
 #define MARGIN 20
@@ -356,22 +357,24 @@ void MessageWidget::newText(bool changeSelected)
 QVector<QColor> MessageWidget::getGradientColors()
 {
   QVector<QColor> colors;
+  Settings settings;
+  settings.readSettings();
 
   switch (m_message.role)
   {
     case HistoryParser::Role::Assistant:
-      colors.append(QColor(239, 116, 92));
-      colors.append(QColor(110, 58, 213));
+      colors.append(settings.assistantMessageColor1);
+      colors.append(settings.assistantMessageColor2);
       break;
 
     case HistoryParser::Role::User:
-      colors.append(QColor(64, 201, 255));
-      colors.append(QColor(232, 28, 255));
+      colors.append(settings.userMessageColor1);
+      colors.append(settings.userMessageColor2);
       break;
 
     case HistoryParser::Role::System:
-      colors.append(QColor(226, 11, 140));
-      colors.append(QColor(248, 75, 0));
+      colors.append(settings.systemMessageColor1);
+      colors.append(settings.systemMessageColor2);
       break;
   }
 

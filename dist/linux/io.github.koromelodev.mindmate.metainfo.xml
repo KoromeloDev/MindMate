@@ -47,9 +47,9 @@
   </screenshots>
   
   <releases>
-    <release version="1.9.1-beta" date="2024-10-13">
+    <release version="1.10.0-beta" date="2025-01-10">
       <description>
-        <p>Update API</p>
+        <p>Bugs fix and add theme customize feature</p>
       </description>
     </release>
   </releases>

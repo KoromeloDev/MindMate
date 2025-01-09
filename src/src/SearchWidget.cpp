@@ -35,7 +35,7 @@ QVector<quint16> SearchWidget::search(const QVector<QString> &searchText)
 
   for (quint16 i = 0; i < searchText.count(); ++i)
   {
-    if (searchText[i].contains(m_text))
+    if (searchText[i].contains(m_text,  Qt::CaseInsensitive))
     {
       m_searchResult.append(i);
     }

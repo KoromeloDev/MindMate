@@ -13,6 +13,12 @@ struct Settings
   bool autoNaming;
   QString openAIKey;
   ChatSettings chatSettings;
+  QString userMessageColor1;
+  QString userMessageColor2;
+  QString assistantMessageColor1;
+  QString assistantMessageColor2;
+  QString systemMessageColor1;
+  QString systemMessageColor2;
 
   void readSettings();
   void writeSettings();

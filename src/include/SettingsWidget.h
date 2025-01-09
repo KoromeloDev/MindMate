@@ -41,6 +41,8 @@ private slots:
   void timerTimeout();
   void homepageClicked();
   void reportClicked();
+  void updateColor();
+  void writeColorSettings();
 };
 
 #endif // SETTINGSWIDGET_H

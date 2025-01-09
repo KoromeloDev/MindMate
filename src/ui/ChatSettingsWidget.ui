@@ -116,27 +116,27 @@
      </item>
      <item>
       <property name="text">
-       <string>GPT-4o</string>
+       <string notr="true">GPT-4o</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>gpt-4-turbo</string>
+       <string notr="true">gpt-4-turbo</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>gpt-4-turbo-preview</string>
+       <string notr="true">gpt-4-turbo-preview</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>gpt-4</string>
+       <string notr="true">gpt-4</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>gpt-3.5-turbo</string>
+       <string notr="true">gpt-3.5-turbo</string>
       </property>
      </item>
     </widget>

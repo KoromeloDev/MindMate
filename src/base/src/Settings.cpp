@@ -63,7 +63,7 @@ void Settings::readSettings()
     }
   }
 
-  if (stopList.length() !=0)
+  if (!stopList.isEmpty())
   {
     chatSettings.stop = stopList;
   }
@@ -79,13 +79,52 @@ void Settings::readSettings()
   }
 
   settings.endGroup();
+
+  settings.beginGroup("Theme");
+  userMessageColor1 = settings.value("UserMessageColor1").toString();
+  userMessageColor2 = settings.value("UserMessageColor2").toString();
+  assistantMessageColor1 = settings.value("AssistantMessageColor1").toString();
+  assistantMessageColor2 = settings.value("AssistantMessageColor2").toString();
+  systemMessageColor1 = settings.value("SystemMessageColor1").toString();
+  systemMessageColor2 = settings.value("SystemMessageColor2").toString();
+
+  if (userMessageColor1.isEmpty())
+  {
+    userMessageColor1 = "#40c9ff";
+  }
+
+  if (userMessageColor2.isEmpty())
+  {
+    userMessageColor2 = "#e81cff";
+  }
+
+  if (assistantMessageColor1.isEmpty())
+  {
+    assistantMessageColor1 = "#ef745c";
+  }
+
+  if (assistantMessageColor2.isEmpty())
+  {
+    assistantMessageColor2 = "#6e3ad5";
+  }
+
+  if (systemMessageColor1.isEmpty())
+  {
+    systemMessageColor1 = "#e20b8c";
+  }
+
+  if (systemMessageColor2.isEmpty())
+  {
+    systemMessageColor2 = "#f84b00";
+  }
+
+  settings.endGroup();
 }
 
 void Settings::writeSettings()
 {
   QSettings settings("settings.ini", QSettings::IniFormat);
   settings.beginGroup("Main");
-
   settings.setValue("AutoLanguageRecognize", languageRecognize);
   settings.setValue("AutoNamingChat", autoNaming);
   settings.endGroup();
@@ -104,5 +143,14 @@ void Settings::writeSettings()
 
   settings.setValue("PresencePenalty", chatSettings.presencePenalty);
   settings.setValue("FrequencyPenalty", chatSettings.frequencyPenalty);
+  settings.endGroup();
+
+  settings.beginGroup("Theme");
+  settings.setValue("UserMessageColor1", userMessageColor1);
+  settings.setValue("UserMessageColor2", userMessageColor2);
+  settings.setValue("AssistantMessageColor1", assistantMessageColor1);
+  settings.setValue("AssistantMessageColor2", assistantMessageColor2);
+  settings.setValue("SystemMessageColor1", systemMessageColor1);
+  settings.setValue("SystemMessageColor2", systemMessageColor2);
   settings.endGroup();
 }
