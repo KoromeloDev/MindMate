@@ -16,17 +16,17 @@ MindMate is an unofficial application for ChatGPT. The app supports chat setting
 <a href="https://flathub.org/apps/io.github.koromelodev.mindmate"><img width="240" alt="Download on Flathub" src="https://dl.flathub.org/assets/badges/flathub-badge-en.svg"/></a>
 
 ### Windows:
-You can download the archive with the program in the [GitHub releases](https://github.com/KoromeloDev/MindMate/releases/latest)
+You can download the archive with the program in the [GitHub releases](https://github.com/KoromeloDev/MindMate/releases/latest) or build it yourself
 
 ## How to install from source code
 <h3 align="center">
   Dependencies
 </h3>
 <p align="center">
-  <img src="https://img.shields.io/badge/qt--base-6.5.2-blue" alt="qt-base 6.5.2"/>
-  <img src="https://img.shields.io/badge/qt--svg-6.5.2-blue" alt="qt-svg 6.5.2"/>
-  <img src="https://img.shields.io/badge/qt--multimedia-6.5.2-blue" alt="qt-multimedia 6.5.2"/>
-  <img src="https://img.shields.io/badge/qt--translations-6.5.2-blue" alt="qt-translations 6.5.2"/>
+  <img src="https://img.shields.io/badge/qt--base-6.7.3-blue" alt="qt-base 6.7.3"/>
+  <img src="https://img.shields.io/badge/qt--svg-6.7.3-blue" alt="qt-svg 6.7.3"/>
+  <img src="https://img.shields.io/badge/qt--multimedia-6.7.3-blue" alt="qt-multimedia 6.7.3"/>
+  <img src="https://img.shields.io/badge/qt--translations-6.7.3-blue" alt="qt-translations 6.7.3"/>
 </p>
 
 <h3 align="center">
