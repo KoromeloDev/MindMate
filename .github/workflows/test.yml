@@ -15,6 +15,7 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
+        aqtversion: '==3.1.19'
         version: ${{env.QT_VERSION}}
         host: linux
         target: desktop
