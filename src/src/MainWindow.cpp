@@ -68,7 +68,11 @@ MainWindow::MainWindow(QWidget *parent)
       m_setupDialog.clear();
     });
 
-    m_setupDialog->show();
+    // Launching the setup Dialog after completing the constructor
+    QTimer::singleShot(0, this, [this]
+    {
+      m_setupDialog->show();
+    });
   }
 }
 
